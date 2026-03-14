@@ -1,0 +1,71 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "pandium": "https://docs.pandium.com/reference/",
+    "Integration": {
+      "@id": "pandium:pandium-api",
+      "@context": {
+        "id": "https://schema.org/identifier",
+        "name": "https://schema.org/name",
+        "archived": "https://schema.org/isAccessibleForFree",
+        "created_date": "https://schema.org/dateCreated",
+        "modified_date": "https://schema.org/dateModified"
+      }
+    },
+    "Tenant": {
+      "@id": "pandium:pandium-api",
+      "@context": {
+        "id": "https://schema.org/identifier",
+        "name": "https://schema.org/name",
+        "archived": "https://schema.org/isAccessibleForFree",
+        "integration_id": {
+          "@id": "pandium:pandium-api",
+          "@type": "@id"
+        },
+        "configs": "https://schema.org/propertyValue",
+        "created_date": "https://schema.org/dateCreated",
+        "modified_date": "https://schema.org/dateModified",
+        "paused": "https://schema.org/status",
+        "user_schedule": "https://schema.org/repeatFrequency",
+        "schedule": "https://schema.org/repeatFrequency",
+        "source": "https://schema.org/source",
+        "integration_release_id": {
+          "@id": "pandium:pandium-api",
+          "@type": "@id"
+        },
+        "integration_release_channel": "https://schema.org/category",
+        "status": "https://schema.org/status"
+      }
+    },
+    "Run": {
+      "@id": "pandium:pandium-api",
+      "@context": {
+        "id": "https://schema.org/identifier",
+        "tenant_id": {
+          "@id": "pandium:pandium-api",
+          "@type": "@id"
+        },
+        "trigger_id": "https://schema.org/identifier",
+        "status": "https://schema.org/status",
+        "mode": "https://schema.org/category",
+        "created_date": "https://schema.org/dateCreated",
+        "modified_date": "https://schema.org/dateModified",
+        "started_date": "https://schema.org/startDate",
+        "completed_date": "https://schema.org/endDate"
+      }
+    },
+    "Release": {
+      "@id": "pandium:pandium-api",
+      "@context": {
+        "id": "https://schema.org/identifier",
+        "integration_id": {
+          "@id": "pandium:pandium-api",
+          "@type": "@id"
+        },
+        "version": "https://schema.org/softwareVersion",
+        "created_date": "https://schema.org/dateCreated",
+        "modified_date": "https://schema.org/dateModified"
+      }
+    }
+  }
+}

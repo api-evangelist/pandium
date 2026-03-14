@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/api-evangelist/pandium/blob/main/json-schema/integration.json",
+  "title": "Pandium Integration",
+  "description": "An Integration represents a configured connection between Pandium and an external application, enabling data synchronization and workflow automation for B2B SaaS companies.",
+  "type": "object",
+  "required": ["id", "name"],
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique identifier for the integration."
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the integration."
+    },
+    "archived": {
+      "type": "boolean",
+      "description": "Whether the integration is archived."
+    },
+    "created_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Date and time the integration was created."
+    },
+    "modified_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Date and time the integration was last modified."
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/api-evangelist/pandium/blob/main/json-schema/run.json",
+  "title": "Pandium Run",
+  "description": "A Run represents a single execution of a tenant's integration sync, tracking its status, mode, and timing information.",
+  "type": "object",
+  "required": ["id", "tenant_id"],
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique identifier for the run."
+    },
+    "tenant_id": {
+      "type": "integer",
+      "description": "ID of the tenant this run belongs to."
+    },
+    "trigger_id": {
+      "type": "string",
+      "description": "The trigger ID associated with this run."
+    },
+    "status": {
+      "type": "string",
+      "description": "Current status of the run.",
+      "enum": ["pending", "running", "completed", "failed"]
+    },
+    "mode": {
+      "type": "string",
+      "description": "The mode the run was triggered with.",
+      "enum": ["cron", "manual", "webhook", "api"]
+    },
+    "created_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Date and time the run was created."
+    },
+    "modified_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Date and time the run was last modified."
+    },
+    "started_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Date and time the run started executing."
+    },
+    "completed_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Date and time the run completed."
+    }
+  }
+}

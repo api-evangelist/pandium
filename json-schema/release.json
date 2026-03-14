@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/api-evangelist/pandium/blob/main/json-schema/release.json",
+  "title": "Pandium Release",
+  "description": "A Release represents a versioned deployment of an integration on the Pandium platform, allowing tenants to be pinned to specific versions.",
+  "type": "object",
+  "required": ["id", "integration_id"],
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique identifier for the release."
+    },
+    "integration_id": {
+      "type": "integer",
+      "description": "ID of the integration this release belongs to."
+    },
+    "version": {
+      "type": "string",
+      "description": "Version label of the release."
+    },
+    "created_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Date and time the release was created."
+    },
+    "modified_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Date and time the release was last modified."
+    }
+  }
+}

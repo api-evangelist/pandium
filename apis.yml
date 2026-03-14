@@ -16,6 +16,16 @@ apis:
         description: 'null'
       - url: openapi/pandium-pandium-openapi.yml
         type: OpenAPI
+      - url: json-schema/integration.json
+        type: JSONSchema
+      - url: json-schema/tenant.json
+        type: JSONSchema
+      - url: json-schema/run.json
+        type: JSONSchema
+      - url: json-schema/release.json
+        type: JSONSchema
+      - url: json-ld/pandium-context.jsonld
+        type: JSONLD
     description: >-
       Transform integration development from a fragmented, ad hoc process into a
       streamlined, repeatable workflow with Pandiums Integration Platform. With
