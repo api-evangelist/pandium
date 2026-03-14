@@ -1,0 +1,728 @@
+openapi: 3.1.0
+info:
+  title: Pandium API
+  description: >-
+    The Pandium API provides programmatic access to native Pandium resources
+    including integrations, tenants, and runs. It uses standard REST conventions
+    and HTTP methods, allowing B2B SaaS companies to manage their integration
+    platform, trigger syncs, proxy connector calls, and manage tenant metadata.
+  version: 2.0.0
+  contact:
+    name: Pandium
+    url: https://www.pandium.com/
+  license:
+    name: Proprietary
+    url: https://www.pandium.com/terms-and-conditions
+  termsOfService: https://www.pandium.com/terms-and-conditions
+servers:
+  - url: https://api.pandium.io
+    description: Production
+  - url: https://api.sandbox.pandium.com
+    description: Sandbox
+security:
+  - apiKey: []
+tags:
+  - name: Integrations
+    description: Manage integrations on the Pandium platform.
+  - name: Tenants
+    description: Manage tenants (customer instances of integrations).
+  - name: Runs
+    description: View run status and trigger syncs.
+  - name: Connector Calls
+    description: Proxy calls to external APIs on behalf of a tenant.
+  - name: Tenant Metadata
+    description: Manage metadata associated with tenants.
+paths:
+  /v2/integrations:
+    get:
+      operationId: listIntegrations
+      summary: List all integrations
+      description: Get all your integrations on Pandium.
+      tags:
+        - Integrations
+      parameters:
+        - name: skip
+          in: query
+          description: Number of records to skip for pagination.
+          required: false
+          schema:
+            type: integer
+            default: 0
+        - name: limit
+          in: query
+          description: Maximum number of records to return.
+          required: false
+          schema:
+            type: integer
+            default: 50
+      responses:
+        '200':
+          description: A list of integrations.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Integration'
+        '401':
+          description: Unauthorized. Invalid or missing API key.
+  /v2/integrations/{integration_id}:
+    get:
+      operationId: getIntegration
+      summary: Get a single integration
+      description: Retrieve a single integration by its ID.
+      tags:
+        - Integrations
+      parameters:
+        - $ref: '#/components/parameters/IntegrationId'
+      responses:
+        '200':
+          description: The requested integration.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Integration'
+        '401':
+          description: Unauthorized. Invalid or missing API key.
+        '404':
+          description: Integration not found.
+  /v2/integrations/{integration_id}/releases:
+    get:
+      operationId: listIntegrationReleases
+      summary: List releases for an integration
+      description: Get all releases for a specific integration.
+      tags:
+        - Integrations
+      parameters:
+        - $ref: '#/components/parameters/IntegrationId'
+      responses:
+        '200':
+          description: A list of releases for the integration.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Release'
+        '401':
+          description: Unauthorized. Invalid or missing API key.
+        '404':
+          description: Integration not found.
+  /v2/integrations/{integration_id}/releases/{release_id}:
+    get:
+      operationId: getIntegrationRelease
+      summary: Get a single release
+      description: Get a single release for a specific integration.
+      tags:
+        - Integrations
+      parameters:
+        - $ref: '#/components/parameters/IntegrationId'
+        - $ref: '#/components/parameters/ReleaseId'
+      responses:
+        '200':
+          description: The requested release.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Release'
+        '401':
+          description: Unauthorized. Invalid or missing API key.
+        '404':
+          description: Release not found.
+  /v2/tenants:
+    get:
+      operationId: listTenants
+      summary: List all tenants
+      description: Get all your tenants on Pandium.
+      tags:
+        - Tenants
+      parameters:
+        - name: skip
+          in: query
+          description: Number of records to skip for pagination.
+          required: false
+          schema:
+            type: integer
+            default: 0
+        - name: limit
+          in: query
+          description: Maximum number of records to return.
+          required: false
+          schema:
+            type: integer
+            default: 50
+        - name: integration_id
+          in: query
+          description: Filter tenants by integration ID.
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of tenants.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tenant'
+        '401':
+          description: Unauthorized. Invalid or missing API key.
+    post:
+      operationId: createTenant
+      summary: Create a tenant
+      description: >-
+        Create a new, unconnected tenant. The tenant will be paused. If no
+        schedule or release is provided, integration defaults will apply.
+      tags:
+        - Tenants
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TenantCreate'
+      responses:
+        '201':
+          description: Tenant created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+        '400':
+          description: Bad request. Invalid parameters.
+        '401':
+          description: Unauthorized. Invalid or missing API key.
+  /v2/tenants/{tenant_id}:
+    get:
+      operationId: getTenant
+      summary: Get a single tenant
+      description: Retrieve a single tenant by its ID.
+      tags:
+        - Tenants
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+      responses:
+        '200':
+          description: The requested tenant.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+        '401':
+          description: Unauthorized. Invalid or missing API key.
+        '404':
+          description: Tenant not found.
+    patch:
+      operationId: updateTenant
+      summary: Update a tenant
+      description: >-
+        Update properties of an existing tenant such as name, configs, paused
+        status, archived status, and user_schedule.
+      tags:
+        - Tenants
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TenantUpdate'
+      responses:
+        '200':
+          description: Tenant updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+        '400':
+          description: Bad request. Invalid parameters.
+        '401':
+          description: Unauthorized. Invalid or missing API key.
+        '404':
+          description: Tenant not found.
+  /v2/tenants/{tenant_id}/sync:
+    post:
+      operationId: triggerTenantSync
+      summary: Trigger a sync for a tenant
+      description: >-
+        Request a sync for an existing tenant. Pandium debounces triggers to
+        prevent more than one sync per tenant at any given time.
+      tags:
+        - Runs
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - name: mode
+          in: query
+          description: The sync mode to use.
+          required: true
+          schema:
+            type: string
+            enum:
+              - init
+              - normal
+      responses:
+        '200':
+          description: Sync triggered successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TriggerResponse'
+        '401':
+          description: Unauthorized. Invalid or missing API key.
+        '404':
+          description: Tenant not found.
+  /v2/tenants/{tenant_id}/runs:
+    get:
+      operationId: listTenantRuns
+      summary: List runs for a tenant
+      description: Get runs for a specific tenant.
+      tags:
+        - Runs
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - name: skip
+          in: query
+          description: Number of records to skip for pagination.
+          required: false
+          schema:
+            type: integer
+            default: 0
+        - name: limit
+          in: query
+          description: Maximum number of records to return.
+          required: false
+          schema:
+            type: integer
+            default: 50
+      responses:
+        '200':
+          description: A list of runs for the tenant.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Run'
+        '401':
+          description: Unauthorized. Invalid or missing API key.
+        '404':
+          description: Tenant not found.
+  /v2/tenants/{tenant_id}/runs/{trigger_id}:
+    get:
+      operationId: getRunByTriggerId
+      summary: Get run status by trigger ID
+      description: >-
+        Returns status information for a run associated with the provided
+        trigger ID, if that run exists. Since triggers are debounced, run
+        status information may not be immediately available.
+      tags:
+        - Runs
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - $ref: '#/components/parameters/TriggerId'
+      responses:
+        '200':
+          description: Run status information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Run'
+        '401':
+          description: Unauthorized. Invalid or missing API key.
+        '404':
+          description: Run not found for the provided trigger ID.
+  /v2/tenants/{tenant_id}/connectors/{connector_name}/call:
+    post:
+      operationId: proxyConnectorCall
+      summary: Proxy a connector call
+      description: >-
+        Make a call to an external API (REST, SOAP, or XML) on behalf of a
+        tenant. This endpoint proxies a synchronous connector call using the
+        tenant's stored credentials.
+      tags:
+        - Connector Calls
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - name: connector_name
+          in: path
+          description: The name of the connector to call through.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConnectorCallRequest'
+      responses:
+        '200':
+          description: Successful connector call response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectorCallResponse'
+        '400':
+          description: Bad request. Invalid parameters.
+        '401':
+          description: Unauthorized. Invalid or missing API key.
+        '404':
+          description: Tenant or connector not found.
+  /v2/tenants/{tenant_id}/metadata:
+    get:
+      operationId: getTenantMetadata
+      summary: Get tenant metadata
+      description: Get the metadata for a tenant.
+      tags:
+        - Tenant Metadata
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+      responses:
+        '200':
+          description: The tenant metadata.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantMetadata'
+        '401':
+          description: Unauthorized. Invalid or missing API key.
+        '404':
+          description: Tenant not found.
+    patch:
+      operationId: updateTenantMetadata
+      summary: Update tenant metadata
+      description: >-
+        Update metadata for a tenant. Metadata is validated against the
+        tenant's integration release metadata schema.
+      tags:
+        - Tenant Metadata
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  description: Metadata key-value pairs to update.
+                  additionalProperties: true
+      responses:
+        '200':
+          description: Tenant metadata updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantMetadata'
+        '400':
+          description: Bad request. Metadata does not match schema.
+        '401':
+          description: Unauthorized. Invalid or missing API key.
+        '404':
+          description: Tenant not found.
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: >-
+        API key generated from the Settings sidebar in the Pandium Integration
+        Hub under the API Access tab. Pass as a Bearer token in the
+        Authorization header.
+  parameters:
+    IntegrationId:
+      name: integration_id
+      in: path
+      description: The unique identifier of the integration.
+      required: true
+      schema:
+        type: integer
+    TenantId:
+      name: tenant_id
+      in: path
+      description: The unique identifier of the tenant.
+      required: true
+      schema:
+        type: integer
+    ReleaseId:
+      name: release_id
+      in: path
+      description: The unique identifier of the release.
+      required: true
+      schema:
+        type: integer
+    TriggerId:
+      name: trigger_id
+      in: path
+      description: The trigger ID associated with a run.
+      required: true
+      schema:
+        type: string
+  schemas:
+    Integration:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the integration.
+        name:
+          type: string
+          description: Name of the integration.
+        archived:
+          type: boolean
+          description: Whether the integration is archived.
+        created_date:
+          type: string
+          format: date-time
+          description: Date and time the integration was created.
+        modified_date:
+          type: string
+          format: date-time
+          description: Date and time the integration was last modified.
+    Release:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the release.
+        integration_id:
+          type: integer
+          description: ID of the integration this release belongs to.
+        version:
+          type: string
+          description: Version label of the release.
+        created_date:
+          type: string
+          format: date-time
+          description: Date and time the release was created.
+        modified_date:
+          type: string
+          format: date-time
+          description: Date and time the release was last modified.
+    Tenant:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the tenant.
+        name:
+          type: string
+          description: Name of the tenant.
+        archived:
+          type: boolean
+          description: Whether the tenant is archived.
+        integration_id:
+          type: integer
+          description: ID of the associated integration.
+        configs:
+          type: object
+          description: Configuration settings for the tenant.
+          additionalProperties: true
+        created_date:
+          type: string
+          format: date-time
+          description: Date and time the tenant was created.
+        modified_date:
+          type: string
+          format: date-time
+          description: Date and time the tenant was last modified.
+        paused:
+          type: boolean
+          description: Whether the tenant is paused.
+        user_schedule:
+          type: string
+          description: The user-defined cron schedule for the tenant.
+        schedule:
+          type: string
+          description: The effective schedule for the tenant.
+        source:
+          type: string
+          description: The source of the tenant creation.
+        integration_release_id:
+          type: integer
+          description: ID of the integration release assigned to this tenant.
+        integration_release_channel:
+          type: string
+          description: The release channel for the tenant.
+        status:
+          type: string
+          description: Current status of the tenant.
+    TenantCreate:
+      type: object
+      required:
+        - name
+        - integration_id
+      properties:
+        name:
+          type: string
+          description: Name of the tenant.
+        integration_id:
+          type: integer
+          description: ID of the integration to create the tenant for.
+        user_schedule:
+          type: string
+          description: Cron expression for the tenant sync schedule.
+        archived:
+          type: boolean
+          description: Whether the tenant should be archived.
+          default: false
+        configs:
+          type: object
+          description: Configuration settings for the tenant.
+          additionalProperties: true
+        paused:
+          type: boolean
+          description: Whether the tenant should be paused.
+          default: true
+        schedule:
+          type: string
+          description: Override schedule for the tenant.
+        integration_release_id:
+          type: integer
+          description: Specific release ID to assign to the tenant.
+        integration_release_channel:
+          type: string
+          description: Release channel to assign.
+          enum:
+            - Latest
+    TenantUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Updated name of the tenant.
+        configs:
+          type: object
+          description: Updated configuration settings.
+          additionalProperties: true
+        paused:
+          type: boolean
+          description: Whether the tenant should be paused.
+        archived:
+          type: boolean
+          description: Whether the tenant should be archived.
+        user_schedule:
+          type: string
+          description: Updated cron schedule for the tenant.
+    Run:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the run.
+        tenant_id:
+          type: integer
+          description: ID of the tenant this run belongs to.
+        trigger_id:
+          type: string
+          description: The trigger ID associated with this run.
+        status:
+          type: string
+          description: Current status of the run.
+          enum:
+            - pending
+            - running
+            - completed
+            - failed
+        mode:
+          type: string
+          description: The mode the run was triggered with.
+          enum:
+            - cron
+            - manual
+            - webhook
+            - api
+        created_date:
+          type: string
+          format: date-time
+          description: Date and time the run was created.
+        modified_date:
+          type: string
+          format: date-time
+          description: Date and time the run was last modified.
+        started_date:
+          type: string
+          format: date-time
+          description: Date and time the run started executing.
+        completed_date:
+          type: string
+          format: date-time
+          description: Date and time the run completed.
+    TriggerResponse:
+      type: object
+      properties:
+        trigger_id:
+          type: string
+          description: >-
+            The trigger ID that can be used to check the status of the
+            triggered run.
+    ConnectorCallRequest:
+      type: object
+      required:
+        - method
+        - path
+      properties:
+        method:
+          type: string
+          description: The HTTP method to use for the external API call.
+          enum:
+            - GET
+            - POST
+            - PUT
+            - PATCH
+            - DELETE
+        path:
+          type: string
+          description: The path to call on the external API.
+        headers:
+          type: object
+          description: Additional headers to include in the request.
+          additionalProperties:
+            type: string
+        body:
+          type: object
+          description: The request body to send to the external API.
+          additionalProperties: true
+        query_params:
+          type: object
+          description: Query parameters to include in the request.
+          additionalProperties:
+            type: string
+    ConnectorCallResponse:
+      type: object
+      properties:
+        status_code:
+          type: integer
+          description: The HTTP status code returned by the external API.
+        headers:
+          type: object
+          description: Response headers from the external API.
+          additionalProperties:
+            type: string
+        body:
+          type: object
+          description: The response body from the external API.
+          additionalProperties: true
+    TenantMetadata:
+      type: object
+      properties:
+        tenant_id:
+          type: integer
+          description: The ID of the tenant this metadata belongs to.
+        data:
+          type: object
+          description: The metadata key-value pairs.
+          additionalProperties: true
+        created_date:
+          type: string
+          format: date-time
+          description: Date and time the metadata was created.
+        modified_date:
+          type: string
+          format: date-time
+          description: Date and time the metadata was last modified.

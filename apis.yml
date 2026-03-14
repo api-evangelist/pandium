@@ -14,11 +14,13 @@ apis:
         name: Pandium API | Pandium Docs
         type: Documentation
         description: 'null'
+      - url: openapi/pandium-pandium-openapi.yml
+        type: OpenAPI
     description: >-
       Transform integration development from a fragmented, ad hoc process into a
       streamlined, repeatable workflow with Pandiums Integration Platform. With
       Pandium, B2B SaaS companies can meet customer demands, reduce technical
-      debt, and stay ahead in an increasingly connected world. 
+      debt, and stay ahead in an increasingly connected world.
 name: Pandium
 tags:
   - Integrations
@@ -313,7 +315,7 @@ common:
       - name: Managed Authentication
       - name: Partner Portal
 created: '2025-01-07'
-modified: '2025-06-10'
+modified: '2026-03-14'
 position: Consumer
 description: >-
   Transform integration development from a fragmented, ad hoc process into a
