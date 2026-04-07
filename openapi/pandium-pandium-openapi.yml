@@ -22,16 +22,16 @@ servers:
 security:
   - apiKey: []
 tags:
-  - name: Integrations
-    description: Manage integrations on the Pandium platform.
-  - name: Tenants
-    description: Manage tenants (customer instances of integrations).
-  - name: Runs
-    description: View run status and trigger syncs.
   - name: Connector Calls
     description: Proxy calls to external APIs on behalf of a tenant.
+  - name: Integrations
+    description: Manage integrations on the Pandium platform.
+  - name: Runs
+    description: View run status and trigger syncs.
   - name: Tenant Metadata
     description: Manage metadata associated with tenants.
+  - name: Tenants
+    description: Manage tenants (customer instances of integrations).
 paths:
   /v2/integrations:
     get:

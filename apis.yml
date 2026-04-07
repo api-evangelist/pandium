@@ -4,8 +4,7 @@ url: >-
 apis:
   - aid: pandium:pandium
     name: Pandium
-    tags:
-      - API
+    tags: []
     humanURL: https://www.pandium.com/
     properties:
       - url: https://www.pandium.com/
@@ -33,10 +32,10 @@ apis:
       debt, and stay ahead in an increasingly connected world.
 name: Pandium
 tags:
+  - B2B
+  - Hubs
   - Integrations
   - Workflows
-  - Hubs
-  - B2B
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 access: 3rd-Party
@@ -84,8 +83,7 @@ common:
     type: ' WhatsNew'
     description: 'null'
   - url: https://www.pandium.com/pricing
-    name: Pricing | Transparent & Predictable Pricing for User-Facing 
-      Integrations
+    name: Pricing | Transparent & Predictable Pricing for User-Facing Integrations
     type: Pricing
     description: 'null'
   - url: https://www.pandium.com/connectors
