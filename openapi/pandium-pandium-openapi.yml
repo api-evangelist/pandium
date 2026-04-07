@@ -36,7 +36,7 @@ paths:
   /v2/integrations:
     get:
       operationId: listIntegrations
-      summary: List all integrations
+      summary: Pandium List all integrations
       description: Get all your integrations on Pandium.
       tags:
         - Integrations
@@ -69,7 +69,7 @@ paths:
   /v2/integrations/{integration_id}:
     get:
       operationId: getIntegration
-      summary: Get a single integration
+      summary: Pandium Get a single integration
       description: Retrieve a single integration by its ID.
       tags:
         - Integrations
@@ -89,7 +89,7 @@ paths:
   /v2/integrations/{integration_id}/releases:
     get:
       operationId: listIntegrationReleases
-      summary: List releases for an integration
+      summary: Pandium List releases for an integration
       description: Get all releases for a specific integration.
       tags:
         - Integrations
@@ -111,7 +111,7 @@ paths:
   /v2/integrations/{integration_id}/releases/{release_id}:
     get:
       operationId: getIntegrationRelease
-      summary: Get a single release
+      summary: Pandium Get a single release
       description: Get a single release for a specific integration.
       tags:
         - Integrations
@@ -132,7 +132,7 @@ paths:
   /v2/tenants:
     get:
       operationId: listTenants
-      summary: List all tenants
+      summary: Pandium List all tenants
       description: Get all your tenants on Pandium.
       tags:
         - Tenants
@@ -170,7 +170,7 @@ paths:
           description: Unauthorized. Invalid or missing API key.
     post:
       operationId: createTenant
-      summary: Create a tenant
+      summary: Pandium Create a tenant
       description: >-
         Create a new, unconnected tenant. The tenant will be paused. If no
         schedule or release is provided, integration defaults will apply.
@@ -196,7 +196,7 @@ paths:
   /v2/tenants/{tenant_id}:
     get:
       operationId: getTenant
-      summary: Get a single tenant
+      summary: Pandium Get a single tenant
       description: Retrieve a single tenant by its ID.
       tags:
         - Tenants
@@ -215,7 +215,7 @@ paths:
           description: Tenant not found.
     patch:
       operationId: updateTenant
-      summary: Update a tenant
+      summary: Pandium Update a tenant
       description: >-
         Update properties of an existing tenant such as name, configs, paused
         status, archived status, and user_schedule.
@@ -245,7 +245,7 @@ paths:
   /v2/tenants/{tenant_id}/sync:
     post:
       operationId: triggerTenantSync
-      summary: Trigger a sync for a tenant
+      summary: Pandium Trigger a sync for a tenant
       description: >-
         Request a sync for an existing tenant. Pandium debounces triggers to
         prevent more than one sync per tenant at any given time.
@@ -276,7 +276,7 @@ paths:
   /v2/tenants/{tenant_id}/runs:
     get:
       operationId: listTenantRuns
-      summary: List runs for a tenant
+      summary: Pandium List runs for a tenant
       description: Get runs for a specific tenant.
       tags:
         - Runs
@@ -312,7 +312,7 @@ paths:
   /v2/tenants/{tenant_id}/runs/{trigger_id}:
     get:
       operationId: getRunByTriggerId
-      summary: Get run status by trigger ID
+      summary: Pandium Get run status by trigger ID
       description: >-
         Returns status information for a run associated with the provided
         trigger ID, if that run exists. Since triggers are debounced, run
@@ -336,7 +336,7 @@ paths:
   /v2/tenants/{tenant_id}/connectors/{connector_name}/call:
     post:
       operationId: proxyConnectorCall
-      summary: Proxy a connector call
+      summary: Pandium Proxy a connector call
       description: >-
         Make a call to an external API (REST, SOAP, or XML) on behalf of a
         tenant. This endpoint proxies a synchronous connector call using the
@@ -373,7 +373,7 @@ paths:
   /v2/tenants/{tenant_id}/metadata:
     get:
       operationId: getTenantMetadata
-      summary: Get tenant metadata
+      summary: Pandium Get tenant metadata
       description: Get the metadata for a tenant.
       tags:
         - Tenant Metadata
@@ -392,7 +392,7 @@ paths:
           description: Tenant not found.
     patch:
       operationId: updateTenantMetadata
-      summary: Update tenant metadata
+      summary: Pandium Update tenant metadata
       description: >-
         Update metadata for a tenant. Metadata is validated against the
         tenant's integration release metadata schema.

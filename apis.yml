@@ -84,7 +84,8 @@ common:
     type: ' WhatsNew'
     description: 'null'
   - url: https://www.pandium.com/pricing
-    name: Pricing | Transparent & Predictable Pricing for User-Facing Integrations
+    name: Pricing | Transparent & Predictable Pricing for User-Facing 
+      Integrations
     type: Pricing
     description: 'null'
   - url: https://www.pandium.com/connectors
@@ -116,7 +117,7 @@ common:
       - name: Campaign Monitor
       - name: Capabl
       - name: Chargebee
-      - name: null
+      - name:
       - name: Chargify
       - name: Chubb
       - name: CIN7
@@ -328,10 +329,10 @@ created: '2025-01-07'
 modified: '2026-03-14'
 position: Consumer
 description: >-
-  Transform integration development from a fragmented, ad hoc process into a
-  streamlined, repeatable workflow with Pandiums Integration Platform. With
-  Pandium, B2B SaaS companies can meet customer demands, reduce technical debt,
-  and stay ahead in an increasingly connected world. 
+  Transform integration development from a fragmented, ad hoc process into a streamlined,
+  repeatable workflow with Pandiums Integration Platform. With Pandium, B2B SaaS companies
+  can meet customer demands, reduce technical debt, and stay ahead in an increasingly
+  connected world.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
