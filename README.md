@@ -16,7 +16,7 @@ Transform integration development from a fragmented, ad hoc process into a strea
 ## Timestamps
 
 - **Created:** 2025-01-07 
-- **Modified:** 2025-06-06 
+- **Modified:** 2026-04-28 
 
 ## APIs
 
@@ -34,6 +34,12 @@ Transform integration development from a fragmented, ad hoc process into a strea
 
 - [Documentation]( https://www.pandium.com/)
 - [Documentation](https://docs.pandium.com/reference/pandium-api)
+- [OpenAPI](openapi/pandium-pandium-openapi.yml)
+- [JSONSchema](json-schema/integration.json)
+- [JSONSchema](json-schema/tenant.json)
+- [JSONSchema](json-schema/run.json)
+- [JSONSchema](json-schema/release.json)
+- [JSONLD](json-ld/pandium-context.jsonld)
 
 ## Common Properties
 
