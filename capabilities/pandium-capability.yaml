@@ -1,0 +1,557 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Pandium API
+  description: The Pandium API provides programmatic access to native Pandium resources including integrations, tenants, and
+    runs. It uses standard REST conventions and HTTP methods, allowing B2B SaaS companies to manage their integration platform,
+    trigger syncs, proxy connector calls, and manage tenant metadata.
+  tags:
+  - Pandium
+  - API
+  created: '2026-05-06'
+  modified: '2026-05-06'
+capability:
+  consumes:
+  - type: http
+    namespace: pandium
+    baseUri: https://api.pandium.io
+    description: Pandium API HTTP API.
+    authentication:
+      type: apikey
+      in: header
+      name: Authorization
+      value: '{{PANDIUM_TOKEN}}'
+    resources:
+    - name: v2-integrations
+      path: /v2/integrations
+      operations:
+      - name: listintegrations
+        method: GET
+        description: Pandium List all integrations
+        inputParameters:
+        - name: skip
+          in: query
+          type: integer
+          description: Number of records to skip for pagination.
+        - name: limit
+          in: query
+          type: integer
+          description: Maximum number of records to return.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-integrations-integration-id
+      path: /v2/integrations/{integration_id}
+      operations:
+      - name: getintegration
+        method: GET
+        description: Pandium Get a single integration
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-integrations-integration-id-releases
+      path: /v2/integrations/{integration_id}/releases
+      operations:
+      - name: listintegrationreleases
+        method: GET
+        description: Pandium List releases for an integration
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-integrations-integration-id-releases-release-
+      path: /v2/integrations/{integration_id}/releases/{release_id}
+      operations:
+      - name: getintegrationrelease
+        method: GET
+        description: Pandium Get a single release
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-tenants
+      path: /v2/tenants
+      operations:
+      - name: listtenants
+        method: GET
+        description: Pandium List all tenants
+        inputParameters:
+        - name: skip
+          in: query
+          type: integer
+          description: Number of records to skip for pagination.
+        - name: limit
+          in: query
+          type: integer
+          description: Maximum number of records to return.
+        - name: integration_id
+          in: query
+          type: integer
+          description: Filter tenants by integration ID.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createtenant
+        method: POST
+        description: Pandium Create a tenant
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-tenants-tenant-id
+      path: /v2/tenants/{tenant_id}
+      operations:
+      - name: gettenant
+        method: GET
+        description: Pandium Get a single tenant
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatetenant
+        method: PATCH
+        description: Pandium Update a tenant
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-tenants-tenant-id-sync
+      path: /v2/tenants/{tenant_id}/sync
+      operations:
+      - name: triggertenantsync
+        method: POST
+        description: Pandium Trigger a sync for a tenant
+        inputParameters:
+        - name: mode
+          in: query
+          type: string
+          required: true
+          description: The sync mode to use.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-tenants-tenant-id-runs
+      path: /v2/tenants/{tenant_id}/runs
+      operations:
+      - name: listtenantruns
+        method: GET
+        description: Pandium List runs for a tenant
+        inputParameters:
+        - name: skip
+          in: query
+          type: integer
+          description: Number of records to skip for pagination.
+        - name: limit
+          in: query
+          type: integer
+          description: Maximum number of records to return.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-tenants-tenant-id-runs-trigger-id
+      path: /v2/tenants/{tenant_id}/runs/{trigger_id}
+      operations:
+      - name: getrunbytriggerid
+        method: GET
+        description: Pandium Get run status by trigger ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-tenants-tenant-id-connectors-connector-name-c
+      path: /v2/tenants/{tenant_id}/connectors/{connector_name}/call
+      operations:
+      - name: proxyconnectorcall
+        method: POST
+        description: Pandium Proxy a connector call
+        inputParameters:
+        - name: connector_name
+          in: path
+          type: string
+          required: true
+          description: The name of the connector to call through.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-tenants-tenant-id-metadata
+      path: /v2/tenants/{tenant_id}/metadata
+      operations:
+      - name: gettenantmetadata
+        method: GET
+        description: Pandium Get tenant metadata
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatetenantmetadata
+        method: PATCH
+        description: Pandium Update tenant metadata
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    port: 8080
+    namespace: pandium-rest
+    description: REST adapter for Pandium API.
+    resources:
+    - path: /v2/integrations
+      name: listintegrations
+      operations:
+      - method: GET
+        name: listintegrations
+        description: Pandium List all integrations
+        call: pandium.listintegrations
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/integrations/{integration_id}
+      name: getintegration
+      operations:
+      - method: GET
+        name: getintegration
+        description: Pandium Get a single integration
+        call: pandium.getintegration
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/integrations/{integration_id}/releases
+      name: listintegrationreleases
+      operations:
+      - method: GET
+        name: listintegrationreleases
+        description: Pandium List releases for an integration
+        call: pandium.listintegrationreleases
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/integrations/{integration_id}/releases/{release_id}
+      name: getintegrationrelease
+      operations:
+      - method: GET
+        name: getintegrationrelease
+        description: Pandium Get a single release
+        call: pandium.getintegrationrelease
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/tenants
+      name: listtenants
+      operations:
+      - method: GET
+        name: listtenants
+        description: Pandium List all tenants
+        call: pandium.listtenants
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/tenants
+      name: createtenant
+      operations:
+      - method: POST
+        name: createtenant
+        description: Pandium Create a tenant
+        call: pandium.createtenant
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/tenants/{tenant_id}
+      name: gettenant
+      operations:
+      - method: GET
+        name: gettenant
+        description: Pandium Get a single tenant
+        call: pandium.gettenant
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/tenants/{tenant_id}
+      name: updatetenant
+      operations:
+      - method: PATCH
+        name: updatetenant
+        description: Pandium Update a tenant
+        call: pandium.updatetenant
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/tenants/{tenant_id}/sync
+      name: triggertenantsync
+      operations:
+      - method: POST
+        name: triggertenantsync
+        description: Pandium Trigger a sync for a tenant
+        call: pandium.triggertenantsync
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/tenants/{tenant_id}/runs
+      name: listtenantruns
+      operations:
+      - method: GET
+        name: listtenantruns
+        description: Pandium List runs for a tenant
+        call: pandium.listtenantruns
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/tenants/{tenant_id}/runs/{trigger_id}
+      name: getrunbytriggerid
+      operations:
+      - method: GET
+        name: getrunbytriggerid
+        description: Pandium Get run status by trigger ID
+        call: pandium.getrunbytriggerid
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/tenants/{tenant_id}/connectors/{connector_name}/call
+      name: proxyconnectorcall
+      operations:
+      - method: POST
+        name: proxyconnectorcall
+        description: Pandium Proxy a connector call
+        call: pandium.proxyconnectorcall
+        with:
+          connector_name: rest.connector_name
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/tenants/{tenant_id}/metadata
+      name: gettenantmetadata
+      operations:
+      - method: GET
+        name: gettenantmetadata
+        description: Pandium Get tenant metadata
+        call: pandium.gettenantmetadata
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/tenants/{tenant_id}/metadata
+      name: updatetenantmetadata
+      operations:
+      - method: PATCH
+        name: updatetenantmetadata
+        description: Pandium Update tenant metadata
+        call: pandium.updatetenantmetadata
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9090
+    namespace: pandium-mcp
+    transport: http
+    description: MCP adapter for Pandium API for AI agent use.
+    tools:
+    - name: listintegrations
+      description: Pandium List all integrations
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: pandium.listintegrations
+      with:
+        skip: tools.skip
+        limit: tools.limit
+      inputParameters:
+      - name: skip
+        type: integer
+        description: Number of records to skip for pagination.
+      - name: limit
+        type: integer
+        description: Maximum number of records to return.
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getintegration
+      description: Pandium Get a single integration
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: pandium.getintegration
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: listintegrationreleases
+      description: Pandium List releases for an integration
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: pandium.listintegrationreleases
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getintegrationrelease
+      description: Pandium Get a single release
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: pandium.getintegrationrelease
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: listtenants
+      description: Pandium List all tenants
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: pandium.listtenants
+      with:
+        skip: tools.skip
+        limit: tools.limit
+        integration_id: tools.integration_id
+      inputParameters:
+      - name: skip
+        type: integer
+        description: Number of records to skip for pagination.
+      - name: limit
+        type: integer
+        description: Maximum number of records to return.
+      - name: integration_id
+        type: integer
+        description: Filter tenants by integration ID.
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: createtenant
+      description: Pandium Create a tenant
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: pandium.createtenant
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: gettenant
+      description: Pandium Get a single tenant
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: pandium.gettenant
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: updatetenant
+      description: Pandium Update a tenant
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: pandium.updatetenant
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: triggertenantsync
+      description: Pandium Trigger a sync for a tenant
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: pandium.triggertenantsync
+      with:
+        mode: tools.mode
+      inputParameters:
+      - name: mode
+        type: string
+        description: The sync mode to use.
+        required: true
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: listtenantruns
+      description: Pandium List runs for a tenant
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: pandium.listtenantruns
+      with:
+        skip: tools.skip
+        limit: tools.limit
+      inputParameters:
+      - name: skip
+        type: integer
+        description: Number of records to skip for pagination.
+      - name: limit
+        type: integer
+        description: Maximum number of records to return.
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getrunbytriggerid
+      description: Pandium Get run status by trigger ID
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: pandium.getrunbytriggerid
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: proxyconnectorcall
+      description: Pandium Proxy a connector call
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: pandium.proxyconnectorcall
+      with:
+        connector_name: tools.connector_name
+      inputParameters:
+      - name: connector_name
+        type: string
+        description: The name of the connector to call through.
+        required: true
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: gettenantmetadata
+      description: Pandium Get tenant metadata
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: pandium.gettenantmetadata
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: updatetenantmetadata
+      description: Pandium Update tenant metadata
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: pandium.updatetenantmetadata
+      outputParameters:
+      - type: object
+        mapping: $.
+binds:
+- namespace: env
+  keys:
+    PANDIUM_TOKEN: PANDIUM_TOKEN
