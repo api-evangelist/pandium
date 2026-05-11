@@ -331,6 +331,11 @@ description: >-
   repeatable workflow with Pandiums Integration Platform. With Pandium, B2B SaaS companies
   can meet customer demands, reduce technical debt, and stay ahead in an increasingly
   connected world.
+integrations:
+  - name: Amazon Athena Connector - Pandium
+  - name: Amazon Redshift Connector - Pandium
+  - name: bamboohr
+  - name: Logo
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
