@@ -278,7 +278,7 @@ common:
       - name: Zonos
   - url: https://status.pandium.com/
     name: Pandium Status
-    type: Status
+    type: StatusPage
     description: 'null'
   - url: https://www.pandium.com/teams/partnerships
     name: Partnerships | Quickly Build Integrations With Technology Partners
