@@ -1,0 +1,183 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Pandium API — Integrations
+  description: 'Pandium API — Integrations. 4 operations. Lead operation: Pandium List all integrations. Self-contained Naftiko
+    capability covering one Pandium business surface.'
+  tags:
+  - Pandium
+  - Integrations
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    PANDIUM_API_KEY: PANDIUM_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: pandium-integrations
+    baseUri: https://api.pandium.io
+    description: Pandium API — Integrations business capability. Self-contained, no shared references.
+    resources:
+    - name: v2-integrations
+      path: /v2/integrations
+      operations:
+      - name: listintegrations
+        method: GET
+        description: Pandium List all integrations
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: skip
+          in: query
+          type: integer
+          description: Number of records to skip for pagination.
+        - name: limit
+          in: query
+          type: integer
+          description: Maximum number of records to return.
+    - name: v2-integrations-integration_id
+      path: /v2/integrations/{integration_id}
+      operations:
+      - name: getintegration
+        method: GET
+        description: Pandium Get a single integration
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-integrations-integration_id-releases
+      path: /v2/integrations/{integration_id}/releases
+      operations:
+      - name: listintegrationreleases
+        method: GET
+        description: Pandium List releases for an integration
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-integrations-integration_id-releases-release_id
+      path: /v2/integrations/{integration_id}/releases/{release_id}
+      operations:
+      - name: getintegrationrelease
+        method: GET
+        description: Pandium Get a single release
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.PANDIUM_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: pandium-integrations-rest
+    port: 8080
+    description: REST adapter for Pandium API — Integrations. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/v2/integrations
+      name: v2-integrations
+      description: REST surface for v2-integrations.
+      operations:
+      - method: GET
+        name: listintegrations
+        description: Pandium List all integrations
+        call: pandium-integrations.listintegrations
+        with:
+          skip: rest.skip
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/integrations/{integration-id}
+      name: v2-integrations-integration-id
+      description: REST surface for v2-integrations-integration_id.
+      operations:
+      - method: GET
+        name: getintegration
+        description: Pandium Get a single integration
+        call: pandium-integrations.getintegration
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/integrations/{integration-id}/releases
+      name: v2-integrations-integration-id-releases
+      description: REST surface for v2-integrations-integration_id-releases.
+      operations:
+      - method: GET
+        name: listintegrationreleases
+        description: Pandium List releases for an integration
+        call: pandium-integrations.listintegrationreleases
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/integrations/{integration-id}/releases/{release-id}
+      name: v2-integrations-integration-id-releases-release-id
+      description: REST surface for v2-integrations-integration_id-releases-release_id.
+      operations:
+      - method: GET
+        name: getintegrationrelease
+        description: Pandium Get a single release
+        call: pandium-integrations.getintegrationrelease
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: pandium-integrations-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Pandium API — Integrations. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: pandium-list-all-integrations
+      description: Pandium List all integrations
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: pandium-integrations.listintegrations
+      with:
+        skip: tools.skip
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: pandium-get-single-integration
+      description: Pandium Get a single integration
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: pandium-integrations.getintegration
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: pandium-list-releases-integration
+      description: Pandium List releases for an integration
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: pandium-integrations.listintegrationreleases
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: pandium-get-single-release
+      description: Pandium Get a single release
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: pandium-integrations.getintegrationrelease
+      outputParameters:
+      - type: object
+        mapping: $.

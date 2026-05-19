@@ -1,0 +1,161 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Pandium API — Runs
+  description: 'Pandium API — Runs. 3 operations. Lead operation: Pandium List runs for a tenant. Self-contained Naftiko capability
+    covering one Pandium business surface.'
+  tags:
+  - Pandium
+  - Runs
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    PANDIUM_API_KEY: PANDIUM_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: pandium-runs
+    baseUri: https://api.pandium.io
+    description: Pandium API — Runs business capability. Self-contained, no shared references.
+    resources:
+    - name: v2-tenants-tenant_id-runs
+      path: /v2/tenants/{tenant_id}/runs
+      operations:
+      - name: listtenantruns
+        method: GET
+        description: Pandium List runs for a tenant
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: skip
+          in: query
+          type: integer
+          description: Number of records to skip for pagination.
+        - name: limit
+          in: query
+          type: integer
+          description: Maximum number of records to return.
+    - name: v2-tenants-tenant_id-runs-trigger_id
+      path: /v2/tenants/{tenant_id}/runs/{trigger_id}
+      operations:
+      - name: getrunbytriggerid
+        method: GET
+        description: Pandium Get run status by trigger ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-tenants-tenant_id-sync
+      path: /v2/tenants/{tenant_id}/sync
+      operations:
+      - name: triggertenantsync
+        method: POST
+        description: Pandium Trigger a sync for a tenant
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: mode
+          in: query
+          type: string
+          description: The sync mode to use.
+          required: true
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.PANDIUM_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: pandium-runs-rest
+    port: 8080
+    description: REST adapter for Pandium API — Runs. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/v2/tenants/{tenant-id}/runs
+      name: v2-tenants-tenant-id-runs
+      description: REST surface for v2-tenants-tenant_id-runs.
+      operations:
+      - method: GET
+        name: listtenantruns
+        description: Pandium List runs for a tenant
+        call: pandium-runs.listtenantruns
+        with:
+          skip: rest.skip
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/tenants/{tenant-id}/runs/{trigger-id}
+      name: v2-tenants-tenant-id-runs-trigger-id
+      description: REST surface for v2-tenants-tenant_id-runs-trigger_id.
+      operations:
+      - method: GET
+        name: getrunbytriggerid
+        description: Pandium Get run status by trigger ID
+        call: pandium-runs.getrunbytriggerid
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/tenants/{tenant-id}/sync
+      name: v2-tenants-tenant-id-sync
+      description: REST surface for v2-tenants-tenant_id-sync.
+      operations:
+      - method: POST
+        name: triggertenantsync
+        description: Pandium Trigger a sync for a tenant
+        call: pandium-runs.triggertenantsync
+        with:
+          mode: rest.mode
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: pandium-runs-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Pandium API — Runs. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: pandium-list-runs-tenant
+      description: Pandium List runs for a tenant
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: pandium-runs.listtenantruns
+      with:
+        skip: tools.skip
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: pandium-get-run-status-trigger
+      description: Pandium Get run status by trigger ID
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: pandium-runs.getrunbytriggerid
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: pandium-trigger-sync-tenant
+      description: Pandium Trigger a sync for a tenant
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: pandium-runs.triggertenantsync
+      with:
+        mode: tools.mode
+      outputParameters:
+      - type: object
+        mapping: $.
