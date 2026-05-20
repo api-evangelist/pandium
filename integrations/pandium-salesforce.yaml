@@ -1,0 +1,183 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Embed a Salesforce integration in a Pandium tenant
+  description: Provision a Pandium tenant for a SaaS customer, then sync Salesforce Contacts / Accounts through Pandium's connector proxy so the host SaaS sees one unified Naftiko adapter instead of raw Salesforce auth.
+  tags:
+  - Pandium
+  - Integration
+  - CRM
+  - salesforce
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    PANDIUM_API_KEY: PANDIUM_API_KEY
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: pandium
+    baseUri: https://api.pandium.com
+    description: Pandium API operations consumed by this integration.
+    resources:
+    - name: v2-tenants
+      path: /v2/tenants
+      operations:
+      - name: createtenant
+        method: POST
+        description: Create a Pandium tenant for the SaaS customer.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v2-tenants-tenant-id-connectors-connector-name-call
+      path: /v2/tenants/{tenant_id}/connectors/{connector_name}/call
+      operations:
+      - name: proxyconnectorcall
+        method: POST
+        description: Proxy a call through the Pandium-managed Salesforce connector.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: tenant_id
+          in: path
+          type: string
+          description: Path parameter tenant_id.
+          required: true
+        - name: connector_name
+          in: path
+          type: string
+          description: Path parameter connector_name.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v2-tenants-tenant-id-sync
+      path: /v2/tenants/{tenant_id}/sync
+      operations:
+      - name: triggertenantsync
+        method: POST
+        description: Trigger a tenant-scoped Pandium sync run.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: tenant_id
+          in: path
+          type: string
+          description: Path parameter tenant_id.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  - type: http
+    namespace: salesforce
+    baseUri: https://yourinstance.my.salesforce.com
+    description: Salesforce REST API operations consumed by this integration.
+    resources:
+    - name: services-data-v60-0-sobjects-contact-id
+      path: /services/data/v60.0/sobjects/Contact/{id}
+      operations:
+      - name: getcontact
+        method: GET
+        description: 'Salesforce REST API: getContact'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: Path parameter id.
+          required: true
+    - name: services-data-v60-0-sobjects-contact
+      path: /services/data/v60.0/sobjects/Contact
+      operations:
+      - name: createcontact
+        method: POST
+        description: 'Salesforce REST API: createContact'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: services-data-v60-0-sobjects-contact-id
+      path: /services/data/v60.0/sobjects/Contact/{id}
+      operations:
+      - name: updatecontact
+        method: PATCH
+        description: 'Salesforce REST API: updateContact'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: Path parameter id.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: pandium-salesforce-mcp
+    description: MCP adapter for the pandium-salesforce integration.
+    tools:
+    - name: pandium_salesforce
+      description: Execute the pandium salesforce integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: pandium-salesforce-rest
+    port: 8080
+    description: REST adapter for the pandium-salesforce integration.
+    resources:
+    - path: /pandium-salesforce
+      name: pandium-salesforce
+      description: REST surface for the pandium-salesforce integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the pandium-salesforce integration.
+        call: pandium_salesforce
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

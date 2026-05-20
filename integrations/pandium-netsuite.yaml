@@ -1,0 +1,161 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Pandium-managed NetSuite ERP sync
+  description: Use Pandium to broker NetSuite SuiteTalk REST for each SaaS customer; sync Customer + Invoice records through the Pandium connector proxy and observe runs from a single Naftiko surface.
+  tags:
+  - Pandium
+  - Integration
+  - ERP
+  - netsuite
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    PANDIUM_API_KEY: PANDIUM_API_KEY
+    NETSUITE_API_KEY: NETSUITE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: pandium
+    baseUri: https://api.pandium.com
+    description: Pandium API operations consumed by this integration.
+    resources:
+    - name: v2-tenants
+      path: /v2/tenants
+      operations:
+      - name: createtenant
+        method: POST
+        description: Create a Pandium tenant for the SaaS customer.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v2-tenants-tenant-id-connectors-connector-name-call
+      path: /v2/tenants/{tenant_id}/connectors/{connector_name}/call
+      operations:
+      - name: proxyconnectorcall
+        method: POST
+        description: Proxy a call through the Pandium-managed NetSuite connector.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: tenant_id
+          in: path
+          type: string
+          description: Path parameter tenant_id.
+          required: true
+        - name: connector_name
+          in: path
+          type: string
+          description: Path parameter connector_name.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v2-tenants-tenant-id-runs-trigger-id
+      path: /v2/tenants/{tenant_id}/runs/{trigger_id}
+      operations:
+      - name: getrunbytriggerid
+        method: GET
+        description: Inspect a specific NetSuite-bound Pandium run.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: tenant_id
+          in: path
+          type: string
+          description: Path parameter tenant_id.
+          required: true
+        - name: trigger_id
+          in: path
+          type: string
+          description: Path parameter trigger_id.
+          required: true
+  - type: http
+    namespace: netsuite
+    baseUri: https://yourcompany.suitetalk.api.netsuite.com
+    description: NetSuite SuiteTalk REST operations consumed by this integration.
+    resources:
+    - name: services-rest-record-v1-invoice
+      path: /services/rest/record/v1/invoice
+      operations:
+      - name: createinvoice
+        method: POST
+        description: 'NetSuite SuiteTalk REST: createInvoice'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: services-rest-record-v1-customer
+      path: /services/rest/record/v1/customer
+      operations:
+      - name: createcustomer
+        method: POST
+        description: 'NetSuite SuiteTalk REST: createCustomer'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: pandium-netsuite-mcp
+    description: MCP adapter for the pandium-netsuite integration.
+    tools:
+    - name: pandium_netsuite
+      description: Execute the pandium netsuite integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: pandium-netsuite-rest
+    port: 8080
+    description: REST adapter for the pandium-netsuite integration.
+    resources:
+    - path: /pandium-netsuite
+      name: pandium-netsuite
+      description: REST surface for the pandium-netsuite integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the pandium-netsuite integration.
+        call: pandium_netsuite
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

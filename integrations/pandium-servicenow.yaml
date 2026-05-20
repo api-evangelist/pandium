@@ -1,0 +1,166 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Embed ServiceNow ITSM integration via Pandium
+  description: Broker per-customer ServiceNow instances through Pandium; create and update incidents through the Pandium connector proxy with a unified Naftiko REST + MCP adapter for any host SaaS.
+  tags:
+  - Pandium
+  - Integration
+  - ITSM
+  - servicenow
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    PANDIUM_API_KEY: PANDIUM_API_KEY
+    SERVICENOW_API_KEY: SERVICENOW_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: pandium
+    baseUri: https://api.pandium.com
+    description: Pandium API operations consumed by this integration.
+    resources:
+    - name: v2-tenants
+      path: /v2/tenants
+      operations:
+      - name: createtenant
+        method: POST
+        description: Create a Pandium tenant for the SaaS customer.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v2-tenants-tenant-id-connectors-connector-name-call
+      path: /v2/tenants/{tenant_id}/connectors/{connector_name}/call
+      operations:
+      - name: proxyconnectorcall
+        method: POST
+        description: Proxy a call through the Pandium-managed ServiceNow connector.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: tenant_id
+          in: path
+          type: string
+          description: Path parameter tenant_id.
+          required: true
+        - name: connector_name
+          in: path
+          type: string
+          description: Path parameter connector_name.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v2-tenants-tenant-id-runs-trigger-id
+      path: /v2/tenants/{tenant_id}/runs/{trigger_id}
+      operations:
+      - name: getrunbytriggerid
+        method: GET
+        description: Inspect a ServiceNow-bound Pandium run.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: tenant_id
+          in: path
+          type: string
+          description: Path parameter tenant_id.
+          required: true
+        - name: trigger_id
+          in: path
+          type: string
+          description: Path parameter trigger_id.
+          required: true
+  - type: http
+    namespace: servicenow
+    baseUri: https://yourinstance.service-now.com
+    description: ServiceNow Table API operations consumed by this integration.
+    resources:
+    - name: api-now-table-incident
+      path: /api/now/table/incident
+      operations:
+      - name: createincident
+        method: POST
+        description: 'ServiceNow Table API: createIncident'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-now-table-incident-sys-id
+      path: /api/now/table/incident/{sys_id}
+      operations:
+      - name: updateincident
+        method: PATCH
+        description: 'ServiceNow Table API: updateIncident'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: sys_id
+          in: path
+          type: string
+          description: Path parameter sys_id.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: pandium-servicenow-mcp
+    description: MCP adapter for the pandium-servicenow integration.
+    tools:
+    - name: pandium_servicenow
+      description: Execute the pandium servicenow integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: pandium-servicenow-rest
+    port: 8080
+    description: REST adapter for the pandium-servicenow integration.
+    resources:
+    - path: /pandium-servicenow
+      name: pandium-servicenow
+      description: REST surface for the pandium-servicenow integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the pandium-servicenow integration.
+        call: pandium_servicenow
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

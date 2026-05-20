@@ -1,0 +1,161 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Embed Slack notifications via Pandium
+  description: Use Pandium tenants to broker per-customer Slack workspace tokens; post messages and route alerts through the Pandium connector proxy so the host SaaS never stores Slack auth.
+  tags:
+  - Pandium
+  - Integration
+  - Collaboration
+  - slack
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    PANDIUM_API_KEY: PANDIUM_API_KEY
+    SLACK_API_KEY: SLACK_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: pandium
+    baseUri: https://api.pandium.com
+    description: Pandium API operations consumed by this integration.
+    resources:
+    - name: v2-tenants
+      path: /v2/tenants
+      operations:
+      - name: createtenant
+        method: POST
+        description: Create a Pandium tenant for the SaaS customer.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v2-tenants-tenant-id-connectors-connector-name-call
+      path: /v2/tenants/{tenant_id}/connectors/{connector_name}/call
+      operations:
+      - name: proxyconnectorcall
+        method: POST
+        description: Proxy a call through the Pandium-managed Slack connector.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: tenant_id
+          in: path
+          type: string
+          description: Path parameter tenant_id.
+          required: true
+        - name: connector_name
+          in: path
+          type: string
+          description: Path parameter connector_name.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v2-tenants-tenant-id-metadata
+      path: /v2/tenants/{tenant_id}/metadata
+      operations:
+      - name: updatetenantmetadata
+        method: PATCH
+        description: Update the tenant metadata that selects Slack channel + workspace.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: tenant_id
+          in: path
+          type: string
+          description: Path parameter tenant_id.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  - type: http
+    namespace: slack
+    baseUri: https://slack.com/api
+    description: Slack Web API operations consumed by this integration.
+    resources:
+    - name: chat-postmessage
+      path: /chat.postMessage
+      operations:
+      - name: postmessage
+        method: POST
+        description: 'Slack Web API: postMessage'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: conversations-create
+      path: /conversations.create
+      operations:
+      - name: createconversation
+        method: POST
+        description: 'Slack Web API: createConversation'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: pandium-slack-mcp
+    description: MCP adapter for the pandium-slack integration.
+    tools:
+    - name: pandium_slack
+      description: Execute the pandium slack integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: pandium-slack-rest
+    port: 8080
+    description: REST adapter for the pandium-slack integration.
+    resources:
+    - path: /pandium-slack
+      name: pandium-slack
+      description: REST surface for the pandium-slack integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the pandium-slack integration.
+        call: pandium_slack
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

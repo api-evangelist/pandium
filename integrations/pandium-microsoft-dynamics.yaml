@@ -1,0 +1,156 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Pandium-managed Microsoft Dynamics 365 integration
+  description: Broker each SaaS customer's Microsoft Dynamics 365 connection through Pandium; sync Accounts and Opportunities through the Pandium connector proxy with one Naftiko adapter for both Sales and Finance modules.
+  tags:
+  - Pandium
+  - Integration
+  - CRM / ERP
+  - microsoft-dynamics
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    PANDIUM_API_KEY: PANDIUM_API_KEY
+    MICROSOFT_DYNAMICS_API_KEY: MICROSOFT_DYNAMICS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: pandium
+    baseUri: https://api.pandium.com
+    description: Pandium API operations consumed by this integration.
+    resources:
+    - name: v2-tenants
+      path: /v2/tenants
+      operations:
+      - name: createtenant
+        method: POST
+        description: Create a Pandium tenant for the SaaS customer.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v2-tenants-tenant-id-connectors-connector-name-call
+      path: /v2/tenants/{tenant_id}/connectors/{connector_name}/call
+      operations:
+      - name: proxyconnectorcall
+        method: POST
+        description: Proxy a call through the Pandium-managed Dynamics connector.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: tenant_id
+          in: path
+          type: string
+          description: Path parameter tenant_id.
+          required: true
+        - name: connector_name
+          in: path
+          type: string
+          description: Path parameter connector_name.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v2-tenants-tenant-id-runs
+      path: /v2/tenants/{tenant_id}/runs
+      operations:
+      - name: listtenantruns
+        method: GET
+        description: List Dynamics-bound Pandium runs for audit trail.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: tenant_id
+          in: path
+          type: string
+          description: Path parameter tenant_id.
+          required: true
+  - type: http
+    namespace: microsoft-dynamics
+    baseUri: https://yourinstance.api.crm.dynamics.com
+    description: Microsoft Dynamics 365 Web API operations consumed by this integration.
+    resources:
+    - name: api-data-v9-2-accounts
+      path: /api/data/v9.2/accounts
+      operations:
+      - name: createaccount
+        method: POST
+        description: 'Microsoft Dynamics 365 Web API: createAccount'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-data-v9-2-opportunities
+      path: /api/data/v9.2/opportunities
+      operations:
+      - name: createopportunity
+        method: POST
+        description: 'Microsoft Dynamics 365 Web API: createOpportunity'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: pandium-microsoft-dynamics-mcp
+    description: MCP adapter for the pandium-microsoft-dynamics integration.
+    tools:
+    - name: pandium_microsoft_dynamics
+      description: Execute the pandium microsoft dynamics integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: pandium-microsoft-dynamics-rest
+    port: 8080
+    description: REST adapter for the pandium-microsoft-dynamics integration.
+    resources:
+    - path: /pandium-microsoft-dynamics
+      name: pandium-microsoft-dynamics
+      description: REST surface for the pandium-microsoft-dynamics integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the pandium-microsoft-dynamics integration.
+        call: pandium_microsoft_dynamics
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

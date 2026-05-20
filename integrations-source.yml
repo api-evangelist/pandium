@@ -1,0 +1,339 @@
+# Curated top Pandium integration partners (~12).
+# Pandium = embedded integration marketplace for SaaS. Each capability
+# wraps a Pandium tenant + connector handoff to a downstream SaaS API
+# (CRM, ERP, finance, marketing, support, HR) as a single Naftiko adapter.
+
+# CRM (2)
+- partner: salesforce
+  name: Embed a Salesforce integration in a Pandium tenant
+  category: CRM
+  use_case: Provision a Pandium tenant for a SaaS customer, then sync Salesforce Contacts / Accounts through Pandium's connector proxy so the host SaaS sees one unified Naftiko adapter instead of raw Salesforce auth.
+  partner_baseUri: https://yourinstance.my.salesforce.com
+  partner_api: Salesforce REST API
+  provider_ops:
+    - method: POST
+      path: /v2/tenants
+      name: createTenant
+      description: Create a Pandium tenant for the SaaS customer.
+    - method: POST
+      path: /v2/tenants/{tenant_id}/connectors/{connector_name}/call
+      name: proxyConnectorCall
+      description: Proxy a call through the Pandium-managed Salesforce connector.
+    - method: POST
+      path: /v2/tenants/{tenant_id}/sync
+      name: triggerTenantSync
+      description: Trigger a tenant-scoped Pandium sync run.
+  partner_ops:
+    - method: GET
+      path: /services/data/v60.0/sobjects/Contact/{id}
+      name: getContact
+    - method: POST
+      path: /services/data/v60.0/sobjects/Contact
+      name: createContact
+    - method: PATCH
+      path: /services/data/v60.0/sobjects/Contact/{id}
+      name: updateContact
+
+- partner: hubspot
+  name: Run a HubSpot CRM integration through Pandium
+  category: CRM
+  use_case: Use Pandium tenants to broker per-customer HubSpot connections; sync HubSpot Contacts and Deals via Pandium's connector proxy so the host SaaS never holds HubSpot tokens directly.
+  partner_baseUri: https://api.hubapi.com
+  partner_api: HubSpot CRM API
+  provider_ops:
+    - method: POST
+      path: /v2/tenants
+      name: createTenant
+      description: Create a Pandium tenant for the SaaS customer.
+    - method: POST
+      path: /v2/tenants/{tenant_id}/connectors/{connector_name}/call
+      name: proxyConnectorCall
+      description: Proxy a call through the Pandium-managed HubSpot connector.
+    - method: GET
+      path: /v2/tenants/{tenant_id}/runs
+      name: listTenantRuns
+      description: List Pandium runs for the tenant to inspect sync history.
+  partner_ops:
+    - method: GET
+      path: /crm/v3/objects/contacts/{contactId}
+      name: getContact
+    - method: POST
+      path: /crm/v3/objects/deals
+      name: createDeal
+
+# ERP / Accounting (3)
+- partner: netsuite
+  name: Pandium-managed NetSuite ERP sync
+  category: ERP
+  use_case: Use Pandium to broker NetSuite SuiteTalk REST for each SaaS customer; sync Customer + Invoice records through the Pandium connector proxy and observe runs from a single Naftiko surface.
+  partner_baseUri: https://yourcompany.suitetalk.api.netsuite.com
+  partner_api: NetSuite SuiteTalk REST
+  provider_ops:
+    - method: POST
+      path: /v2/tenants
+      name: createTenant
+      description: Create a Pandium tenant for the SaaS customer.
+    - method: POST
+      path: /v2/tenants/{tenant_id}/connectors/{connector_name}/call
+      name: proxyConnectorCall
+      description: Proxy a call through the Pandium-managed NetSuite connector.
+    - method: GET
+      path: /v2/tenants/{tenant_id}/runs/{trigger_id}
+      name: getRunByTriggerId
+      description: Inspect a specific NetSuite-bound Pandium run.
+  partner_ops:
+    - method: POST
+      path: /services/rest/record/v1/invoice
+      name: createInvoice
+    - method: POST
+      path: /services/rest/record/v1/customer
+      name: createCustomer
+
+- partner: quickbooks
+  name: Embed QuickBooks Online accounting via Pandium
+  category: Accounting
+  use_case: Each SaaS customer connects QuickBooks once through Pandium; the host SaaS posts deposits and invoice updates via Pandium's connector proxy without holding QuickBooks tokens.
+  partner_baseUri: https://quickbooks.api.intuit.com
+  partner_api: QuickBooks Online API
+  provider_ops:
+    - method: POST
+      path: /v2/tenants
+      name: createTenant
+      description: Create a Pandium tenant for the SaaS customer.
+    - method: POST
+      path: /v2/tenants/{tenant_id}/connectors/{connector_name}/call
+      name: proxyConnectorCall
+      description: Proxy a call through the Pandium-managed QuickBooks connector.
+    - method: POST
+      path: /v2/tenants/{tenant_id}/sync
+      name: triggerTenantSync
+      description: Trigger a QuickBooks-bound Pandium sync run.
+  partner_ops:
+    - method: POST
+      path: /v3/company/{realmId}/deposit
+      name: createDeposit
+    - method: POST
+      path: /v3/company/{realmId}/invoice
+      name: createInvoice
+
+- partner: stripe
+  name: Provision a Pandium-mediated Stripe billing integration
+  category: Payments
+  use_case: Use Pandium tenants to give each SaaS customer their own scoped Stripe connection; charge events flow back through Pandium runs into the host SaaS via a single Naftiko REST + MCP adapter.
+  partner_baseUri: https://api.stripe.com
+  partner_api: Stripe API
+  provider_ops:
+    - method: POST
+      path: /v2/tenants
+      name: createTenant
+      description: Create a Pandium tenant for the SaaS customer.
+    - method: POST
+      path: /v2/tenants/{tenant_id}/connectors/{connector_name}/call
+      name: proxyConnectorCall
+      description: Proxy a call through the Pandium-managed Stripe connector.
+    - method: GET
+      path: /v2/tenants/{tenant_id}/runs
+      name: listTenantRuns
+      description: List Stripe-bound Pandium runs for the tenant.
+  partner_ops:
+    - method: GET
+      path: /v1/customers/{id}
+      name: getCustomer
+    - method: POST
+      path: /v1/charges
+      name: createCharge
+
+# Marketing (2)
+- partner: marketo
+  name: Embed Marketo lead sync via Pandium
+  category: Marketing automation
+  use_case: Use Pandium to broker each customer's Marketo connection; sync Leads and Program memberships through the Pandium connector proxy without distributing Marketo client secrets to host code.
+  partner_baseUri: https://yourinstance.mktorest.com
+  partner_api: Marketo REST API
+  provider_ops:
+    - method: POST
+      path: /v2/tenants
+      name: createTenant
+      description: Create a Pandium tenant for the SaaS customer.
+    - method: POST
+      path: /v2/tenants/{tenant_id}/connectors/{connector_name}/call
+      name: proxyConnectorCall
+      description: Proxy a call through the Pandium-managed Marketo connector.
+    - method: POST
+      path: /v2/tenants/{tenant_id}/sync
+      name: triggerTenantSync
+      description: Trigger a Marketo-bound Pandium sync run.
+  partner_ops:
+    - method: POST
+      path: /rest/v1/leads.json
+      name: syncLeads
+    - method: GET
+      path: /rest/v1/lead/{id}.json
+      name: getLead
+
+- partner: mailchimp
+  name: Embed Mailchimp audience sync via Pandium
+  category: Email marketing
+  use_case: Connect each SaaS customer's Mailchimp once through Pandium; add and update audience members through the Pandium connector proxy instead of stitching per-customer OAuth into product code.
+  partner_baseUri: https://us1.api.mailchimp.com
+  partner_api: Mailchimp Marketing API
+  provider_ops:
+    - method: POST
+      path: /v2/tenants
+      name: createTenant
+      description: Create a Pandium tenant for the SaaS customer.
+    - method: POST
+      path: /v2/tenants/{tenant_id}/connectors/{connector_name}/call
+      name: proxyConnectorCall
+      description: Proxy a call through the Pandium-managed Mailchimp connector.
+    - method: GET
+      path: /v2/tenants/{tenant_id}/metadata
+      name: getTenantMetadata
+      description: Read tenant metadata used to scope the Mailchimp connection.
+  partner_ops:
+    - method: POST
+      path: /3.0/lists/{list_id}/members
+      name: addAudienceMember
+    - method: PATCH
+      path: /3.0/lists/{list_id}/members/{subscriber_hash}
+      name: updateAudienceMember
+
+# Collaboration (1)
+- partner: slack
+  name: Embed Slack notifications via Pandium
+  category: Collaboration
+  use_case: Use Pandium tenants to broker per-customer Slack workspace tokens; post messages and route alerts through the Pandium connector proxy so the host SaaS never stores Slack auth.
+  partner_baseUri: https://slack.com/api
+  partner_api: Slack Web API
+  provider_ops:
+    - method: POST
+      path: /v2/tenants
+      name: createTenant
+      description: Create a Pandium tenant for the SaaS customer.
+    - method: POST
+      path: /v2/tenants/{tenant_id}/connectors/{connector_name}/call
+      name: proxyConnectorCall
+      description: Proxy a call through the Pandium-managed Slack connector.
+    - method: PATCH
+      path: /v2/tenants/{tenant_id}/metadata
+      name: updateTenantMetadata
+      description: Update the tenant metadata that selects Slack channel + workspace.
+  partner_ops:
+    - method: POST
+      path: /chat.postMessage
+      name: postMessage
+    - method: POST
+      path: /conversations.create
+      name: createConversation
+
+# ERP enterprise (1)
+- partner: microsoft-dynamics
+  name: Pandium-managed Microsoft Dynamics 365 integration
+  category: CRM / ERP
+  use_case: Broker each SaaS customer's Microsoft Dynamics 365 connection through Pandium; sync Accounts and Opportunities through the Pandium connector proxy with one Naftiko adapter for both Sales and Finance modules.
+  partner_baseUri: https://yourinstance.api.crm.dynamics.com
+  partner_api: Microsoft Dynamics 365 Web API
+  provider_ops:
+    - method: POST
+      path: /v2/tenants
+      name: createTenant
+      description: Create a Pandium tenant for the SaaS customer.
+    - method: POST
+      path: /v2/tenants/{tenant_id}/connectors/{connector_name}/call
+      name: proxyConnectorCall
+      description: Proxy a call through the Pandium-managed Dynamics connector.
+    - method: GET
+      path: /v2/tenants/{tenant_id}/runs
+      name: listTenantRuns
+      description: List Dynamics-bound Pandium runs for audit trail.
+  partner_ops:
+    - method: POST
+      path: /api/data/v9.2/accounts
+      name: createAccount
+    - method: POST
+      path: /api/data/v9.2/opportunities
+      name: createOpportunity
+
+# HCM (1)
+- partner: workday
+  name: Embed Workday HCM sync via Pandium
+  category: HCM
+  use_case: Use Pandium to broker Workday tenants so HR SaaS apps can sync Workers and Positions through the Pandium connector proxy without managing Workday SOAP/REST auth per customer.
+  partner_baseUri: https://wd2-impl-services1.workday.com
+  partner_api: Workday REST API
+  provider_ops:
+    - method: POST
+      path: /v2/tenants
+      name: createTenant
+      description: Create a Pandium tenant for the SaaS customer.
+    - method: POST
+      path: /v2/tenants/{tenant_id}/connectors/{connector_name}/call
+      name: proxyConnectorCall
+      description: Proxy a call through the Pandium-managed Workday connector.
+    - method: POST
+      path: /v2/tenants/{tenant_id}/sync
+      name: triggerTenantSync
+      description: Trigger a Workday-bound Pandium sync run.
+  partner_ops:
+    - method: GET
+      path: /ccx/api/v1/workers
+      name: listWorkers
+    - method: GET
+      path: /ccx/api/v1/positions
+      name: listPositions
+
+# ITSM (1)
+- partner: servicenow
+  name: Embed ServiceNow ITSM integration via Pandium
+  category: ITSM
+  use_case: Broker per-customer ServiceNow instances through Pandium; create and update incidents through the Pandium connector proxy with a unified Naftiko REST + MCP adapter for any host SaaS.
+  partner_baseUri: https://yourinstance.service-now.com
+  partner_api: ServiceNow Table API
+  provider_ops:
+    - method: POST
+      path: /v2/tenants
+      name: createTenant
+      description: Create a Pandium tenant for the SaaS customer.
+    - method: POST
+      path: /v2/tenants/{tenant_id}/connectors/{connector_name}/call
+      name: proxyConnectorCall
+      description: Proxy a call through the Pandium-managed ServiceNow connector.
+    - method: GET
+      path: /v2/tenants/{tenant_id}/runs/{trigger_id}
+      name: getRunByTriggerId
+      description: Inspect a ServiceNow-bound Pandium run.
+  partner_ops:
+    - method: POST
+      path: /api/now/table/incident
+      name: createIncident
+    - method: PATCH
+      path: /api/now/table/incident/{sys_id}
+      name: updateIncident
+
+# Support (1)
+- partner: zendesk
+  name: Embed Zendesk support integration via Pandium
+  category: Support
+  use_case: Use Pandium to broker per-customer Zendesk subdomains; create tickets and sync users through the Pandium connector proxy with a single Naftiko adapter that runs the same in dev and prod.
+  partner_baseUri: https://yoursubdomain.zendesk.com
+  partner_api: Zendesk Support API
+  provider_ops:
+    - method: POST
+      path: /v2/tenants
+      name: createTenant
+      description: Create a Pandium tenant for the SaaS customer.
+    - method: POST
+      path: /v2/tenants/{tenant_id}/connectors/{connector_name}/call
+      name: proxyConnectorCall
+      description: Proxy a call through the Pandium-managed Zendesk connector.
+    - method: GET
+      path: /v2/tenants/{tenant_id}/metadata
+      name: getTenantMetadata
+      description: Read tenant metadata used to scope the Zendesk connection.
+  partner_ops:
+    - method: POST
+      path: /api/v2/tickets
+      name: createTicket
+    - method: PUT
+      path: /api/v2/tickets/{id}
+      name: updateTicket

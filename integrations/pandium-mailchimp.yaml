@@ -1,0 +1,171 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Embed Mailchimp audience sync via Pandium
+  description: Connect each SaaS customer's Mailchimp once through Pandium; add and update audience members through the Pandium connector proxy instead of stitching per-customer OAuth into product code.
+  tags:
+  - Pandium
+  - Integration
+  - Email marketing
+  - mailchimp
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    PANDIUM_API_KEY: PANDIUM_API_KEY
+    MAILCHIMP_API_KEY: MAILCHIMP_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: pandium
+    baseUri: https://api.pandium.com
+    description: Pandium API operations consumed by this integration.
+    resources:
+    - name: v2-tenants
+      path: /v2/tenants
+      operations:
+      - name: createtenant
+        method: POST
+        description: Create a Pandium tenant for the SaaS customer.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v2-tenants-tenant-id-connectors-connector-name-call
+      path: /v2/tenants/{tenant_id}/connectors/{connector_name}/call
+      operations:
+      - name: proxyconnectorcall
+        method: POST
+        description: Proxy a call through the Pandium-managed Mailchimp connector.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: tenant_id
+          in: path
+          type: string
+          description: Path parameter tenant_id.
+          required: true
+        - name: connector_name
+          in: path
+          type: string
+          description: Path parameter connector_name.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v2-tenants-tenant-id-metadata
+      path: /v2/tenants/{tenant_id}/metadata
+      operations:
+      - name: gettenantmetadata
+        method: GET
+        description: Read tenant metadata used to scope the Mailchimp connection.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: tenant_id
+          in: path
+          type: string
+          description: Path parameter tenant_id.
+          required: true
+  - type: http
+    namespace: mailchimp
+    baseUri: https://us1.api.mailchimp.com
+    description: Mailchimp Marketing API operations consumed by this integration.
+    resources:
+    - name: 3-0-lists-list-id-members
+      path: /3.0/lists/{list_id}/members
+      operations:
+      - name: addaudiencemember
+        method: POST
+        description: 'Mailchimp Marketing API: addAudienceMember'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: list_id
+          in: path
+          type: string
+          description: Path parameter list_id.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: 3-0-lists-list-id-members-subscriber-hash
+      path: /3.0/lists/{list_id}/members/{subscriber_hash}
+      operations:
+      - name: updateaudiencemember
+        method: PATCH
+        description: 'Mailchimp Marketing API: updateAudienceMember'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: list_id
+          in: path
+          type: string
+          description: Path parameter list_id.
+          required: true
+        - name: subscriber_hash
+          in: path
+          type: string
+          description: Path parameter subscriber_hash.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: pandium-mailchimp-mcp
+    description: MCP adapter for the pandium-mailchimp integration.
+    tools:
+    - name: pandium_mailchimp
+      description: Execute the pandium mailchimp integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: pandium-mailchimp-rest
+    port: 8080
+    description: REST adapter for the pandium-mailchimp integration.
+    resources:
+    - path: /pandium-mailchimp
+      name: pandium-mailchimp
+      description: REST surface for the pandium-mailchimp integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the pandium-mailchimp integration.
+        call: pandium_mailchimp
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

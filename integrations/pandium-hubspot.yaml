@@ -1,0 +1,156 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Run a HubSpot CRM integration through Pandium
+  description: Use Pandium tenants to broker per-customer HubSpot connections; sync HubSpot Contacts and Deals via Pandium's connector proxy so the host SaaS never holds HubSpot tokens directly.
+  tags:
+  - Pandium
+  - Integration
+  - CRM
+  - hubspot
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    PANDIUM_API_KEY: PANDIUM_API_KEY
+    HUBSPOT_API_KEY: HUBSPOT_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: pandium
+    baseUri: https://api.pandium.com
+    description: Pandium API operations consumed by this integration.
+    resources:
+    - name: v2-tenants
+      path: /v2/tenants
+      operations:
+      - name: createtenant
+        method: POST
+        description: Create a Pandium tenant for the SaaS customer.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v2-tenants-tenant-id-connectors-connector-name-call
+      path: /v2/tenants/{tenant_id}/connectors/{connector_name}/call
+      operations:
+      - name: proxyconnectorcall
+        method: POST
+        description: Proxy a call through the Pandium-managed HubSpot connector.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: tenant_id
+          in: path
+          type: string
+          description: Path parameter tenant_id.
+          required: true
+        - name: connector_name
+          in: path
+          type: string
+          description: Path parameter connector_name.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v2-tenants-tenant-id-runs
+      path: /v2/tenants/{tenant_id}/runs
+      operations:
+      - name: listtenantruns
+        method: GET
+        description: List Pandium runs for the tenant to inspect sync history.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: tenant_id
+          in: path
+          type: string
+          description: Path parameter tenant_id.
+          required: true
+  - type: http
+    namespace: hubspot
+    baseUri: https://api.hubapi.com
+    description: HubSpot CRM API operations consumed by this integration.
+    resources:
+    - name: crm-v3-objects-contacts-contactid
+      path: /crm/v3/objects/contacts/{contactId}
+      operations:
+      - name: getcontact
+        method: GET
+        description: 'HubSpot CRM API: getContact'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: contactId
+          in: path
+          type: string
+          description: Path parameter contactId.
+          required: true
+    - name: crm-v3-objects-deals
+      path: /crm/v3/objects/deals
+      operations:
+      - name: createdeal
+        method: POST
+        description: 'HubSpot CRM API: createDeal'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: pandium-hubspot-mcp
+    description: MCP adapter for the pandium-hubspot integration.
+    tools:
+    - name: pandium_hubspot
+      description: Execute the pandium hubspot integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: pandium-hubspot-rest
+    port: 8080
+    description: REST adapter for the pandium-hubspot integration.
+    resources:
+    - path: /pandium-hubspot
+      name: pandium-hubspot
+      description: REST surface for the pandium-hubspot integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the pandium-hubspot integration.
+        call: pandium_hubspot
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

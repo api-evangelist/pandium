@@ -1,0 +1,161 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Embed Zendesk support integration via Pandium
+  description: Use Pandium to broker per-customer Zendesk subdomains; create tickets and sync users through the Pandium connector proxy with a single Naftiko adapter that runs the same in dev and prod.
+  tags:
+  - Pandium
+  - Integration
+  - Support
+  - zendesk
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    PANDIUM_API_KEY: PANDIUM_API_KEY
+    ZENDESK_API_KEY: ZENDESK_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: pandium
+    baseUri: https://api.pandium.com
+    description: Pandium API operations consumed by this integration.
+    resources:
+    - name: v2-tenants
+      path: /v2/tenants
+      operations:
+      - name: createtenant
+        method: POST
+        description: Create a Pandium tenant for the SaaS customer.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v2-tenants-tenant-id-connectors-connector-name-call
+      path: /v2/tenants/{tenant_id}/connectors/{connector_name}/call
+      operations:
+      - name: proxyconnectorcall
+        method: POST
+        description: Proxy a call through the Pandium-managed Zendesk connector.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: tenant_id
+          in: path
+          type: string
+          description: Path parameter tenant_id.
+          required: true
+        - name: connector_name
+          in: path
+          type: string
+          description: Path parameter connector_name.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v2-tenants-tenant-id-metadata
+      path: /v2/tenants/{tenant_id}/metadata
+      operations:
+      - name: gettenantmetadata
+        method: GET
+        description: Read tenant metadata used to scope the Zendesk connection.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: tenant_id
+          in: path
+          type: string
+          description: Path parameter tenant_id.
+          required: true
+  - type: http
+    namespace: zendesk
+    baseUri: https://yoursubdomain.zendesk.com
+    description: Zendesk Support API operations consumed by this integration.
+    resources:
+    - name: api-v2-tickets
+      path: /api/v2/tickets
+      operations:
+      - name: createticket
+        method: POST
+        description: 'Zendesk Support API: createTicket'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-v2-tickets-id
+      path: /api/v2/tickets/{id}
+      operations:
+      - name: updateticket
+        method: PUT
+        description: 'Zendesk Support API: updateTicket'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: Path parameter id.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: pandium-zendesk-mcp
+    description: MCP adapter for the pandium-zendesk integration.
+    tools:
+    - name: pandium_zendesk
+      description: Execute the pandium zendesk integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: pandium-zendesk-rest
+    port: 8080
+    description: REST adapter for the pandium-zendesk integration.
+    resources:
+    - path: /pandium-zendesk
+      name: pandium-zendesk
+      description: REST surface for the pandium-zendesk integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the pandium-zendesk integration.
+        call: pandium_zendesk
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

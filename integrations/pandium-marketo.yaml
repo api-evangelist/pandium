@@ -1,0 +1,161 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Embed Marketo lead sync via Pandium
+  description: Use Pandium to broker each customer's Marketo connection; sync Leads and Program memberships through the Pandium connector proxy without distributing Marketo client secrets to host code.
+  tags:
+  - Pandium
+  - Integration
+  - Marketing automation
+  - marketo
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    PANDIUM_API_KEY: PANDIUM_API_KEY
+    MARKETO_API_KEY: MARKETO_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: pandium
+    baseUri: https://api.pandium.com
+    description: Pandium API operations consumed by this integration.
+    resources:
+    - name: v2-tenants
+      path: /v2/tenants
+      operations:
+      - name: createtenant
+        method: POST
+        description: Create a Pandium tenant for the SaaS customer.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v2-tenants-tenant-id-connectors-connector-name-call
+      path: /v2/tenants/{tenant_id}/connectors/{connector_name}/call
+      operations:
+      - name: proxyconnectorcall
+        method: POST
+        description: Proxy a call through the Pandium-managed Marketo connector.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: tenant_id
+          in: path
+          type: string
+          description: Path parameter tenant_id.
+          required: true
+        - name: connector_name
+          in: path
+          type: string
+          description: Path parameter connector_name.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v2-tenants-tenant-id-sync
+      path: /v2/tenants/{tenant_id}/sync
+      operations:
+      - name: triggertenantsync
+        method: POST
+        description: Trigger a Marketo-bound Pandium sync run.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: tenant_id
+          in: path
+          type: string
+          description: Path parameter tenant_id.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  - type: http
+    namespace: marketo
+    baseUri: https://yourinstance.mktorest.com
+    description: Marketo REST API operations consumed by this integration.
+    resources:
+    - name: rest-v1-leads-json
+      path: /rest/v1/leads.json
+      operations:
+      - name: syncleads
+        method: POST
+        description: 'Marketo REST API: syncLeads'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: rest-v1-lead-id-json
+      path: /rest/v1/lead/{id}.json
+      operations:
+      - name: getlead
+        method: GET
+        description: 'Marketo REST API: getLead'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: Path parameter id.
+          required: true
+  exposes:
+  - type: mcp
+    namespace: pandium-marketo-mcp
+    description: MCP adapter for the pandium-marketo integration.
+    tools:
+    - name: pandium_marketo
+      description: Execute the pandium marketo integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: pandium-marketo-rest
+    port: 8080
+    description: REST adapter for the pandium-marketo integration.
+    resources:
+    - path: /pandium-marketo
+      name: pandium-marketo
+      description: REST surface for the pandium-marketo integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the pandium-marketo integration.
+        call: pandium_marketo
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
