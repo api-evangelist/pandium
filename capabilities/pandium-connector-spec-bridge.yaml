@@ -1,0 +1,120 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Pandium Connector Spec Bridge
+  description: Spec-driven bridge that turns Pandium's generic connector-call proxy into a Naftiko-governed REST + MCP capability. Hides Pandium's per-tenant credential broker behind a typed Naftiko spec so agents and host SaaS apps invoke downstream APIs (Salesforce, HubSpot, NetSuite, etc.) without touching raw OAuth — Pandium holds the connector tokens, Naftiko governs the call shape and exposes it as a typed operation.
+  tags:
+  - Pandium
+  - Connectors
+  - Credentials
+  - OAuth-Broker
+  - Naftiko
+  created: '2026-05-21'
+  modified: '2026-05-21'
+binds:
+- namespace: env
+  keys:
+    PANDIUM_API_KEY: PANDIUM_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: pandium-connector-spec
+    baseUri: https://api.pandium.io
+    description: Pandium connector proxy surface — every downstream API call routed through Pandium's tenant credential broker.
+    resources:
+    - name: v2-tenants-tenant_id-connectors-connector_name-call
+      path: /v2/tenants/{tenant_id}/connectors/{connector_name}/call
+      operations:
+      - name: callconnector
+        method: POST
+        description: Proxy a typed connector call (method, path, headers, body, query) to a downstream API via Pandium-managed credentials.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: tenant_id
+          in: path
+          type: string
+          required: true
+        - name: connector_name
+          in: path
+          type: string
+          required: true
+          description: Slug of the connector to call (e.g., salesforce, hubspot, netsuite).
+        - name: method
+          in: body
+          type: string
+          required: true
+          description: HTTP method for the downstream call (GET, POST, PATCH, etc.).
+        - name: path
+          in: body
+          type: string
+          required: true
+          description: Downstream API path (e.g., /services/data/v60.0/sobjects/Contact).
+        - name: body
+          in: body
+          type: object
+          description: Request body for the downstream call.
+        - name: headers
+          in: body
+          type: object
+          description: Additional headers to forward downstream.
+        - name: query_params
+          in: body
+          type: object
+          description: Query parameters for the downstream call.
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.PANDIUM_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: pandium-connector-spec-rest
+    port: 8080
+    description: REST adapter exposing typed connector calls through a Naftiko-governed surface.
+    resources:
+    - path: /v1/connector-bridge/{tenant-id}/{connector-name}/call
+      name: connector-call
+      description: Proxy a typed connector call to a downstream API via Pandium's credential broker.
+      operations:
+      - method: POST
+        name: callconnector
+        description: Proxy a typed connector call to a downstream API via Pandium-managed credentials.
+        call: pandium-connector-spec.callconnector
+        with:
+          tenant_id: rest.tenant-id
+          connector_name: rest.connector-name
+          method: rest.method
+          path: rest.path
+          body: rest.body
+          headers: rest.headers
+          query_params: rest.query_params
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: pandium-connector-spec-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter exposing Pandium's connector proxy as a single agent-callable tool — agents reach downstream APIs without ever holding the OAuth tokens.
+    tools:
+    - name: pandium-connector-bridge-call
+      description: Proxy a typed connector call to a downstream API via Pandium-managed credentials. Use for any per-tenant downstream call where Pandium holds the OAuth tokens and Naftiko governs the call shape.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: pandium-connector-spec.callconnector
+      with:
+        tenant_id: tools.tenant_id
+        connector_name: tools.connector_name
+        method: tools.method
+        path: tools.path
+        body: tools.body
+        headers: tools.headers
+        query_params: tools.query_params
+      outputParameters:
+      - type: object
+        mapping: $.

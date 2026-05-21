@@ -1,0 +1,168 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Pandium Fleet Tenant Registry
+  description: Tenant registry bridge — pulls every Pandium tenant plus its metadata into Naftiko Fleet's customer/cost-center registry. Maps each Pandium tenant to a Naftiko Fleet entity so Backstage, Kubecost, and OPA policies can reason about customer-scoped integrations as first-class Fleet citizens.
+  tags:
+  - Pandium
+  - Tenants
+  - Fleet
+  - Registry
+  - FinOps
+  - Naftiko
+  created: '2026-05-21'
+  modified: '2026-05-21'
+binds:
+- namespace: env
+  keys:
+    PANDIUM_API_KEY: PANDIUM_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: pandium-fleet-registry
+    baseUri: https://api.pandium.io
+    description: Pandium tenants + metadata surface for Fleet registry sync.
+    resources:
+    - name: v2-tenants
+      path: /v2/tenants
+      operations:
+      - name: listtenants
+        method: GET
+        description: List every Pandium tenant for Fleet registry sync.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: skip
+          in: query
+          type: integer
+        - name: limit
+          in: query
+          type: integer
+    - name: v2-tenants-tenant_id
+      path: /v2/tenants/{tenant_id}
+      operations:
+      - name: gettenant
+        method: GET
+        description: Get a single Pandium tenant's configuration.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: tenant_id
+          in: path
+          type: string
+          required: true
+    - name: v2-tenants-tenant_id-metadata
+      path: /v2/tenants/{tenant_id}/metadata
+      operations:
+      - name: gettenantmetadata
+        method: GET
+        description: Get a tenant's metadata for Fleet registry enrichment.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: tenant_id
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.PANDIUM_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: pandium-fleet-registry-rest
+    port: 8080
+    description: REST adapter for the Pandium Fleet tenant registry sync.
+    resources:
+    - path: /v1/fleet/tenants
+      name: fleet-tenants
+      description: List every Pandium tenant for Fleet registry sync.
+      operations:
+      - method: GET
+        name: listtenants
+        description: List every Pandium tenant for Fleet registry sync.
+        call: pandium-fleet-registry.listtenants
+        with:
+          skip: rest.skip
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/fleet/tenants/{tenant-id}
+      name: fleet-tenant
+      description: Get a single Pandium tenant for Fleet registry enrichment.
+      operations:
+      - method: GET
+        name: gettenant
+        description: Get a single Pandium tenant's configuration.
+        call: pandium-fleet-registry.gettenant
+        with:
+          tenant_id: rest.tenant-id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/fleet/tenants/{tenant-id}/metadata
+      name: fleet-tenant-metadata
+      description: Get a Pandium tenant's metadata for Fleet registry enrichment.
+      operations:
+      - method: GET
+        name: gettenantmetadata
+        description: Get a tenant's metadata for Fleet registry enrichment.
+        call: pandium-fleet-registry.gettenantmetadata
+        with:
+          tenant_id: rest.tenant-id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: pandium-fleet-registry-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter exposing Pandium tenants as Fleet-discoverable agent tools.
+    tools:
+    - name: pandium-fleet-list-tenants
+      description: List every Pandium tenant for Fleet registry sync.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: pandium-fleet-registry.listtenants
+      with:
+        skip: tools.skip
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: pandium-fleet-get-tenant
+      description: Get a single Pandium tenant for Fleet registry enrichment.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: pandium-fleet-registry.gettenant
+      with:
+        tenant_id: tools.tenant_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: pandium-fleet-get-tenant-metadata
+      description: Get a Pandium tenant's metadata for Fleet registry enrichment.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: pandium-fleet-registry.gettenantmetadata
+      with:
+        tenant_id: tools.tenant_id
+      outputParameters:
+      - type: object
+        mapping: $.
