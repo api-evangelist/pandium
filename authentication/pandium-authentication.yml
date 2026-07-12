@@ -1,0 +1,17 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/pandium-pandium-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: apiKey
+  type: apiKey
+  in: header
+  parameter: Authorization
+  description: API key generated from the Settings sidebar in the Pandium Integration Hub under
+    the API Access tab. Pass as a Bearer token in the Authorization header.
+  sources:
+  - openapi/pandium-pandium-openapi.yml
