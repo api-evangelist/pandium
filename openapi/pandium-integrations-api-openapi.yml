@@ -1,0 +1,182 @@
+openapi: 3.1.0
+info:
+  title: Pandium Connector Calls Integrations API
+  description: The Pandium API provides programmatic access to native Pandium resources including integrations, tenants, and runs. It uses standard REST conventions and HTTP methods, allowing B2B SaaS companies to manage their integration platform, trigger syncs, proxy connector calls, and manage tenant metadata.
+  version: 2.0.0
+  contact:
+    name: Pandium
+    url: https://www.pandium.com/
+  license:
+    name: Proprietary
+    url: https://www.pandium.com/terms-and-conditions
+  termsOfService: https://www.pandium.com/terms-and-conditions
+servers:
+- url: https://api.pandium.io
+  description: Production
+- url: https://api.sandbox.pandium.com
+  description: Sandbox
+security:
+- apiKey: []
+tags:
+- name: Integrations
+  description: Manage integrations on the Pandium platform.
+paths:
+  /v2/integrations:
+    get:
+      operationId: listIntegrations
+      summary: Pandium List all integrations
+      description: Get all your integrations on Pandium.
+      tags:
+      - Integrations
+      parameters:
+      - name: skip
+        in: query
+        description: Number of records to skip for pagination.
+        required: false
+        schema:
+          type: integer
+          default: 0
+      - name: limit
+        in: query
+        description: Maximum number of records to return.
+        required: false
+        schema:
+          type: integer
+          default: 50
+      responses:
+        '200':
+          description: A list of integrations.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Integration'
+        '401':
+          description: Unauthorized. Invalid or missing API key.
+  /v2/integrations/{integration_id}:
+    get:
+      operationId: getIntegration
+      summary: Pandium Get a single integration
+      description: Retrieve a single integration by its ID.
+      tags:
+      - Integrations
+      parameters:
+      - $ref: '#/components/parameters/IntegrationId'
+      responses:
+        '200':
+          description: The requested integration.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Integration'
+        '401':
+          description: Unauthorized. Invalid or missing API key.
+        '404':
+          description: Integration not found.
+  /v2/integrations/{integration_id}/releases:
+    get:
+      operationId: listIntegrationReleases
+      summary: Pandium List releases for an integration
+      description: Get all releases for a specific integration.
+      tags:
+      - Integrations
+      parameters:
+      - $ref: '#/components/parameters/IntegrationId'
+      responses:
+        '200':
+          description: A list of releases for the integration.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Release'
+        '401':
+          description: Unauthorized. Invalid or missing API key.
+        '404':
+          description: Integration not found.
+  /v2/integrations/{integration_id}/releases/{release_id}:
+    get:
+      operationId: getIntegrationRelease
+      summary: Pandium Get a single release
+      description: Get a single release for a specific integration.
+      tags:
+      - Integrations
+      parameters:
+      - $ref: '#/components/parameters/IntegrationId'
+      - $ref: '#/components/parameters/ReleaseId'
+      responses:
+        '200':
+          description: The requested release.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Release'
+        '401':
+          description: Unauthorized. Invalid or missing API key.
+        '404':
+          description: Release not found.
+components:
+  schemas:
+    Release:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the release.
+        integration_id:
+          type: integer
+          description: ID of the integration this release belongs to.
+        version:
+          type: string
+          description: Version label of the release.
+        created_date:
+          type: string
+          format: date-time
+          description: Date and time the release was created.
+        modified_date:
+          type: string
+          format: date-time
+          description: Date and time the release was last modified.
+    Integration:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the integration.
+        name:
+          type: string
+          description: Name of the integration.
+        archived:
+          type: boolean
+          description: Whether the integration is archived.
+        created_date:
+          type: string
+          format: date-time
+          description: Date and time the integration was created.
+        modified_date:
+          type: string
+          format: date-time
+          description: Date and time the integration was last modified.
+  parameters:
+    ReleaseId:
+      name: release_id
+      in: path
+      description: The unique identifier of the release.
+      required: true
+      schema:
+        type: integer
+    IntegrationId:
+      name: integration_id
+      in: path
+      description: The unique identifier of the integration.
+      required: true
+      schema:
+        type: integer
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key generated from the Settings sidebar in the Pandium Integration Hub under the API Access tab. Pass as a Bearer token in the Authorization header.

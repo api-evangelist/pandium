@@ -1,0 +1,182 @@
+openapi: 3.1.0
+info:
+  title: Pandium Connector Calls Runs API
+  description: The Pandium API provides programmatic access to native Pandium resources including integrations, tenants, and runs. It uses standard REST conventions and HTTP methods, allowing B2B SaaS companies to manage their integration platform, trigger syncs, proxy connector calls, and manage tenant metadata.
+  version: 2.0.0
+  contact:
+    name: Pandium
+    url: https://www.pandium.com/
+  license:
+    name: Proprietary
+    url: https://www.pandium.com/terms-and-conditions
+  termsOfService: https://www.pandium.com/terms-and-conditions
+servers:
+- url: https://api.pandium.io
+  description: Production
+- url: https://api.sandbox.pandium.com
+  description: Sandbox
+security:
+- apiKey: []
+tags:
+- name: Runs
+  description: View run status and trigger syncs.
+paths:
+  /v2/tenants/{tenant_id}/sync:
+    post:
+      operationId: triggerTenantSync
+      summary: Pandium Trigger a sync for a tenant
+      description: Request a sync for an existing tenant. Pandium debounces triggers to prevent more than one sync per tenant at any given time.
+      tags:
+      - Runs
+      parameters:
+      - $ref: '#/components/parameters/TenantId'
+      - name: mode
+        in: query
+        description: The sync mode to use.
+        required: true
+        schema:
+          type: string
+          enum:
+          - init
+          - normal
+      responses:
+        '200':
+          description: Sync triggered successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TriggerResponse'
+        '401':
+          description: Unauthorized. Invalid or missing API key.
+        '404':
+          description: Tenant not found.
+  /v2/tenants/{tenant_id}/runs:
+    get:
+      operationId: listTenantRuns
+      summary: Pandium List runs for a tenant
+      description: Get runs for a specific tenant.
+      tags:
+      - Runs
+      parameters:
+      - $ref: '#/components/parameters/TenantId'
+      - name: skip
+        in: query
+        description: Number of records to skip for pagination.
+        required: false
+        schema:
+          type: integer
+          default: 0
+      - name: limit
+        in: query
+        description: Maximum number of records to return.
+        required: false
+        schema:
+          type: integer
+          default: 50
+      responses:
+        '200':
+          description: A list of runs for the tenant.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Run'
+        '401':
+          description: Unauthorized. Invalid or missing API key.
+        '404':
+          description: Tenant not found.
+  /v2/tenants/{tenant_id}/runs/{trigger_id}:
+    get:
+      operationId: getRunByTriggerId
+      summary: Pandium Get run status by trigger ID
+      description: Returns status information for a run associated with the provided trigger ID, if that run exists. Since triggers are debounced, run status information may not be immediately available.
+      tags:
+      - Runs
+      parameters:
+      - $ref: '#/components/parameters/TenantId'
+      - $ref: '#/components/parameters/TriggerId'
+      responses:
+        '200':
+          description: Run status information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Run'
+        '401':
+          description: Unauthorized. Invalid or missing API key.
+        '404':
+          description: Run not found for the provided trigger ID.
+components:
+  parameters:
+    TriggerId:
+      name: trigger_id
+      in: path
+      description: The trigger ID associated with a run.
+      required: true
+      schema:
+        type: string
+    TenantId:
+      name: tenant_id
+      in: path
+      description: The unique identifier of the tenant.
+      required: true
+      schema:
+        type: integer
+  schemas:
+    Run:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the run.
+        tenant_id:
+          type: integer
+          description: ID of the tenant this run belongs to.
+        trigger_id:
+          type: string
+          description: The trigger ID associated with this run.
+        status:
+          type: string
+          description: Current status of the run.
+          enum:
+          - pending
+          - running
+          - completed
+          - failed
+        mode:
+          type: string
+          description: The mode the run was triggered with.
+          enum:
+          - cron
+          - manual
+          - webhook
+          - api
+        created_date:
+          type: string
+          format: date-time
+          description: Date and time the run was created.
+        modified_date:
+          type: string
+          format: date-time
+          description: Date and time the run was last modified.
+        started_date:
+          type: string
+          format: date-time
+          description: Date and time the run started executing.
+        completed_date:
+          type: string
+          format: date-time
+          description: Date and time the run completed.
+    TriggerResponse:
+      type: object
+      properties:
+        trigger_id:
+          type: string
+          description: The trigger ID that can be used to check the status of the triggered run.
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key generated from the Settings sidebar in the Pandium Integration Hub under the API Access tab. Pass as a Bearer token in the Authorization header.

@@ -1,0 +1,253 @@
+openapi: 3.1.0
+info:
+  title: Pandium Connector Calls Tenants API
+  description: The Pandium API provides programmatic access to native Pandium resources including integrations, tenants, and runs. It uses standard REST conventions and HTTP methods, allowing B2B SaaS companies to manage their integration platform, trigger syncs, proxy connector calls, and manage tenant metadata.
+  version: 2.0.0
+  contact:
+    name: Pandium
+    url: https://www.pandium.com/
+  license:
+    name: Proprietary
+    url: https://www.pandium.com/terms-and-conditions
+  termsOfService: https://www.pandium.com/terms-and-conditions
+servers:
+- url: https://api.pandium.io
+  description: Production
+- url: https://api.sandbox.pandium.com
+  description: Sandbox
+security:
+- apiKey: []
+tags:
+- name: Tenants
+  description: Manage tenants (customer instances of integrations).
+paths:
+  /v2/tenants:
+    get:
+      operationId: listTenants
+      summary: Pandium List all tenants
+      description: Get all your tenants on Pandium.
+      tags:
+      - Tenants
+      parameters:
+      - name: skip
+        in: query
+        description: Number of records to skip for pagination.
+        required: false
+        schema:
+          type: integer
+          default: 0
+      - name: limit
+        in: query
+        description: Maximum number of records to return.
+        required: false
+        schema:
+          type: integer
+          default: 50
+      - name: integration_id
+        in: query
+        description: Filter tenants by integration ID.
+        required: false
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: A list of tenants.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tenant'
+        '401':
+          description: Unauthorized. Invalid or missing API key.
+    post:
+      operationId: createTenant
+      summary: Pandium Create a tenant
+      description: Create a new, unconnected tenant. The tenant will be paused. If no schedule or release is provided, integration defaults will apply.
+      tags:
+      - Tenants
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TenantCreate'
+      responses:
+        '201':
+          description: Tenant created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+        '400':
+          description: Bad request. Invalid parameters.
+        '401':
+          description: Unauthorized. Invalid or missing API key.
+  /v2/tenants/{tenant_id}:
+    get:
+      operationId: getTenant
+      summary: Pandium Get a single tenant
+      description: Retrieve a single tenant by its ID.
+      tags:
+      - Tenants
+      parameters:
+      - $ref: '#/components/parameters/TenantId'
+      responses:
+        '200':
+          description: The requested tenant.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+        '401':
+          description: Unauthorized. Invalid or missing API key.
+        '404':
+          description: Tenant not found.
+    patch:
+      operationId: updateTenant
+      summary: Pandium Update a tenant
+      description: Update properties of an existing tenant such as name, configs, paused status, archived status, and user_schedule.
+      tags:
+      - Tenants
+      parameters:
+      - $ref: '#/components/parameters/TenantId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TenantUpdate'
+      responses:
+        '200':
+          description: Tenant updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+        '400':
+          description: Bad request. Invalid parameters.
+        '401':
+          description: Unauthorized. Invalid or missing API key.
+        '404':
+          description: Tenant not found.
+components:
+  parameters:
+    TenantId:
+      name: tenant_id
+      in: path
+      description: The unique identifier of the tenant.
+      required: true
+      schema:
+        type: integer
+  schemas:
+    TenantUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Updated name of the tenant.
+        configs:
+          type: object
+          description: Updated configuration settings.
+          additionalProperties: true
+        paused:
+          type: boolean
+          description: Whether the tenant should be paused.
+        archived:
+          type: boolean
+          description: Whether the tenant should be archived.
+        user_schedule:
+          type: string
+          description: Updated cron schedule for the tenant.
+    TenantCreate:
+      type: object
+      required:
+      - name
+      - integration_id
+      properties:
+        name:
+          type: string
+          description: Name of the tenant.
+        integration_id:
+          type: integer
+          description: ID of the integration to create the tenant for.
+        user_schedule:
+          type: string
+          description: Cron expression for the tenant sync schedule.
+        archived:
+          type: boolean
+          description: Whether the tenant should be archived.
+          default: false
+        configs:
+          type: object
+          description: Configuration settings for the tenant.
+          additionalProperties: true
+        paused:
+          type: boolean
+          description: Whether the tenant should be paused.
+          default: true
+        schedule:
+          type: string
+          description: Override schedule for the tenant.
+        integration_release_id:
+          type: integer
+          description: Specific release ID to assign to the tenant.
+        integration_release_channel:
+          type: string
+          description: Release channel to assign.
+          enum:
+          - Latest
+    Tenant:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the tenant.
+        name:
+          type: string
+          description: Name of the tenant.
+        archived:
+          type: boolean
+          description: Whether the tenant is archived.
+        integration_id:
+          type: integer
+          description: ID of the associated integration.
+        configs:
+          type: object
+          description: Configuration settings for the tenant.
+          additionalProperties: true
+        created_date:
+          type: string
+          format: date-time
+          description: Date and time the tenant was created.
+        modified_date:
+          type: string
+          format: date-time
+          description: Date and time the tenant was last modified.
+        paused:
+          type: boolean
+          description: Whether the tenant is paused.
+        user_schedule:
+          type: string
+          description: The user-defined cron schedule for the tenant.
+        schedule:
+          type: string
+          description: The effective schedule for the tenant.
+        source:
+          type: string
+          description: The source of the tenant creation.
+        integration_release_id:
+          type: integer
+          description: ID of the integration release assigned to this tenant.
+        integration_release_channel:
+          type: string
+          description: The release channel for the tenant.
+        status:
+          type: string
+          description: Current status of the tenant.
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key generated from the Settings sidebar in the Pandium Integration Hub under the API Access tab. Pass as a Bearer token in the Authorization header.

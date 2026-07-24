@@ -1,0 +1,109 @@
+openapi: 3.1.0
+info:
+  title: Pandium Connector Calls Tenant Metadata API
+  description: The Pandium API provides programmatic access to native Pandium resources including integrations, tenants, and runs. It uses standard REST conventions and HTTP methods, allowing B2B SaaS companies to manage their integration platform, trigger syncs, proxy connector calls, and manage tenant metadata.
+  version: 2.0.0
+  contact:
+    name: Pandium
+    url: https://www.pandium.com/
+  license:
+    name: Proprietary
+    url: https://www.pandium.com/terms-and-conditions
+  termsOfService: https://www.pandium.com/terms-and-conditions
+servers:
+- url: https://api.pandium.io
+  description: Production
+- url: https://api.sandbox.pandium.com
+  description: Sandbox
+security:
+- apiKey: []
+tags:
+- name: Tenant Metadata
+  description: Manage metadata associated with tenants.
+paths:
+  /v2/tenants/{tenant_id}/metadata:
+    get:
+      operationId: getTenantMetadata
+      summary: Pandium Get tenant metadata
+      description: Get the metadata for a tenant.
+      tags:
+      - Tenant Metadata
+      parameters:
+      - $ref: '#/components/parameters/TenantId'
+      responses:
+        '200':
+          description: The tenant metadata.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantMetadata'
+        '401':
+          description: Unauthorized. Invalid or missing API key.
+        '404':
+          description: Tenant not found.
+    patch:
+      operationId: updateTenantMetadata
+      summary: Pandium Update tenant metadata
+      description: Update metadata for a tenant. Metadata is validated against the tenant's integration release metadata schema.
+      tags:
+      - Tenant Metadata
+      parameters:
+      - $ref: '#/components/parameters/TenantId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  description: Metadata key-value pairs to update.
+                  additionalProperties: true
+      responses:
+        '200':
+          description: Tenant metadata updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantMetadata'
+        '400':
+          description: Bad request. Metadata does not match schema.
+        '401':
+          description: Unauthorized. Invalid or missing API key.
+        '404':
+          description: Tenant not found.
+components:
+  schemas:
+    TenantMetadata:
+      type: object
+      properties:
+        tenant_id:
+          type: integer
+          description: The ID of the tenant this metadata belongs to.
+        data:
+          type: object
+          description: The metadata key-value pairs.
+          additionalProperties: true
+        created_date:
+          type: string
+          format: date-time
+          description: Date and time the metadata was created.
+        modified_date:
+          type: string
+          format: date-time
+          description: Date and time the metadata was last modified.
+  parameters:
+    TenantId:
+      name: tenant_id
+      in: path
+      description: The unique identifier of the tenant.
+      required: true
+      schema:
+        type: integer
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key generated from the Settings sidebar in the Pandium Integration Hub under the API Access tab. Pass as a Bearer token in the Authorization header.

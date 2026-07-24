@@ -1,0 +1,120 @@
+openapi: 3.1.0
+info:
+  title: Pandium Connector Calls API
+  description: The Pandium API provides programmatic access to native Pandium resources including integrations, tenants, and runs. It uses standard REST conventions and HTTP methods, allowing B2B SaaS companies to manage their integration platform, trigger syncs, proxy connector calls, and manage tenant metadata.
+  version: 2.0.0
+  contact:
+    name: Pandium
+    url: https://www.pandium.com/
+  license:
+    name: Proprietary
+    url: https://www.pandium.com/terms-and-conditions
+  termsOfService: https://www.pandium.com/terms-and-conditions
+servers:
+- url: https://api.pandium.io
+  description: Production
+- url: https://api.sandbox.pandium.com
+  description: Sandbox
+security:
+- apiKey: []
+tags:
+- name: Connector Calls
+  description: Proxy calls to external APIs on behalf of a tenant.
+paths:
+  /v2/tenants/{tenant_id}/connectors/{connector_name}/call:
+    post:
+      operationId: proxyConnectorCall
+      summary: Pandium Proxy a connector call
+      description: Make a call to an external API (REST, SOAP, or XML) on behalf of a tenant. This endpoint proxies a synchronous connector call using the tenant's stored credentials.
+      tags:
+      - Connector Calls
+      parameters:
+      - $ref: '#/components/parameters/TenantId'
+      - name: connector_name
+        in: path
+        description: The name of the connector to call through.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConnectorCallRequest'
+      responses:
+        '200':
+          description: Successful connector call response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectorCallResponse'
+        '400':
+          description: Bad request. Invalid parameters.
+        '401':
+          description: Unauthorized. Invalid or missing API key.
+        '404':
+          description: Tenant or connector not found.
+components:
+  schemas:
+    ConnectorCallResponse:
+      type: object
+      properties:
+        status_code:
+          type: integer
+          description: The HTTP status code returned by the external API.
+        headers:
+          type: object
+          description: Response headers from the external API.
+          additionalProperties:
+            type: string
+        body:
+          type: object
+          description: The response body from the external API.
+          additionalProperties: true
+    ConnectorCallRequest:
+      type: object
+      required:
+      - method
+      - path
+      properties:
+        method:
+          type: string
+          description: The HTTP method to use for the external API call.
+          enum:
+          - GET
+          - POST
+          - PUT
+          - PATCH
+          - DELETE
+        path:
+          type: string
+          description: The path to call on the external API.
+        headers:
+          type: object
+          description: Additional headers to include in the request.
+          additionalProperties:
+            type: string
+        body:
+          type: object
+          description: The request body to send to the external API.
+          additionalProperties: true
+        query_params:
+          type: object
+          description: Query parameters to include in the request.
+          additionalProperties:
+            type: string
+  parameters:
+    TenantId:
+      name: tenant_id
+      in: path
+      description: The unique identifier of the tenant.
+      required: true
+      schema:
+        type: integer
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key generated from the Settings sidebar in the Pandium Integration Hub under the API Access tab. Pass as a Bearer token in the Authorization header.
