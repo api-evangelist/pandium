@@ -1,33 +1,121 @@
 aid: pandium
 url: https://raw.githubusercontent.com/api-evangelist/pandium/refs/heads/main/apis.yml
 apis:
-  - aid: pandium:pandium
-    name: Pandium
-    tags: []
-    humanURL: https://www.pandium.com/
-    properties:
-      - url: https://www.pandium.com/
-        type: Documentation
-      - url: https://docs.pandium.com/reference/pandium-api
-        name: Pandium API | Pandium Docs
-        type: Documentation
-        description: 'null'
-      - url: openapi/pandium-pandium-openapi.yml
-        type: OpenAPI
-      - url: json-schema/integration.json
-        type: JSONSchema
-      - url: json-schema/tenant.json
-        type: JSONSchema
-      - url: json-schema/run.json
-        type: JSONSchema
-      - url: json-schema/release.json
-        type: JSONSchema
-      - url: json-ld/pandium-context.jsonld
-        type: JSONLD
-    description: >-
-      Transform integration development from a fragmented, ad hoc process into a streamlined, repeatable workflow with
-      Pandiums Integration Platform. With Pandium, B2B SaaS companies can meet customer demands, reduce technical debt,
-      and stay ahead in an increasingly connected world.
+- aid: pandium:pandium-connector-calls-api
+  name: Pandium Connector Calls API
+  description: Proxy calls to external APIs on behalf of a tenant.
+  humanURL: https://www.pandium.com/
+  tags:
+  - Connector Calls
+  properties:
+  - type: OpenAPI
+    url: openapi/pandium-connector-calls-api-openapi.yml
+  - type: Documentation
+    url: https://www.pandium.com/
+  - type: Documentation
+    url: https://docs.pandium.com/reference/pandium-api
+  - type: JSONSchema
+    url: json-schema/integration.json
+  - type: JSONSchema
+    url: json-schema/tenant.json
+  - type: JSONSchema
+    url: json-schema/run.json
+  - type: JSONSchema
+    url: json-schema/release.json
+  - type: JSONLD
+    url: json-ld/pandium-context.jsonld
+- aid: pandium:pandium-integrations-api
+  name: Pandium Integrations API
+  description: Manage integrations on the Pandium platform.
+  humanURL: https://www.pandium.com/
+  tags:
+  - Integrations
+  properties:
+  - type: OpenAPI
+    url: openapi/pandium-integrations-api-openapi.yml
+  - type: Documentation
+    url: https://www.pandium.com/
+  - type: Documentation
+    url: https://docs.pandium.com/reference/pandium-api
+  - type: JSONSchema
+    url: json-schema/integration.json
+  - type: JSONSchema
+    url: json-schema/tenant.json
+  - type: JSONSchema
+    url: json-schema/run.json
+  - type: JSONSchema
+    url: json-schema/release.json
+  - type: JSONLD
+    url: json-ld/pandium-context.jsonld
+- aid: pandium:pandium-runs-api
+  name: Pandium Runs API
+  description: View run status and trigger syncs.
+  humanURL: https://www.pandium.com/
+  tags:
+  - Runs
+  properties:
+  - type: OpenAPI
+    url: openapi/pandium-runs-api-openapi.yml
+  - type: Documentation
+    url: https://www.pandium.com/
+  - type: Documentation
+    url: https://docs.pandium.com/reference/pandium-api
+  - type: JSONSchema
+    url: json-schema/integration.json
+  - type: JSONSchema
+    url: json-schema/tenant.json
+  - type: JSONSchema
+    url: json-schema/run.json
+  - type: JSONSchema
+    url: json-schema/release.json
+  - type: JSONLD
+    url: json-ld/pandium-context.jsonld
+- aid: pandium:pandium-tenant-metadata-api
+  name: Pandium Tenant Metadata API
+  description: Manage metadata associated with tenants.
+  humanURL: https://www.pandium.com/
+  tags:
+  - Tenant Metadata
+  properties:
+  - type: OpenAPI
+    url: openapi/pandium-tenant-metadata-api-openapi.yml
+  - type: Documentation
+    url: https://www.pandium.com/
+  - type: Documentation
+    url: https://docs.pandium.com/reference/pandium-api
+  - type: JSONSchema
+    url: json-schema/integration.json
+  - type: JSONSchema
+    url: json-schema/tenant.json
+  - type: JSONSchema
+    url: json-schema/run.json
+  - type: JSONSchema
+    url: json-schema/release.json
+  - type: JSONLD
+    url: json-ld/pandium-context.jsonld
+- aid: pandium:pandium-tenants-api
+  name: Pandium Tenants API
+  description: Manage tenants (customer instances of integrations).
+  humanURL: https://www.pandium.com/
+  tags:
+  - Tenants
+  properties:
+  - type: OpenAPI
+    url: openapi/pandium-tenants-api-openapi.yml
+  - type: Documentation
+    url: https://www.pandium.com/
+  - type: Documentation
+    url: https://docs.pandium.com/reference/pandium-api
+  - type: JSONSchema
+    url: json-schema/integration.json
+  - type: JSONSchema
+    url: json-schema/tenant.json
+  - type: JSONSchema
+    url: json-schema/run.json
+  - type: JSONSchema
+    url: json-schema/release.json
+  - type: JSONLD
+    url: json-ld/pandium-context.jsonld
 name: Pandium
 tags:
   - B2B
@@ -35,9 +123,24 @@ tags:
   - Integrations
   - Workflows
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/pandium.png
 access: 3rd-Party
 common:
+  - type: PostmanWorkspace
+    url: https://www.postman.com/kinlaneapi/pandium/overview
   - type: AgenticAccess
     url: agentic-access/pandium-agentic-access.yml
   - type: TrustCenter
