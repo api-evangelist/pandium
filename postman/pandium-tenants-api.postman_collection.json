@@ -1,0 +1,876 @@
+{
+  "info": {
+    "_postman_id": "2d2ff440-1fa8-40bc-8086-1b1ad458ff85",
+    "name": "Pandium Connector Calls Tenants API",
+    "description": "The Pandium API provides programmatic access to native Pandium resources including integrations, tenants, and runs. It uses standard REST conventions and HTTP methods, allowing B2B SaaS companies to manage their integration platform, trigger syncs, proxy connector calls, and manage tenant metadata.\n\nContact Support:\n Name: Pandium",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T02:31:27.000Z",
+    "updatedAt": "2026-07-28T02:31:28.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-2d2ff440-1fa8-40bc-8086-1b1ad458ff85"
+  },
+  "item": [
+    {
+      "name": "v2",
+      "item": [
+        {
+          "name": "tenants",
+          "item": [
+            {
+              "name": "{tenant_id}",
+              "item": [
+                {
+                  "name": "Pandium Get a single tenant",
+                  "id": "6eb41ee8-9bc2-49a5-8ecf-9107ae42ba21",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v2/tenants/:tenant_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "tenants",
+                        ":tenant_id"
+                      ],
+                      "variable": [
+                        {
+                          "id": "461ea57f-787e-4038-90b6-48baf993abd0",
+                          "key": "tenant_id",
+                          "value": "<integer>",
+                          "description": "(Required) The unique identifier of the tenant."
+                        }
+                      ]
+                    },
+                    "description": "Retrieve a single tenant by its ID."
+                  },
+                  "response": [
+                    {
+                      "id": "0970289d-d27c-40d3-9bf3-54e1bdfd40cf",
+                      "name": "The requested tenant.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v2/tenants/:tenant_id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v2",
+                            "tenants",
+                            ":tenant_id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "tenant_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": \"<integer>\",\n  \"name\": \"<string>\",\n  \"archived\": \"<boolean>\",\n  \"integration_id\": \"<integer>\",\n  \"configs\": {\n    \"eua2c\": true,\n    \"magna7\": \"ullamco qui\",\n    \"exb0_\": \"consequat\",\n    \"deserunt_6\": false,\n    \"eiusmod7\": -9854083.83943516\n  },\n  \"created_date\": \"<dateTime>\",\n  \"modified_date\": \"<dateTime>\",\n  \"paused\": \"<boolean>\",\n  \"user_schedule\": \"<string>\",\n  \"schedule\": \"<string>\",\n  \"source\": \"<string>\",\n  \"integration_release_id\": \"<integer>\",\n  \"integration_release_channel\": \"<string>\",\n  \"status\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T02:31:28.000Z",
+                      "updatedAt": "2026-07-28T02:31:28.000Z",
+                      "uid": "35240-0970289d-d27c-40d3-9bf3-54e1bdfd40cf"
+                    },
+                    {
+                      "id": "83e7cdcd-a7a9-4cdf-89e9-d08b53df52c8",
+                      "name": "Unauthorized. Invalid or missing API key.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v2/tenants/:tenant_id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v2",
+                            "tenants",
+                            ":tenant_id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "tenant_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T02:31:28.000Z",
+                      "updatedAt": "2026-07-28T02:31:28.000Z",
+                      "uid": "35240-83e7cdcd-a7a9-4cdf-89e9-d08b53df52c8"
+                    },
+                    {
+                      "id": "976e5061-b573-462e-a2aa-aaa0f54b6a45",
+                      "name": "Tenant not found.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v2/tenants/:tenant_id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v2",
+                            "tenants",
+                            ":tenant_id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "tenant_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T02:31:28.000Z",
+                      "updatedAt": "2026-07-28T02:31:28.000Z",
+                      "uid": "35240-976e5061-b573-462e-a2aa-aaa0f54b6a45"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T02:31:28.000Z",
+                  "updatedAt": "2026-07-28T02:31:28.000Z",
+                  "uid": "35240-6eb41ee8-9bc2-49a5-8ecf-9107ae42ba21"
+                },
+                {
+                  "name": "Pandium Update a tenant",
+                  "id": "60583cd2-242c-48d3-bd28-0d5b64ff4919",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"configs\": {\n    \"laborum1\": false,\n    \"autee\": 71789978,\n    \"laboris_1\": true\n  },\n  \"paused\": \"<boolean>\",\n  \"archived\": \"<boolean>\",\n  \"user_schedule\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v2/tenants/:tenant_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "tenants",
+                        ":tenant_id"
+                      ],
+                      "variable": [
+                        {
+                          "id": "a7e2632c-06c8-4d06-87d6-d8253d1ec1c3",
+                          "key": "tenant_id",
+                          "value": "<integer>",
+                          "description": "(Required) The unique identifier of the tenant."
+                        }
+                      ]
+                    },
+                    "description": "Update properties of an existing tenant such as name, configs, paused status, archived status, and user_schedule."
+                  },
+                  "response": [
+                    {
+                      "id": "bced845f-8284-42e9-8fb4-f5bddf70ee54",
+                      "name": "Tenant updated successfully.",
+                      "originalRequest": {
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"configs\": {\n    \"laborum1\": false,\n    \"autee\": 71789978,\n    \"laboris_1\": true\n  },\n  \"paused\": \"<boolean>\",\n  \"archived\": \"<boolean>\",\n  \"user_schedule\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v2/tenants/:tenant_id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v2",
+                            "tenants",
+                            ":tenant_id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "tenant_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": \"<integer>\",\n  \"name\": \"<string>\",\n  \"archived\": \"<boolean>\",\n  \"integration_id\": \"<integer>\",\n  \"configs\": {\n    \"eua2c\": true,\n    \"magna7\": \"ullamco qui\",\n    \"exb0_\": \"consequat\",\n    \"deserunt_6\": false,\n    \"eiusmod7\": -9854083.83943516\n  },\n  \"created_date\": \"<dateTime>\",\n  \"modified_date\": \"<dateTime>\",\n  \"paused\": \"<boolean>\",\n  \"user_schedule\": \"<string>\",\n  \"schedule\": \"<string>\",\n  \"source\": \"<string>\",\n  \"integration_release_id\": \"<integer>\",\n  \"integration_release_channel\": \"<string>\",\n  \"status\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T02:31:28.000Z",
+                      "updatedAt": "2026-07-28T02:31:28.000Z",
+                      "uid": "35240-bced845f-8284-42e9-8fb4-f5bddf70ee54"
+                    },
+                    {
+                      "id": "f8b676cd-2af6-4cd5-a613-e39a67413304",
+                      "name": "Bad request. Invalid parameters.",
+                      "originalRequest": {
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"configs\": {\n    \"laborum1\": false,\n    \"autee\": 71789978,\n    \"laboris_1\": true\n  },\n  \"paused\": \"<boolean>\",\n  \"archived\": \"<boolean>\",\n  \"user_schedule\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v2/tenants/:tenant_id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v2",
+                            "tenants",
+                            ":tenant_id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "tenant_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T02:31:28.000Z",
+                      "updatedAt": "2026-07-28T02:31:28.000Z",
+                      "uid": "35240-f8b676cd-2af6-4cd5-a613-e39a67413304"
+                    },
+                    {
+                      "id": "ed0a6833-02bb-4bd3-bcf8-3c5058a9ea65",
+                      "name": "Unauthorized. Invalid or missing API key.",
+                      "originalRequest": {
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"configs\": {\n    \"laborum1\": false,\n    \"autee\": 71789978,\n    \"laboris_1\": true\n  },\n  \"paused\": \"<boolean>\",\n  \"archived\": \"<boolean>\",\n  \"user_schedule\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v2/tenants/:tenant_id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v2",
+                            "tenants",
+                            ":tenant_id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "tenant_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T02:31:28.000Z",
+                      "updatedAt": "2026-07-28T02:31:28.000Z",
+                      "uid": "35240-ed0a6833-02bb-4bd3-bcf8-3c5058a9ea65"
+                    },
+                    {
+                      "id": "c473cef3-a62c-4068-85e7-76f309568313",
+                      "name": "Tenant not found.",
+                      "originalRequest": {
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"configs\": {\n    \"laborum1\": false,\n    \"autee\": 71789978,\n    \"laboris_1\": true\n  },\n  \"paused\": \"<boolean>\",\n  \"archived\": \"<boolean>\",\n  \"user_schedule\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v2/tenants/:tenant_id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v2",
+                            "tenants",
+                            ":tenant_id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "tenant_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T02:31:28.000Z",
+                      "updatedAt": "2026-07-28T02:31:28.000Z",
+                      "uid": "35240-c473cef3-a62c-4068-85e7-76f309568313"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T02:31:28.000Z",
+                  "updatedAt": "2026-07-28T02:31:28.000Z",
+                  "uid": "35240-60583cd2-242c-48d3-bd28-0d5b64ff4919"
+                }
+              ],
+              "id": "fb7c9621-cc22-4b31-ae01-7fe704ea26a8",
+              "createdAt": "2026-07-28T02:31:28.000Z",
+              "updatedAt": "2026-07-28T02:31:28.000Z",
+              "uid": "35240-fb7c9621-cc22-4b31-ae01-7fe704ea26a8"
+            },
+            {
+              "name": "Pandium List all tenants",
+              "id": "f1a843e9-d2dd-4052-a678-411d77175065",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v2/tenants?skip=0&limit=50&integration_id=<integer>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v2",
+                    "tenants"
+                  ],
+                  "query": [
+                    {
+                      "description": "Number of records to skip for pagination.",
+                      "key": "skip",
+                      "value": "0"
+                    },
+                    {
+                      "description": "Maximum number of records to return.",
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "description": "Filter tenants by integration ID.",
+                      "key": "integration_id",
+                      "value": "<integer>"
+                    }
+                  ]
+                },
+                "description": "Get all your tenants on Pandium."
+              },
+              "response": [
+                {
+                  "id": "f88406a9-c4ab-45f2-92b8-19d84544428b",
+                  "name": "A list of tenants.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v2/tenants?skip=0&limit=50&integration_id=<integer>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "tenants"
+                      ],
+                      "query": [
+                        {
+                          "description": "Number of records to skip for pagination.",
+                          "key": "skip",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Maximum number of records to return.",
+                          "key": "limit",
+                          "value": "50"
+                        },
+                        {
+                          "description": "Filter tenants by integration ID.",
+                          "key": "integration_id",
+                          "value": "<integer>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "[\n  {\n    \"id\": \"<integer>\",\n    \"name\": \"<string>\",\n    \"archived\": \"<boolean>\",\n    \"integration_id\": \"<integer>\",\n    \"configs\": {\n      \"laboreab\": true,\n      \"culpa7\": 26277515\n    },\n    \"created_date\": \"<dateTime>\",\n    \"modified_date\": \"<dateTime>\",\n    \"paused\": \"<boolean>\",\n    \"user_schedule\": \"<string>\",\n    \"schedule\": \"<string>\",\n    \"source\": \"<string>\",\n    \"integration_release_id\": \"<integer>\",\n    \"integration_release_channel\": \"<string>\",\n    \"status\": \"<string>\"\n  },\n  {\n    \"id\": \"<integer>\",\n    \"name\": \"<string>\",\n    \"archived\": \"<boolean>\",\n    \"integration_id\": \"<integer>\",\n    \"configs\": {\n      \"mollit_12\": -77040192.15781291,\n      \"elitaba\": \"consequat ut nostrud voluptate\"\n    },\n    \"created_date\": \"<dateTime>\",\n    \"modified_date\": \"<dateTime>\",\n    \"paused\": \"<boolean>\",\n    \"user_schedule\": \"<string>\",\n    \"schedule\": \"<string>\",\n    \"source\": \"<string>\",\n    \"integration_release_id\": \"<integer>\",\n    \"integration_release_channel\": \"<string>\",\n    \"status\": \"<string>\"\n  }\n]",
+                  "createdAt": "2026-07-28T02:31:28.000Z",
+                  "updatedAt": "2026-07-28T02:31:28.000Z",
+                  "uid": "35240-f88406a9-c4ab-45f2-92b8-19d84544428b"
+                },
+                {
+                  "id": "89300bdc-b9a3-4433-9bf3-16ad2c584003",
+                  "name": "Unauthorized. Invalid or missing API key.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v2/tenants?skip=0&limit=50&integration_id=<integer>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "tenants"
+                      ],
+                      "query": [
+                        {
+                          "description": "Number of records to skip for pagination.",
+                          "key": "skip",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Maximum number of records to return.",
+                          "key": "limit",
+                          "value": "50"
+                        },
+                        {
+                          "description": "Filter tenants by integration ID.",
+                          "key": "integration_id",
+                          "value": "<integer>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T02:31:28.000Z",
+                  "updatedAt": "2026-07-28T02:31:28.000Z",
+                  "uid": "35240-89300bdc-b9a3-4433-9bf3-16ad2c584003"
+                }
+              ],
+              "createdAt": "2026-07-28T02:31:28.000Z",
+              "updatedAt": "2026-07-28T02:31:28.000Z",
+              "uid": "35240-f1a843e9-d2dd-4052-a678-411d77175065"
+            },
+            {
+              "name": "Pandium Create a tenant",
+              "id": "45743931-4e8a-4308-b5be-55929d13ccfd",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"integration_id\": \"<integer>\",\n  \"user_schedule\": \"<string>\",\n  \"archived\": false,\n  \"configs\": {\n    \"eiusmodb8b\": -14422071.697609201,\n    \"est_f\": -57172763\n  },\n  \"paused\": true,\n  \"schedule\": \"<string>\",\n  \"integration_release_id\": \"<integer>\",\n  \"integration_release_channel\": \"Latest\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/v2/tenants",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v2",
+                    "tenants"
+                  ]
+                },
+                "description": "Create a new, unconnected tenant. The tenant will be paused. If no schedule or release is provided, integration defaults will apply."
+              },
+              "response": [
+                {
+                  "id": "8ef018af-719d-4e95-96f3-a8125e87350e",
+                  "name": "Tenant created successfully.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"integration_id\": \"<integer>\",\n  \"user_schedule\": \"<string>\",\n  \"archived\": false,\n  \"configs\": {\n    \"eiusmodb8b\": -14422071.697609201,\n    \"est_f\": -57172763\n  },\n  \"paused\": true,\n  \"schedule\": \"<string>\",\n  \"integration_release_id\": \"<integer>\",\n  \"integration_release_channel\": \"Latest\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v2/tenants",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "tenants"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": \"<integer>\",\n  \"name\": \"<string>\",\n  \"archived\": \"<boolean>\",\n  \"integration_id\": \"<integer>\",\n  \"configs\": {\n    \"eua2c\": true,\n    \"magna7\": \"ullamco qui\",\n    \"exb0_\": \"consequat\",\n    \"deserunt_6\": false,\n    \"eiusmod7\": -9854083.83943516\n  },\n  \"created_date\": \"<dateTime>\",\n  \"modified_date\": \"<dateTime>\",\n  \"paused\": \"<boolean>\",\n  \"user_schedule\": \"<string>\",\n  \"schedule\": \"<string>\",\n  \"source\": \"<string>\",\n  \"integration_release_id\": \"<integer>\",\n  \"integration_release_channel\": \"<string>\",\n  \"status\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T02:31:28.000Z",
+                  "updatedAt": "2026-07-28T02:31:28.000Z",
+                  "uid": "35240-8ef018af-719d-4e95-96f3-a8125e87350e"
+                },
+                {
+                  "id": "213b21af-9caf-4818-bc83-6bbbdf875abd",
+                  "name": "Bad request. Invalid parameters.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"integration_id\": \"<integer>\",\n  \"user_schedule\": \"<string>\",\n  \"archived\": false,\n  \"configs\": {\n    \"eiusmodb8b\": -14422071.697609201,\n    \"est_f\": -57172763\n  },\n  \"paused\": true,\n  \"schedule\": \"<string>\",\n  \"integration_release_id\": \"<integer>\",\n  \"integration_release_channel\": \"Latest\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v2/tenants",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "tenants"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T02:31:28.000Z",
+                  "updatedAt": "2026-07-28T02:31:28.000Z",
+                  "uid": "35240-213b21af-9caf-4818-bc83-6bbbdf875abd"
+                },
+                {
+                  "id": "ba830a6d-2ccf-4f3e-8d77-f53d05008fd6",
+                  "name": "Unauthorized. Invalid or missing API key.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"integration_id\": \"<integer>\",\n  \"user_schedule\": \"<string>\",\n  \"archived\": false,\n  \"configs\": {\n    \"eiusmodb8b\": -14422071.697609201,\n    \"est_f\": -57172763\n  },\n  \"paused\": true,\n  \"schedule\": \"<string>\",\n  \"integration_release_id\": \"<integer>\",\n  \"integration_release_channel\": \"Latest\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v2/tenants",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "tenants"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T02:31:28.000Z",
+                  "updatedAt": "2026-07-28T02:31:28.000Z",
+                  "uid": "35240-ba830a6d-2ccf-4f3e-8d77-f53d05008fd6"
+                }
+              ],
+              "createdAt": "2026-07-28T02:31:28.000Z",
+              "updatedAt": "2026-07-28T02:31:28.000Z",
+              "uid": "35240-45743931-4e8a-4308-b5be-55929d13ccfd"
+            }
+          ],
+          "id": "ad457e6f-e689-4101-bcd6-bb2c1865e413",
+          "createdAt": "2026-07-28T02:31:28.000Z",
+          "updatedAt": "2026-07-28T02:31:28.000Z",
+          "uid": "35240-ad457e6f-e689-4101-bcd6-bb2c1865e413"
+        }
+      ],
+      "id": "17f1e030-23ca-48e7-b874-d0297cc6fd48",
+      "createdAt": "2026-07-28T02:31:28.000Z",
+      "updatedAt": "2026-07-28T02:31:28.000Z",
+      "uid": "35240-17f1e030-23ca-48e7-b874-d0297cc6fd48"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.pandium.io"
+    }
+  ]
+}

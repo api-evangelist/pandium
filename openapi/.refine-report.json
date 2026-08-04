@@ -1,0 +1,22 @@
+{
+  "provider": "pandium",
+  "sources": [
+    "pandium-connector-calls-api-openapi.yml",
+    "pandium-integrations-api-openapi.yml",
+    "pandium-runs-api-openapi.yml",
+    "pandium-tenant-metadata-api-openapi.yml",
+    "pandium-tenants-api-openapi.yml"
+  ],
+  "outputs": [
+    "pandium-connector-calls-api-openapi.yml",
+    "pandium-integrations-api-openapi.yml",
+    "pandium-runs-api-openapi.yml",
+    "pandium-tenant-metadata-api-openapi.yml",
+    "pandium-tenants-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

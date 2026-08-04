@@ -1,0 +1,767 @@
+{
+  "info": {
+    "_postman_id": "4025c9e2-fd9f-445b-bdf4-f61bd1818094",
+    "name": "Pandium Connector Calls Integrations API",
+    "description": "The Pandium API provides programmatic access to native Pandium resources including integrations, tenants, and runs. It uses standard REST conventions and HTTP methods, allowing B2B SaaS companies to manage their integration platform, trigger syncs, proxy connector calls, and manage tenant metadata.\n\nContact Support:\n Name: Pandium",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T02:31:24.000Z",
+    "updatedAt": "2026-07-28T02:31:24.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-4025c9e2-fd9f-445b-bdf4-f61bd1818094"
+  },
+  "item": [
+    {
+      "name": "v2",
+      "item": [
+        {
+          "name": "integrations",
+          "item": [
+            {
+              "name": "{integration_id}",
+              "item": [
+                {
+                  "name": "releases",
+                  "item": [
+                    {
+                      "name": "{release_id}",
+                      "item": [
+                        {
+                          "name": "Pandium Get a single release",
+                          "id": "2ed41a22-bc75-48b0-8b09-6c85700ccafc",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/integrations/:integration_id/releases/:release_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                "integrations",
+                                ":integration_id",
+                                "releases",
+                                ":release_id"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "e42a8189-e015-45f6-afc5-373e089fd9f6",
+                                  "key": "integration_id",
+                                  "value": "<integer>",
+                                  "description": "(Required) The unique identifier of the integration."
+                                },
+                                {
+                                  "id": "a3743cd5-388d-4a9e-8982-801c744feba6",
+                                  "key": "release_id",
+                                  "value": "<integer>",
+                                  "description": "(Required) The unique identifier of the release."
+                                }
+                              ]
+                            },
+                            "description": "Get a single release for a specific integration."
+                          },
+                          "response": [
+                            {
+                              "id": "6ca7b5e6-eb99-4bef-a7ca-e5efe8fef88a",
+                              "name": "The requested release.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "Authorization",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v2/integrations/:integration_id/releases/:release_id",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v2",
+                                    "integrations",
+                                    ":integration_id",
+                                    "releases",
+                                    ":release_id"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "integration_id"
+                                    },
+                                    {
+                                      "key": "release_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"id\": \"<integer>\",\n  \"integration_id\": \"<integer>\",\n  \"version\": \"<string>\",\n  \"created_date\": \"<dateTime>\",\n  \"modified_date\": \"<dateTime>\"\n}",
+                              "createdAt": "2026-07-28T02:31:25.000Z",
+                              "updatedAt": "2026-07-28T02:31:25.000Z",
+                              "uid": "35240-6ca7b5e6-eb99-4bef-a7ca-e5efe8fef88a"
+                            },
+                            {
+                              "id": "1f0175fb-64fc-4a33-bcd5-8d0764294f67",
+                              "name": "Unauthorized. Invalid or missing API key.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "Authorization",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v2/integrations/:integration_id/releases/:release_id",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v2",
+                                    "integrations",
+                                    ":integration_id",
+                                    "releases",
+                                    ":release_id"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "integration_id"
+                                    },
+                                    {
+                                      "key": "release_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Unauthorized",
+                              "code": 401,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-07-28T02:31:25.000Z",
+                              "updatedAt": "2026-07-28T02:31:25.000Z",
+                              "uid": "35240-1f0175fb-64fc-4a33-bcd5-8d0764294f67"
+                            },
+                            {
+                              "id": "113fb34a-f0ed-4a10-a782-fd642d6a4f77",
+                              "name": "Release not found.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "Authorization",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v2/integrations/:integration_id/releases/:release_id",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v2",
+                                    "integrations",
+                                    ":integration_id",
+                                    "releases",
+                                    ":release_id"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "integration_id"
+                                    },
+                                    {
+                                      "key": "release_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Not Found",
+                              "code": 404,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-07-28T02:31:25.000Z",
+                              "updatedAt": "2026-07-28T02:31:25.000Z",
+                              "uid": "35240-113fb34a-f0ed-4a10-a782-fd642d6a4f77"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T02:31:25.000Z",
+                          "updatedAt": "2026-07-28T02:31:25.000Z",
+                          "uid": "35240-2ed41a22-bc75-48b0-8b09-6c85700ccafc"
+                        }
+                      ],
+                      "id": "86122959-6064-4512-ad6d-aafe8d870e17",
+                      "createdAt": "2026-07-28T02:31:25.000Z",
+                      "updatedAt": "2026-07-28T02:31:25.000Z",
+                      "uid": "35240-86122959-6064-4512-ad6d-aafe8d870e17"
+                    },
+                    {
+                      "name": "Pandium List releases for an integration",
+                      "id": "7706d155-dd31-4d81-8778-5e41cd58c200",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v2/integrations/:integration_id/releases",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v2",
+                            "integrations",
+                            ":integration_id",
+                            "releases"
+                          ],
+                          "variable": [
+                            {
+                              "id": "bb8156e0-bb09-4896-ae5c-2f1506154595",
+                              "key": "integration_id",
+                              "value": "<integer>",
+                              "description": "(Required) The unique identifier of the integration."
+                            }
+                          ]
+                        },
+                        "description": "Get all releases for a specific integration."
+                      },
+                      "response": [
+                        {
+                          "id": "54d67abc-5ef8-4997-a4d8-12d1bd88115b",
+                          "name": "A list of releases for the integration.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "Authorization",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/integrations/:integration_id/releases",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                "integrations",
+                                ":integration_id",
+                                "releases"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "integration_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "[\n  {\n    \"id\": \"<integer>\",\n    \"integration_id\": \"<integer>\",\n    \"version\": \"<string>\",\n    \"created_date\": \"<dateTime>\",\n    \"modified_date\": \"<dateTime>\"\n  },\n  {\n    \"id\": \"<integer>\",\n    \"integration_id\": \"<integer>\",\n    \"version\": \"<string>\",\n    \"created_date\": \"<dateTime>\",\n    \"modified_date\": \"<dateTime>\"\n  }\n]",
+                          "createdAt": "2026-07-28T02:31:25.000Z",
+                          "updatedAt": "2026-07-28T02:31:25.000Z",
+                          "uid": "35240-54d67abc-5ef8-4997-a4d8-12d1bd88115b"
+                        },
+                        {
+                          "id": "09253820-07a2-45e1-b5ce-282760dcb2ea",
+                          "name": "Unauthorized. Invalid or missing API key.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "Authorization",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/integrations/:integration_id/releases",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                "integrations",
+                                ":integration_id",
+                                "releases"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "integration_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T02:31:25.000Z",
+                          "updatedAt": "2026-07-28T02:31:25.000Z",
+                          "uid": "35240-09253820-07a2-45e1-b5ce-282760dcb2ea"
+                        },
+                        {
+                          "id": "433b08f6-0bb5-4d88-aca3-7540f8e354ba",
+                          "name": "Integration not found.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "Authorization",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/integrations/:integration_id/releases",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                "integrations",
+                                ":integration_id",
+                                "releases"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "integration_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T02:31:25.000Z",
+                          "updatedAt": "2026-07-28T02:31:25.000Z",
+                          "uid": "35240-433b08f6-0bb5-4d88-aca3-7540f8e354ba"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T02:31:25.000Z",
+                      "updatedAt": "2026-07-28T02:31:25.000Z",
+                      "uid": "35240-7706d155-dd31-4d81-8778-5e41cd58c200"
+                    }
+                  ],
+                  "id": "cbbb0de6-9c19-4aa6-8425-8ebad80adb03",
+                  "createdAt": "2026-07-28T02:31:25.000Z",
+                  "updatedAt": "2026-07-28T02:31:25.000Z",
+                  "uid": "35240-cbbb0de6-9c19-4aa6-8425-8ebad80adb03"
+                },
+                {
+                  "name": "Pandium Get a single integration",
+                  "id": "137782d6-4b85-4972-b20f-6c776d744317",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v2/integrations/:integration_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "integrations",
+                        ":integration_id"
+                      ],
+                      "variable": [
+                        {
+                          "id": "4c56d463-f885-477c-b87a-5d6f04524ef2",
+                          "key": "integration_id",
+                          "value": "<integer>",
+                          "description": "(Required) The unique identifier of the integration."
+                        }
+                      ]
+                    },
+                    "description": "Retrieve a single integration by its ID."
+                  },
+                  "response": [
+                    {
+                      "id": "a4c3129e-f239-4ee6-a576-b8f16bcd1b6e",
+                      "name": "The requested integration.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v2/integrations/:integration_id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v2",
+                            "integrations",
+                            ":integration_id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "integration_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": \"<integer>\",\n  \"name\": \"<string>\",\n  \"archived\": \"<boolean>\",\n  \"created_date\": \"<dateTime>\",\n  \"modified_date\": \"<dateTime>\"\n}",
+                      "createdAt": "2026-07-28T02:31:25.000Z",
+                      "updatedAt": "2026-07-28T02:31:25.000Z",
+                      "uid": "35240-a4c3129e-f239-4ee6-a576-b8f16bcd1b6e"
+                    },
+                    {
+                      "id": "0a069140-7775-470e-b045-d7a5ad97a4e9",
+                      "name": "Unauthorized. Invalid or missing API key.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v2/integrations/:integration_id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v2",
+                            "integrations",
+                            ":integration_id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "integration_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T02:31:25.000Z",
+                      "updatedAt": "2026-07-28T02:31:25.000Z",
+                      "uid": "35240-0a069140-7775-470e-b045-d7a5ad97a4e9"
+                    },
+                    {
+                      "id": "a5a45847-50b8-4907-b290-87b085de3d6b",
+                      "name": "Integration not found.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v2/integrations/:integration_id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v2",
+                            "integrations",
+                            ":integration_id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "integration_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T02:31:25.000Z",
+                      "updatedAt": "2026-07-28T02:31:25.000Z",
+                      "uid": "35240-a5a45847-50b8-4907-b290-87b085de3d6b"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T02:31:25.000Z",
+                  "updatedAt": "2026-07-28T02:31:25.000Z",
+                  "uid": "35240-137782d6-4b85-4972-b20f-6c776d744317"
+                }
+              ],
+              "id": "4dda59f5-ae24-4963-93f2-7a7052c8c23b",
+              "createdAt": "2026-07-28T02:31:25.000Z",
+              "updatedAt": "2026-07-28T02:31:25.000Z",
+              "uid": "35240-4dda59f5-ae24-4963-93f2-7a7052c8c23b"
+            },
+            {
+              "name": "Pandium List all integrations",
+              "id": "2cbc1c44-a67e-482a-b62a-ed01cc665b2a",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v2/integrations?skip=0&limit=50",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v2",
+                    "integrations"
+                  ],
+                  "query": [
+                    {
+                      "description": "Number of records to skip for pagination.",
+                      "key": "skip",
+                      "value": "0"
+                    },
+                    {
+                      "description": "Maximum number of records to return.",
+                      "key": "limit",
+                      "value": "50"
+                    }
+                  ]
+                },
+                "description": "Get all your integrations on Pandium."
+              },
+              "response": [
+                {
+                  "id": "18eadd25-a1ef-49a8-b6bd-57ba13c0999c",
+                  "name": "A list of integrations.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v2/integrations?skip=0&limit=50",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "integrations"
+                      ],
+                      "query": [
+                        {
+                          "description": "Number of records to skip for pagination.",
+                          "key": "skip",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Maximum number of records to return.",
+                          "key": "limit",
+                          "value": "50"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "[\n  {\n    \"id\": \"<integer>\",\n    \"name\": \"<string>\",\n    \"archived\": \"<boolean>\",\n    \"created_date\": \"<dateTime>\",\n    \"modified_date\": \"<dateTime>\"\n  },\n  {\n    \"id\": \"<integer>\",\n    \"name\": \"<string>\",\n    \"archived\": \"<boolean>\",\n    \"created_date\": \"<dateTime>\",\n    \"modified_date\": \"<dateTime>\"\n  }\n]",
+                  "createdAt": "2026-07-28T02:31:25.000Z",
+                  "updatedAt": "2026-07-28T02:31:25.000Z",
+                  "uid": "35240-18eadd25-a1ef-49a8-b6bd-57ba13c0999c"
+                },
+                {
+                  "id": "027d15c2-b21d-459c-92c0-c42903e9785f",
+                  "name": "Unauthorized. Invalid or missing API key.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v2/integrations?skip=0&limit=50",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "integrations"
+                      ],
+                      "query": [
+                        {
+                          "description": "Number of records to skip for pagination.",
+                          "key": "skip",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Maximum number of records to return.",
+                          "key": "limit",
+                          "value": "50"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T02:31:25.000Z",
+                  "updatedAt": "2026-07-28T02:31:25.000Z",
+                  "uid": "35240-027d15c2-b21d-459c-92c0-c42903e9785f"
+                }
+              ],
+              "createdAt": "2026-07-28T02:31:25.000Z",
+              "updatedAt": "2026-07-28T02:31:25.000Z",
+              "uid": "35240-2cbc1c44-a67e-482a-b62a-ed01cc665b2a"
+            }
+          ],
+          "id": "8e0ee127-41e9-4e11-8978-d8c13f518693",
+          "createdAt": "2026-07-28T02:31:25.000Z",
+          "updatedAt": "2026-07-28T02:31:25.000Z",
+          "uid": "35240-8e0ee127-41e9-4e11-8978-d8c13f518693"
+        }
+      ],
+      "id": "e99a47cb-2259-469c-b87f-bfb63d2f6ca2",
+      "createdAt": "2026-07-28T02:31:25.000Z",
+      "updatedAt": "2026-07-28T02:31:25.000Z",
+      "uid": "35240-e99a47cb-2259-469c-b87f-bfb63d2f6ca2"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.pandium.io"
+    }
+  ]
+}

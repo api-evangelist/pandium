@@ -1,0 +1,407 @@
+{
+  "info": {
+    "_postman_id": "e8c6da4a-ea3d-495a-9bff-480a8b5fd3ad",
+    "name": "Pandium Connector Calls API",
+    "description": "The Pandium API provides programmatic access to native Pandium resources including integrations, tenants, and runs. It uses standard REST conventions and HTTP methods, allowing B2B SaaS companies to manage their integration platform, trigger syncs, proxy connector calls, and manage tenant metadata.\n\nContact Support:\n Name: Pandium",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T02:31:23.000Z",
+    "updatedAt": "2026-07-28T02:31:23.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-e8c6da4a-ea3d-495a-9bff-480a8b5fd3ad"
+  },
+  "item": [
+    {
+      "name": "v2",
+      "item": [
+        {
+          "name": "tenants",
+          "item": [
+            {
+              "name": "{tenant_id}",
+              "item": [
+                {
+                  "name": "connectors",
+                  "item": [
+                    {
+                      "name": "{connector_name}",
+                      "item": [
+                        {
+                          "name": "call",
+                          "item": [
+                            {
+                              "name": "Pandium Proxy a connector call",
+                              "id": "b05991e4-3a5e-41e3-86d8-c9ebe3146788",
+                              "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                              },
+                              "request": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"method\": \"GET\",\n  \"path\": \"<string>\",\n  \"headers\": {\n    \"quis_84\": \"<string>\"\n  },\n  \"body\": {\n    \"dolore3\": true,\n    \"reprehenderit_ad\": true\n  },\n  \"query_params\": {\n    \"labore_de\": \"<string>\",\n    \"tempor5\": \"<string>\"\n  }\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/v2/tenants/:tenant_id/connectors/:connector_name/call",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v2",
+                                    "tenants",
+                                    ":tenant_id",
+                                    "connectors",
+                                    ":connector_name",
+                                    "call"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "id": "adad9f11-3df7-4a93-93d4-ebca2a44f840",
+                                      "key": "tenant_id",
+                                      "value": "<integer>",
+                                      "description": "(Required) The unique identifier of the tenant."
+                                    },
+                                    {
+                                      "id": "22990b45-65b7-4fc5-ab1d-8f222ba0d9e5",
+                                      "key": "connector_name",
+                                      "value": "<string>",
+                                      "description": "(Required) The name of the connector to call through."
+                                    }
+                                  ]
+                                },
+                                "description": "Make a call to an external API (REST, SOAP, or XML) on behalf of a tenant. This endpoint proxies a synchronous connector call using the tenant's stored credentials."
+                              },
+                              "response": [
+                                {
+                                  "id": "77d10a79-8948-4dfe-9568-f612d2e89b33",
+                                  "name": "Successful connector call response.",
+                                  "originalRequest": {
+                                    "method": "POST",
+                                    "header": [
+                                      {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: apikey",
+                                        "key": "Authorization",
+                                        "value": "<API Key>"
+                                      }
+                                    ],
+                                    "body": {
+                                      "mode": "raw",
+                                      "raw": "{\n  \"method\": \"GET\",\n  \"path\": \"<string>\",\n  \"headers\": {\n    \"quis_84\": \"<string>\"\n  },\n  \"body\": {\n    \"dolore3\": true,\n    \"reprehenderit_ad\": true\n  },\n  \"query_params\": {\n    \"labore_de\": \"<string>\",\n    \"tempor5\": \"<string>\"\n  }\n}",
+                                      "options": {
+                                        "raw": {
+                                          "headerFamily": "json",
+                                          "language": "json"
+                                        }
+                                      }
+                                    },
+                                    "url": {
+                                      "raw": "{{baseUrl}}/v2/tenants/:tenant_id/connectors/:connector_name/call",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "v2",
+                                        "tenants",
+                                        ":tenant_id",
+                                        "connectors",
+                                        ":connector_name",
+                                        "call"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "tenant_id"
+                                        },
+                                        {
+                                          "key": "connector_name"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "OK",
+                                  "code": 200,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"status_code\": \"<integer>\",\n  \"headers\": {\n    \"id_f5\": \"<string>\",\n    \"animb\": \"<string>\",\n    \"Duis46b\": \"<string>\"\n  },\n  \"body\": {\n    \"dolore_39\": \"id aliqua enim anim in\"\n  }\n}",
+                                  "createdAt": "2026-07-28T02:31:23.000Z",
+                                  "updatedAt": "2026-07-28T02:31:23.000Z",
+                                  "uid": "35240-77d10a79-8948-4dfe-9568-f612d2e89b33"
+                                },
+                                {
+                                  "id": "a2ff5460-8425-4bf0-87e8-f76127c74073",
+                                  "name": "Bad request. Invalid parameters.",
+                                  "originalRequest": {
+                                    "method": "POST",
+                                    "header": [
+                                      {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: apikey",
+                                        "key": "Authorization",
+                                        "value": "<API Key>"
+                                      }
+                                    ],
+                                    "body": {
+                                      "mode": "raw",
+                                      "raw": "{\n  \"method\": \"GET\",\n  \"path\": \"<string>\",\n  \"headers\": {\n    \"quis_84\": \"<string>\"\n  },\n  \"body\": {\n    \"dolore3\": true,\n    \"reprehenderit_ad\": true\n  },\n  \"query_params\": {\n    \"labore_de\": \"<string>\",\n    \"tempor5\": \"<string>\"\n  }\n}",
+                                      "options": {
+                                        "raw": {
+                                          "headerFamily": "json",
+                                          "language": "json"
+                                        }
+                                      }
+                                    },
+                                    "url": {
+                                      "raw": "{{baseUrl}}/v2/tenants/:tenant_id/connectors/:connector_name/call",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "v2",
+                                        "tenants",
+                                        ":tenant_id",
+                                        "connectors",
+                                        ":connector_name",
+                                        "call"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "tenant_id"
+                                        },
+                                        {
+                                          "key": "connector_name"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Bad Request",
+                                  "code": 400,
+                                  "_postman_previewlanguage": "text",
+                                  "header": [],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": null,
+                                  "createdAt": "2026-07-28T02:31:23.000Z",
+                                  "updatedAt": "2026-07-28T02:31:23.000Z",
+                                  "uid": "35240-a2ff5460-8425-4bf0-87e8-f76127c74073"
+                                },
+                                {
+                                  "id": "1dc349f6-4467-4fe0-859b-a8b88ba9f4ff",
+                                  "name": "Unauthorized. Invalid or missing API key.",
+                                  "originalRequest": {
+                                    "method": "POST",
+                                    "header": [
+                                      {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: apikey",
+                                        "key": "Authorization",
+                                        "value": "<API Key>"
+                                      }
+                                    ],
+                                    "body": {
+                                      "mode": "raw",
+                                      "raw": "{\n  \"method\": \"GET\",\n  \"path\": \"<string>\",\n  \"headers\": {\n    \"quis_84\": \"<string>\"\n  },\n  \"body\": {\n    \"dolore3\": true,\n    \"reprehenderit_ad\": true\n  },\n  \"query_params\": {\n    \"labore_de\": \"<string>\",\n    \"tempor5\": \"<string>\"\n  }\n}",
+                                      "options": {
+                                        "raw": {
+                                          "headerFamily": "json",
+                                          "language": "json"
+                                        }
+                                      }
+                                    },
+                                    "url": {
+                                      "raw": "{{baseUrl}}/v2/tenants/:tenant_id/connectors/:connector_name/call",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "v2",
+                                        "tenants",
+                                        ":tenant_id",
+                                        "connectors",
+                                        ":connector_name",
+                                        "call"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "tenant_id"
+                                        },
+                                        {
+                                          "key": "connector_name"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Unauthorized",
+                                  "code": 401,
+                                  "_postman_previewlanguage": "text",
+                                  "header": [],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": null,
+                                  "createdAt": "2026-07-28T02:31:23.000Z",
+                                  "updatedAt": "2026-07-28T02:31:23.000Z",
+                                  "uid": "35240-1dc349f6-4467-4fe0-859b-a8b88ba9f4ff"
+                                },
+                                {
+                                  "id": "450ce1e9-85d1-4861-b033-1717b9994b1a",
+                                  "name": "Tenant or connector not found.",
+                                  "originalRequest": {
+                                    "method": "POST",
+                                    "header": [
+                                      {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: apikey",
+                                        "key": "Authorization",
+                                        "value": "<API Key>"
+                                      }
+                                    ],
+                                    "body": {
+                                      "mode": "raw",
+                                      "raw": "{\n  \"method\": \"GET\",\n  \"path\": \"<string>\",\n  \"headers\": {\n    \"quis_84\": \"<string>\"\n  },\n  \"body\": {\n    \"dolore3\": true,\n    \"reprehenderit_ad\": true\n  },\n  \"query_params\": {\n    \"labore_de\": \"<string>\",\n    \"tempor5\": \"<string>\"\n  }\n}",
+                                      "options": {
+                                        "raw": {
+                                          "headerFamily": "json",
+                                          "language": "json"
+                                        }
+                                      }
+                                    },
+                                    "url": {
+                                      "raw": "{{baseUrl}}/v2/tenants/:tenant_id/connectors/:connector_name/call",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "v2",
+                                        "tenants",
+                                        ":tenant_id",
+                                        "connectors",
+                                        ":connector_name",
+                                        "call"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "tenant_id"
+                                        },
+                                        {
+                                          "key": "connector_name"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Not Found",
+                                  "code": 404,
+                                  "_postman_previewlanguage": "text",
+                                  "header": [],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": null,
+                                  "createdAt": "2026-07-28T02:31:23.000Z",
+                                  "updatedAt": "2026-07-28T02:31:23.000Z",
+                                  "uid": "35240-450ce1e9-85d1-4861-b033-1717b9994b1a"
+                                }
+                              ],
+                              "createdAt": "2026-07-28T02:31:23.000Z",
+                              "updatedAt": "2026-07-28T02:31:23.000Z",
+                              "uid": "35240-b05991e4-3a5e-41e3-86d8-c9ebe3146788"
+                            }
+                          ],
+                          "id": "0fae08ca-4c94-43a5-9e6a-00c8ec06ce82",
+                          "createdAt": "2026-07-28T02:31:23.000Z",
+                          "updatedAt": "2026-07-28T02:31:23.000Z",
+                          "uid": "35240-0fae08ca-4c94-43a5-9e6a-00c8ec06ce82"
+                        }
+                      ],
+                      "id": "ee2de8e2-783a-4115-8825-0e7cbc1e49cb",
+                      "createdAt": "2026-07-28T02:31:23.000Z",
+                      "updatedAt": "2026-07-28T02:31:23.000Z",
+                      "uid": "35240-ee2de8e2-783a-4115-8825-0e7cbc1e49cb"
+                    }
+                  ],
+                  "id": "b940ec05-1f78-4655-9624-c9d436186518",
+                  "createdAt": "2026-07-28T02:31:23.000Z",
+                  "updatedAt": "2026-07-28T02:31:23.000Z",
+                  "uid": "35240-b940ec05-1f78-4655-9624-c9d436186518"
+                }
+              ],
+              "id": "139fa65f-22b5-4702-abb3-268d562f89c4",
+              "createdAt": "2026-07-28T02:31:23.000Z",
+              "updatedAt": "2026-07-28T02:31:23.000Z",
+              "uid": "35240-139fa65f-22b5-4702-abb3-268d562f89c4"
+            }
+          ],
+          "id": "a4251538-d319-4adf-a52c-335039374d69",
+          "createdAt": "2026-07-28T02:31:23.000Z",
+          "updatedAt": "2026-07-28T02:31:23.000Z",
+          "uid": "35240-a4251538-d319-4adf-a52c-335039374d69"
+        }
+      ],
+      "id": "8cf214bc-8d75-43ae-b79e-b25af118432d",
+      "createdAt": "2026-07-28T02:31:23.000Z",
+      "updatedAt": "2026-07-28T02:31:23.000Z",
+      "uid": "35240-8cf214bc-8d75-43ae-b79e-b25af118432d"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.pandium.io"
+    }
+  ]
+}
