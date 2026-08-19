@@ -1,0 +1,743 @@
+{
+  "item": [
+    {
+      "id": "640c869d-0284-48de-9954-ed104d883999",
+      "name": "Runs",
+      "description": {
+        "content": "View run status and trigger syncs.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d601d6da-d19d-49a2-9420-722a41e9c7bf",
+          "name": "Pandium Trigger a sync for a tenant",
+          "request": {
+            "name": "Pandium Trigger a sync for a tenant",
+            "description": {
+              "content": "Request a sync for an existing tenant. Pandium debounces triggers to prevent more than one sync per tenant at any given time.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "tenants",
+                ":tenant_id",
+                "sync"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "mode",
+                  "value": "<string>",
+                  "description": "(Required) The sync mode to use."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "tenant_id",
+                  "description": "(Required) The unique identifier of the tenant."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9ea06861-9218-47dd-83be-9d98286a5c28",
+              "name": "Sync triggered successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "tenants",
+                    ":tenant_id",
+                    "sync"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "mode",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "tenant_id",
+                      "description": "(Required) The unique identifier of the tenant."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"trigger_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b9382cb4-24cf-4da9-b2e0-876e65b0989f",
+              "name": "Unauthorized. Invalid or missing API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "tenants",
+                    ":tenant_id",
+                    "sync"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "mode",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "tenant_id",
+                      "description": "(Required) The unique identifier of the tenant."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f47b0312-5ced-4aac-b120-2c42f97dd2aa",
+              "name": "Tenant not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "tenants",
+                    ":tenant_id",
+                    "sync"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "mode",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "tenant_id",
+                      "description": "(Required) The unique identifier of the tenant."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "778dc785-6379-4b67-9ce8-c9dfc48cffdc",
+          "name": "Pandium List runs for a tenant",
+          "request": {
+            "name": "Pandium List runs for a tenant",
+            "description": {
+              "content": "Get runs for a specific tenant.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "tenants",
+                ":tenant_id",
+                "runs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "skip",
+                  "value": "0",
+                  "description": "Number of records to skip for pagination."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "50",
+                  "description": "Maximum number of records to return."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "tenant_id",
+                  "description": "(Required) The unique identifier of the tenant."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f101b5a1-0875-410a-aca9-b4547bfa5b9a",
+              "name": "A list of runs for the tenant.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "tenants",
+                    ":tenant_id",
+                    "runs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "skip",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "tenant_id",
+                      "description": "(Required) The unique identifier of the tenant."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 3627,\n    \"tenant_id\": 9174,\n    \"trigger_id\": \"string\",\n    \"status\": \"completed\",\n    \"mode\": \"cron\",\n    \"created_date\": \"1988-06-25T15:34:37.560Z\",\n    \"modified_date\": \"2012-12-08T06:43:06.915Z\",\n    \"started_date\": \"1988-08-18T22:17:06.261Z\",\n    \"completed_date\": \"2003-12-13T15:51:20.994Z\"\n  },\n  {\n    \"id\": 6275,\n    \"tenant_id\": 3638,\n    \"trigger_id\": \"string\",\n    \"status\": \"running\",\n    \"mode\": \"cron\",\n    \"created_date\": \"2018-11-29T20:08:59.805Z\",\n    \"modified_date\": \"1992-02-27T12:42:28.919Z\",\n    \"started_date\": \"1992-07-02T10:00:27.929Z\",\n    \"completed_date\": \"1967-04-20T08:25:32.211Z\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "08bb0881-ab31-4960-993a-442d73375246",
+              "name": "Unauthorized. Invalid or missing API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "tenants",
+                    ":tenant_id",
+                    "runs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "skip",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "tenant_id",
+                      "description": "(Required) The unique identifier of the tenant."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b6cfe6b7-8079-463e-a3c1-85f6539fb0eb",
+              "name": "Tenant not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "tenants",
+                    ":tenant_id",
+                    "runs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "skip",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "tenant_id",
+                      "description": "(Required) The unique identifier of the tenant."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "11d9ce97-2eca-42d3-a1c6-a8c32d1d0807",
+          "name": "Pandium Get run status by trigger ID",
+          "request": {
+            "name": "Pandium Get run status by trigger ID",
+            "description": {
+              "content": "Returns status information for a run associated with the provided trigger ID, if that run exists. Since triggers are debounced, run status information may not be immediately available.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "tenants",
+                ":tenant_id",
+                "runs",
+                ":trigger_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "tenant_id",
+                  "description": "(Required) The unique identifier of the tenant."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "trigger_id",
+                  "description": "(Required) The trigger ID associated with a run."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "23a4f8b4-5300-4a46-9e34-da1c3dcb572a",
+              "name": "Run status information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "tenants",
+                    ":tenant_id",
+                    "runs",
+                    ":trigger_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "tenant_id",
+                      "description": "(Required) The unique identifier of the tenant."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "trigger_id",
+                      "description": "(Required) The trigger ID associated with a run."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 8471,\n  \"tenant_id\": 8573,\n  \"trigger_id\": \"string\",\n  \"status\": \"running\",\n  \"mode\": \"api\",\n  \"created_date\": \"2002-01-12T13:40:36.414Z\",\n  \"modified_date\": \"2009-06-22T13:01:50.828Z\",\n  \"started_date\": \"2022-07-20T07:15:36.967Z\",\n  \"completed_date\": \"1992-09-25T08:53:47.327Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "86a31e62-58d6-4e80-864f-fbade47b24a1",
+              "name": "Unauthorized. Invalid or missing API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "tenants",
+                    ":tenant_id",
+                    "runs",
+                    ":trigger_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "tenant_id",
+                      "description": "(Required) The unique identifier of the tenant."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "trigger_id",
+                      "description": "(Required) The trigger ID associated with a run."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e5e59bfe-a502-450c-af6c-98ef4759141b",
+              "name": "Run not found for the provided trigger ID.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "tenants",
+                    ":tenant_id",
+                    "runs",
+                    ":trigger_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "tenant_id",
+                      "description": "(Required) The unique identifier of the tenant."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "trigger_id",
+                      "description": "(Required) The trigger ID associated with a run."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.pandium.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "be545710-1acc-4d8c-aa86-2c93619e182c",
+    "name": "Pandium Connector Calls Runs API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Pandium API provides programmatic access to native Pandium resources including integrations, tenants, and runs. It uses standard REST conventions and HTTP methods, allowing B2B SaaS companies to manage their integration platform, trigger syncs, proxy connector calls, and manage tenant metadata.\n\nContact Support:\n Name: Pandium",
+      "type": "text/plain"
+    }
+  }
+}

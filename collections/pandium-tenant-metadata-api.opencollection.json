@@ -1,0 +1,68 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Pandium Connector Calls Tenant Metadata API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tenant Metadata",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Pandium Get tenant metadata",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pandium.io/v2/tenants/:tenant_id/metadata",
+            "params": [
+              {
+                "name": "tenant_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the tenant."
+              }
+            ]
+          },
+          "docs": "Get the metadata for a tenant."
+        },
+        {
+          "info": {
+            "name": "Pandium Update tenant metadata",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.pandium.io/v2/tenants/:tenant_id/metadata",
+            "params": [
+              {
+                "name": "tenant_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the tenant."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update metadata for a tenant. Metadata is validated against the tenant's integration release metadata schema."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

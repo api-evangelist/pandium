@@ -1,0 +1,107 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Pandium Connector Calls Runs API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Runs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Pandium Trigger a sync for a tenant",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pandium.io/v2/tenants/:tenant_id/sync",
+            "params": [
+              {
+                "name": "tenant_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the tenant."
+              },
+              {
+                "name": "mode",
+                "value": "",
+                "type": "query",
+                "description": "The sync mode to use."
+              }
+            ]
+          },
+          "docs": "Request a sync for an existing tenant. Pandium debounces triggers to prevent more than one sync per tenant at any given time."
+        },
+        {
+          "info": {
+            "name": "Pandium List runs for a tenant",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pandium.io/v2/tenants/:tenant_id/runs",
+            "params": [
+              {
+                "name": "tenant_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the tenant."
+              },
+              {
+                "name": "skip",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip for pagination."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of records to return."
+              }
+            ]
+          },
+          "docs": "Get runs for a specific tenant."
+        },
+        {
+          "info": {
+            "name": "Pandium Get run status by trigger ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pandium.io/v2/tenants/:tenant_id/runs/:trigger_id",
+            "params": [
+              {
+                "name": "tenant_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the tenant."
+              },
+              {
+                "name": "trigger_id",
+                "value": "",
+                "type": "path",
+                "description": "The trigger ID associated with a run."
+              }
+            ]
+          },
+          "docs": "Returns status information for a run associated with the provided trigger ID, if that run exists. Since triggers are debounced, run status information may not be immediately available."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

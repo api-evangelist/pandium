@@ -1,0 +1,114 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Pandium Connector Calls Tenants API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tenants",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Pandium List all tenants",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pandium.io/v2/tenants",
+            "params": [
+              {
+                "name": "skip",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip for pagination."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of records to return."
+              },
+              {
+                "name": "integration_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter tenants by integration ID."
+              }
+            ]
+          },
+          "docs": "Get all your tenants on Pandium."
+        },
+        {
+          "info": {
+            "name": "Pandium Create a tenant",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pandium.io/v2/tenants",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new, unconnected tenant. The tenant will be paused. If no schedule or release is provided, integration defaults will apply."
+        },
+        {
+          "info": {
+            "name": "Pandium Get a single tenant",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pandium.io/v2/tenants/:tenant_id",
+            "params": [
+              {
+                "name": "tenant_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the tenant."
+              }
+            ]
+          },
+          "docs": "Retrieve a single tenant by its ID."
+        },
+        {
+          "info": {
+            "name": "Pandium Update a tenant",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.pandium.io/v2/tenants/:tenant_id",
+            "params": [
+              {
+                "name": "tenant_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the tenant."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update properties of an existing tenant such as name, configs, paused status, archived status, and user_schedule."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
