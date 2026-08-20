@@ -29,6 +29,8 @@ apis:
   description: Manage integrations on the Pandium platform.
   humanURL: https://www.pandium.com/
   tags:
+  - Integration
+  tags_raw:
   - Integrations
   properties:
   - type: OpenAPI
@@ -118,6 +120,11 @@ apis:
     url: json-ld/pandium-context.jsonld
 name: Pandium
 tags:
+  - B2B
+  - Hub
+  - Integration
+  - Workflows
+tags_raw:
   - B2B
   - Hubs
   - Integrations
