@@ -1,17 +1,17 @@
 ---
 kin_checks:
   slug: pandium
-  schema_version: 0.17.2
-  scored_at: '2026-09-01'
-  run_ts: 2026-09-01T063623
+  schema_version: 0.18.2
+  scored_at: '2026-09-04'
+  run_ts: 2026-09-04T062714
   note: Actionable checks only (missed + partial). earned/na are every other check
-    in rubric/scoring-0.17.2.yml; counts below let you verify that.
+    in rubric/scoring-0.18.2.yml; counts below let you verify that.
   counts:
-    total: 130
-    earned: 47
-    partial: 9
-    missed: 50
-    na: 24
+    total: 132
+    earned: 48
+    partial: 12
+    missed: 47
+    na: 25
   checks:
   - id: tags_present
     status: missed
@@ -31,12 +31,11 @@ kin_checks:
     detail: 0 of 5 openapi documents pass
   - id: examples_present
     status: missed
-  - id: components_reuse
-    status: missed
-    detail: 0 of 5 openapi documents pass
   - id: webhooks_or_callbacks
     status: missed
     detail: 0 of 5 openapi documents pass
+  - id: inbound_contract_published
+    status: missed
   - id: asyncapi_present
     status: missed
   - id: json_ld_class_depth
@@ -50,8 +49,6 @@ kin_checks:
   - id: rules_substantial
     status: missed
   - id: vocabulary_published
-    status: missed
-  - id: conformance_declared
     status: missed
   - id: overlay_published
     status: missed
@@ -89,11 +86,7 @@ kin_checks:
     status: missed
   - id: reversibility_documented
     status: missed
-  - id: mcp_server
-    status: missed
   - id: idempotency
-    status: missed
-  - id: error_semantics
     status: missed
   - id: openapi_examples
     status: missed
@@ -117,6 +110,14 @@ kin_checks:
     status: missed
   - id: agentic_commerce
     status: missed
+  - id: response_coverage
+    status: partial
+    earned: 4.0
+    detail: 4 of 5 openapi documents pass
+  - id: components_reuse
+    status: partial
+    earned: 2.4
+    detail: 4 of 5 openapi documents pass
   - id: rules_present
     status: partial
     earned: 2.5
@@ -139,6 +140,10 @@ kin_checks:
     status: partial
     earned: 2.5
     detail: 'authorship: derived'
+  - id: mcp_server
+    status: partial
+    earned: 4.8
+    detail: 'grade: documented'
   - id: auth_clarity
     status: partial
     earned: 3.5
