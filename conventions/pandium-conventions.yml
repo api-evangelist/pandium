@@ -1,0 +1,91 @@
+generated: '2026-09-03'
+method: searched
+source: https://docs.pandium.com/reference/pandium-api
+derived_from:
+- openapi/_original/pandium-api-docs-openapi.yml
+cross_links:
+  errors: errors/pandium-problem-types.yml
+  lifecycle: lifecycle/pandium-lifecycle.yml
+  authentication: authentication/pandium-authentication.yml
+  rate_limits: rate-limits/pandium-rate-limits.yml
+auth:
+  style: api-key
+  header: X-API-KEY
+  note: >-
+    API keys are generated in the Integration Hub (Settings > API Access), are only viewable at
+    creation, and are attached to requests in the X-API-KEY header.
+idempotency:
+  coverage: none
+  note: >-
+    No idempotency mechanism is documented anywhere in the Pandium API reference — no
+    Idempotency-Key header, no replay protection on any of the mutating operations (tenant
+    create/delete, metadata patch, sync triggers, build creation, connector proxy calls).
+    Sync triggers are debounced per tenant at the run-trigger level, which limits duplicate runs
+    but is not request idempotency.
+pagination:
+  style: offset
+  request_params: [limit, skip, sort_by]
+  applies_to: [listIntegrations, listTenants, listTenantRuns]
+  response_fields: >-
+    Collections are returned as arrays; no documented cursor or total-count envelope.
+versioning:
+  style: uri-path
+  current: /v2
+  note: /v1 endpoints still answer (403 without a key) but the documented public surface is /v2 only.
+error_envelope:
+  shape: '{"message": "..."}'
+  note: >-
+    The provider-published schema is ErrorMessage with a single required string field `message`;
+    validation failures return 422 with the FastAPI HTTPValidationError shape
+    (detail[].loc/msg/type). Not RFC 9457 problem+json.
+request_id_tracing: not documented
+field_expansion: not documented
+rate_limit_signaling:
+  documented: false
+  note: No rate limits, X-RateLimit-* headers, Retry-After, or 429 behavior appear anywhere in the API reference.
+reversibility:
+  note: >-
+    Graded per write surface from the provider's documented operations. No reversal windows are
+    stated anywhere in the docs, so nothing here qualifies as `verified` — reversal paths without
+    windows are `documented` (per the 0.12.0 grading), and writes with no reversal path are none.
+  writes:
+  - operation: createTenant
+    reversal: delete_tenant_v2_tenants__tenant_id__delete
+    grade: documented
+    note: >-
+      A created tenant can be deleted (DELETE /v2/tenants/{tenant_id}); the platform also emits a
+      tenant_archived webhook event, suggesting archive semantics, but no restore operation or
+      reversal window is documented.
+  - operation: delete_tenant_v2_tenants__tenant_id__delete
+    reversal: null
+    grade: none
+    note: No documented restore/unarchive path for a deleted tenant.
+  - operation: disconnect_tenant_connector_v2_tenants__tenant_id__connectors__connector_name__disconnect_patch
+    reversal: null
+    grade: none
+    note: >-
+      Reconnecting a connector happens through the user-facing auth flow, not a documented API
+      reversal operation.
+  - operation: updateTenantMetadata
+    reversal: null
+    grade: none
+    note: PATCH overwrites metadata keys; no history or undo is documented.
+  - operation: triggerTenantSync
+    reversal: null
+    grade: none
+    note: A triggered sync run executes; there is no documented cancel operation for a run.
+  - operation: sync_by_integration_id_v2_integrations__integration_id__sync_post
+    reversal: null
+    grade: none
+    note: Same as tenant sync — no documented cancel.
+  - operation: create_build_v2_v2_sourcecontrol_build_post
+    reversal: null
+    grade: none
+    note: No documented delete for a build.
+  - operation: proxyConnectorCall
+    reversal: null
+    grade: none
+    note: >-
+      Proxy calls execute arbitrary writes against external connector APIs; reversibility is
+      whatever the downstream API offers and Pandium documents none.
+dry_run_mode: not documented

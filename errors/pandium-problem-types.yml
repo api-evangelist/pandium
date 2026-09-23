@@ -1,0 +1,44 @@
+generated: '2026-09-03'
+method: derived
+source: openapi/_original/pandium-api-docs-openapi.yml (provider-published fragments from https://docs.pandium.com/reference/pandium-api)
+format: custom
+note: >-
+  Derived from the provider-published OpenAPI operation fragments. Pandium does not use RFC 9457
+  application/problem+json; errors are a custom envelope. The API reference states standard HTTP
+  methods and response codes are used but publishes no standalone error-reference page.
+envelope:
+  error:
+    schema: ErrorMessage
+    fields:
+    - name: message
+      type: string
+      required: true
+  validation_error:
+    schema: HTTPValidationError
+    fields:
+    - name: detail
+      type: array of ValidationError {loc[], msg, type}
+      required: false
+problem_types:
+- status: 404
+  title: Not Found
+  schema: ErrorMessage
+  applies_to: >-
+    Resource lookups (integrations, releases, tenants, runs, metadata) when the id does not exist.
+- status: 422
+  title: Unprocessable Content
+  schema: HTTPValidationError
+  applies_to: Request validation failures on parameters or request bodies (FastAPI validation shape).
+- status: 403
+  title: Not Authorized
+  schema: custom
+  example: '{"detail": "Not authorized"}'
+  applies_to: Requests without a valid X-API-KEY (observed on live probes of api.pandium.io, 2026-09-03).
+- status: 502
+  title: Proxy External Error
+  schema: ProxyExternalError
+  applies_to: Connector proxy calls where the downstream external API returned an error.
+- status: 500
+  title: Proxy Internal Error
+  schema: ProxyInternalError
+  applies_to: Connector proxy calls that failed inside the platform.

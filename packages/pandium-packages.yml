@@ -1,0 +1,41 @@
+generated: '2026-09-03'
+method: searched
+source: >-
+  npm registry search + registry.npmjs.org probes, PyPI, and the Pandium docs
+  (https://docs.pandium.com/getting-started/pandium-integration-development-kit-idk/pandium-clients,
+  https://docs.pandium.com/getting-started/pandium-integration-development-kit-idk/pandium-cli)
+note: >-
+  Pandium publishes no packages on a public registry. The npm search API returns zero results for
+  "pandium", registry.npmjs.org returns 404 for the unscoped "pandium" package and for the
+  @pandium/*-client scoped names the docs show in import statements, and PyPI has no pandium
+  project (pypi.org/simple/pandium/ 404, probed 2026-09-03). The first-party tooling that does
+  exist is distributed inside the product: the Pandium CLI is a platform-gated binary download
+  from the Admin Dashboard, and the @pandium/[connector]-client libraries are injected into a
+  customer's generated integration repository by Pandium's code generation rather than published
+  to npm. Both are recorded below with version null — checked, nothing publishable to read.
+packages:
+- name: pandium-cli
+  ecosystem: binary
+  registry: none
+  official: true
+  version: null
+  published: null
+  url: https://docs.pandium.com/getting-started/pandium-integration-development-kit-idk/pandium-cli
+  note: >-
+    First-party CLI, macOS only, downloaded via a command copied from the Pandium Admin Dashboard
+    (Settings > Developer Resources). No public registry or public download URL, so no version
+    metadata is readable; the docs expose `pandium --version` for installed copies. See
+    cli/pandium-cli.yml for the command surface.
+- name: '@pandium/[connector]-client'
+  ecosystem: npm
+  registry: none
+  official: true
+  version: null
+  published: null
+  url: https://docs.pandium.com/getting-started/pandium-integration-development-kit-idk/pandium-clients
+  note: >-
+    Per-connector TypeScript API clients (e.g. @pandium/shipbob-client) that Pandium's Integration
+    Development Kit generates into a customer's integration repository. The scoped names 404 on
+    registry.npmjs.org (probed 2026-09-03: @pandium/shipbob-client, @pandium/hubspot-client,
+    @pandium/shopify-client all 404), so distribution is in-project, not via a public registry —
+    a consumer outside the platform cannot install or version-check them.

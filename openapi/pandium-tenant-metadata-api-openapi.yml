@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Pandium Connector Calls Tenant Metadata API
+  title: Pandium Tenant Metadata API
   description: The Pandium API provides programmatic access to native Pandium resources including integrations, tenants, and runs. It uses standard REST conventions and HTTP methods, allowing B2B SaaS companies to manage their integration platform, trigger syncs, proxy connector calls, and manage tenant metadata.
   version: 2.0.0
   contact:
@@ -74,6 +74,14 @@ paths:
         '404':
           description: Tenant not found.
 components:
+  parameters:
+    TenantId:
+      name: tenant_id
+      in: path
+      description: The unique identifier of the tenant.
+      required: true
+      schema:
+        type: integer
   schemas:
     TenantMetadata:
       type: object
@@ -93,17 +101,9 @@ components:
           type: string
           format: date-time
           description: Date and time the metadata was last modified.
-  parameters:
-    TenantId:
-      name: tenant_id
-      in: path
-      description: The unique identifier of the tenant.
-      required: true
-      schema:
-        type: integer
   securitySchemes:
     apiKey:
       type: apiKey
       in: header
-      name: Authorization
-      description: API key generated from the Settings sidebar in the Pandium Integration Hub under the API Access tab. Pass as a Bearer token in the Authorization header.
+      name: X-API-KEY
+      description: 'API key generated from the Settings sidebar in the Pandium Integration Hub under the API Access tab. Attach it to requests in the X-API-KEY header. Source: https://docs.pandium.com/reference/pandium-api'

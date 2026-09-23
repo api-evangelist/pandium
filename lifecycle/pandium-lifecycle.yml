@@ -1,0 +1,27 @@
+generated: '2026-09-03'
+method: searched
+source: https://docs.pandium.com/reference/pandium-api
+versioning:
+  style: uri-path
+  current: v2
+  note: >-
+    The documented public API surface is /v2. /v1 paths still answer on api.pandium.io (403
+    without a key, probed 2026-09-03) but are not documented. No formal versioning policy page is
+    published.
+deprecation:
+  policy_published: false
+  sunset_headers: not documented
+  deprecated_operations: []
+  note: >-
+    No deprecation policy, Sunset/Deprecation headers (RFC 8594), or deprecated-operation
+    markers appear in the docs or the provider-published OpenAPI fragments.
+status_page:
+  url: https://status.pandium.com/
+  provider: Atlassian Statuspage
+changelog:
+  url: https://www.pandium.com/product-updates
+  cadence: monthly
+  artifact: changelog/pandium-changelog.yml
+sla:
+  published: false
+  note: No public SLA page; uptime commitments are not published outside of contracts.

@@ -1,0 +1,62 @@
+generated: '2026-09-03'
+method: searched
+source: https://www.pandium.com/product-updates
+scheme: >-
+  Monthly dated product-update entries on www.pandium.com/product-updates covering platform
+  features, connectors, and API changes. No semantic-version scheme is published for the platform;
+  the public API is versioned by URL path (current: /v2).
+current_api_version: v2
+entries:
+- date: 2026-06
+  highlights:
+  - Real-time integration health via a new Metrics API and Super User Metrics Dashboard
+  - Standardized timestamps across the platform and APIs
+  - Direct run-log access via the public API
+  breaking: false
+- date: 2026-05
+  highlights:
+  - New marketplace events
+  - Failed run notifications
+  - Release detail page improvements
+  breaking: false
+- date: 2026-03
+  highlights:
+  - Cron randomization options
+  - Bug fixes, quality-of-life improvements, new connectors
+  breaking: false
+- date: 2026-02
+  highlights:
+  - Webpage config renderer
+  - Download filtered tenant views
+  breaking: false
+- date: 2026-01
+  highlights:
+  - Shopify marketplace read connector
+  - Connectors for eTribez, Movo AI, and GoHighLevel
+  breaking: false
+- date: 2025-12
+  highlights:
+  - Custom webhook actions
+  - JVM versioning control
+  - Updated Slack connector, marketplace logic updates
+  breaking: false
+- date: 2025-10
+  highlights:
+  - App Marketplace-Ready Connectors
+  - Six new connectors, advanced mapper styling improvements
+  breaking: false
+- date: 2025-09
+  highlights:
+  - Tenant metadata
+  - Integration pause capability, expanded CSS support, new connectors
+  breaking: false
+- date: 2025-08
+  highlights:
+  - Advanced log searching
+  - User roles, new connectors
+  breaking: false
+- date: 2025-07
+  highlights:
+  - AI-powered Integration Code Generator
+  - New connectors, dependent dynamic configurations
+  breaking: false

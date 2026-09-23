@@ -1,0 +1,87 @@
+openapi: 3.2.0
+info:
+  title: Pandium Builds API
+  version: 2.0.0
+  description: Pandium API — programmatic access to integrations, tenants, runs, releases, builds and connector proxy calls. Assembled verbatim from the 21 provider-published OpenAPI operation fragments (FastAPI-generated, openapi 3.1.0) embedded in the Pandium API reference at https://docs.pandium.com/reference/pandium-api (fetched 2026-09-03). Paths, operations and schemas are the provider's own; info and servers are taken from the base URLs stated on the same page.
+  contact:
+    name: Pandium
+    url: https://www.pandium.com/
+  termsOfService: https://www.pandium.com/terms-and-conditions
+servers:
+- url: https://api.pandium.io
+  description: Production
+- url: https://api.sandbox.pandium.com
+  description: Sandbox
+security:
+- apiKey: []
+tags:
+- name: Builds
+paths:
+  /v2/sourcecontrol/build:
+    post:
+      tags:
+      - Builds
+      summary: Create Build V2
+      description: Create a build for an integration.
+      operationId: create_build_v2_v2_sourcecontrol_build_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBuild'
+              description: build payload
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Unprocessable Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+components:
+  schemas:
+    ErrorMessage:
+      properties:
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - message
+      title: ErrorMessage
+    CreateBuild:
+      properties:
+        tag:
+          type: string
+          title: Tag
+          description: The tag to associate with the build
+        integration_id:
+          type: integer
+          title: Integration Id
+          description: The ID of the integration to build against
+        branch:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Branch
+          description: The branch to build from. Defaults to the integration tracking branch if not provided.
+      type: object
+      required:
+      - tag
+      - integration_id
+      title: CreateBuild
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: API key generated in the Pandium Integration Hub under Settings > API Access. Attach it to requests in the X-API-KEY header.
+x-provenance:
+  method: searched
+  source: https://docs.pandium.com/reference/pandium-api
+  fetched: '2026-09-03'

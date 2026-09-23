@@ -1,0 +1,29 @@
+generated: '2026-09-03'
+skills:
+- file: pandium-integration-prd-spec-writer.md
+  name: integration-prd-spec-writer
+  method: searched
+  official: true
+  source: https://github.com/pandium/product-manager-skills/blob/master/integration-prd-spec-writer/SKILL.md
+  license: MIT
+  note: >-
+    Provider-published Claude skill, saved verbatim from the Pandium GitHub org
+    (fetched 2026-09-03). Generates implementation-ready integration PRDs and technical specs.
+- file: pandium-integration-priority-framework.md
+  name: integration-priority-framework
+  method: searched
+  official: true
+  source: https://github.com/pandium/product-manager-skills/blob/master/integration-priority-framework/SKILL.md
+  license: MIT
+  note: >-
+    Provider-published Claude skill, saved verbatim from the Pandium GitHub org
+    (fetched 2026-09-03). Prioritizes SaaS integrations by demand, revenue impact, strategy and
+    delivery realism.
+- file: pandium-trigger-and-monitor-sync.md
+  name: pandium-trigger-and-monitor-sync
+  method: generated
+  official: false
+  source: openapi/pandium-runs-api-openapi.yml
+  note: >-
+    API Evangelist-generated skill grounded in real operationIds from the provider-published
+    contract: trigger a tenant sync, poll trigger status, read the run log on failure.

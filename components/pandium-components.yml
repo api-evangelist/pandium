@@ -1,0 +1,31 @@
+generated: '2026-09-03'
+method: searched
+source: https://docs.pandium.com/marketplaces/integration-onboarding-experiences-overview
+note: >-
+  Client-side/embeddable surfaces Pandium ships for its customers' products, distinct from SDKs.
+  Documented across the Marketplaces section of docs.pandium.com.
+components:
+- name: In-App Marketplace
+  family: embedded-marketplace
+  description: >-
+    A customizable integration marketplace embedded inside the customer's SaaS product, where
+    end-customers discover, install and configure integrations.
+  docs: https://docs.pandium.com/marketplaces
+- name: Embedded auth-only connections
+  family: embedded-auth
+  description: >-
+    An embeddable onboarding surface for auth-only connector connections inside the customer's
+    product.
+  docs: https://docs.pandium.com/marketplaces/integration-onboarding-experiences-overview/embedding-auth-only-connections
+- name: Auth Link
+  family: hosted-auth
+  description: >-
+    A hosted link flow for app installation that walks an end-customer through connector
+    authorization without embedding UI.
+  docs: https://docs.pandium.com/marketplaces/app-installation-options/auth-link
+- name: Webpage config renderer
+  family: embedded-config
+  description: >-
+    Renders integration configuration pages as webpages (product update, February 2026); pairs
+    with PANDIUM.yaml schema/uischema-driven connection settings pages.
+  docs: https://www.pandium.com/product-updates

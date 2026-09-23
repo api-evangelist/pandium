@@ -1,22 +1,55 @@
 {
   "provider": "pandium",
   "sources": [
-    "pandium-connector-calls-api-openapi.yml",
-    "pandium-integrations-api-openapi.yml",
-    "pandium-runs-api-openapi.yml",
-    "pandium-tenant-metadata-api-openapi.yml",
-    "pandium-tenants-api-openapi.yml"
+    "_original/pandium-api-docs-openapi.yml",
+    "_original/pandium-pandium-openapi.yml"
   ],
   "outputs": [
-    "pandium-connector-calls-api-openapi.yml",
     "pandium-integrations-api-openapi.yml",
     "pandium-runs-api-openapi.yml",
-    "pandium-tenant-metadata-api-openapi.yml",
-    "pandium-tenants-api-openapi.yml"
+    "pandium-tenants-api-openapi.yml",
+    "pandium-builds-api-openapi.yml",
+    "pandium-connector-calls-api-openapi.yml",
+    "pandium-tenant-metadata-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "pandium-api-docs-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "pandium-api-docs-openapi.yml: tagged paths GET /v2/integrations -> Integrations",
+    "pandium-api-docs-openapi.yml: tagged paths GET /v2/integrations/{integration_id} -> Integrations",
+    "pandium-api-docs-openapi.yml: tagged paths GET /v2/integrations/{integration_id}/releases -> Integrations",
+    "pandium-api-docs-openapi.yml: tagged paths GET /v2/integrations/{integration_id}/releases/default -> Integrations",
+    "pandium-api-docs-openapi.yml: tagged paths GET /v2/integrations/{integration_id}/releases/latest -> Integrations",
+    "pandium-api-docs-openapi.yml: tagged paths GET /v2/integrations/{integration_id}/releases/{release_id} -> Integrations",
+    "pandium-api-docs-openapi.yml: tagged paths POST /v2/integrations/{integration_id}/sync -> Integrations",
+    "pandium-api-docs-openapi.yml: tagged paths GET /v2/tenants -> Tenants",
+    "pandium-api-docs-openapi.yml: tagged paths POST /v2/tenants -> Tenants",
+    "pandium-api-docs-openapi.yml: tagged paths DELETE /v2/tenants/{tenant_id} -> Tenants",
+    "pandium-api-docs-openapi.yml: tagged paths POST /v2/tenants/{tenant_id}/connectors/{connector_name}/call -> Tenants",
+    "pandium-api-docs-openapi.yml: tagged paths PATCH /v2/tenants/{tenant_id}/connectors/{connector_name}/disconnect -> Tenants",
+    "pandium-api-docs-openapi.yml: tagged paths POST /v2/tenants/{tenant_id}/connectors/{connector_name}/soap -> Tenants",
+    "pandium-api-docs-openapi.yml: tagged paths POST /v2/tenants/{tenant_id}/connectors/{connector_name}/xml -> Tenants",
+    "pandium-api-docs-openapi.yml: tagged paths GET /v2/tenants/{tenant_id}/metadata -> Tenants",
+    "pandium-api-docs-openapi.yml: tagged paths PATCH /v2/tenants/{tenant_id}/metadata -> Tenants",
+    "pandium-api-docs-openapi.yml: declared missing tag: Integrations",
+    "pandium-api-docs-openapi.yml: declared missing tag: Runs",
+    "pandium-api-docs-openapi.yml: declared missing tag: Tenants",
+    "pandium-api-docs-openapi.yml: declared missing tag: builds",
+    "pandium-pandium-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "tag 'Integrations' spans 2 source specs (pandium-api-docs-openapi.yml, pandium-pandium-openapi.yml): per-path servers applied",
+    "tag 'Runs' spans 2 source specs (pandium-api-docs-openapi.yml, pandium-pandium-openapi.yml): per-path servers applied",
+    "tag 'Tenants' spans 2 source specs (pandium-api-docs-openapi.yml, pandium-pandium-openapi.yml): per-path servers applied",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "pandium-builds-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "pandium-connector-calls-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "pandium-integrations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "pandium-runs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "pandium-tenant-metadata-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "pandium-tenants-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

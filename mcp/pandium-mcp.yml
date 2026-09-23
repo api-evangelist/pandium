@@ -1,0 +1,74 @@
+generated: '2026-09-03'
+method: derived
+status: candidate
+source: openapi/ (provider-published operations harvested from https://docs.pandium.com/reference/pandium-api)
+note: >-
+  Pandium ships no MCP server — hosted or local. Web search finds no official Pandium MCP server,
+  the GitHub org (github.com/pandium) carries none, and no MCP endpoint is documented or
+  discoverable on any Pandium host (probed 2026-09-03). This manifest is a DERIVED candidate tool
+  list mapped from the provider's own OpenAPI operations; nothing here is callable as MCP today.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: api-key
+  verified: derived
+tools:
+- name: list_integrations
+  description: List all integrations on the Pandium platform.
+  operationId: listIntegrations
+- name: get_integration
+  description: Get a single integration by id.
+  operationId: getIntegration
+- name: list_integration_releases
+  description: List releases for an integration.
+  operationId: listIntegrationReleases
+- name: get_integration_release
+  description: Get a single release for an integration.
+  operationId: getIntegrationRelease
+- name: get_default_integration_release
+  description: Get the default release for an integration.
+  operationId: get_default_integration_release_v2_integrations__integration_id__releases_default_get
+- name: get_latest_integration_release
+  description: Get the latest release for an integration.
+  operationId: get_latest_release_v2_integrations__integration_id__releases_latest_get
+- name: create_build
+  description: Create a build for an integration from source control; a build can then be used to create a release.
+  operationId: create_build_v2_v2_sourcecontrol_build_post
+- name: list_tenants
+  description: List tenants (customer instances of integrations).
+  operationId: listTenants
+- name: create_tenant
+  description: Create a tenant for an integration.
+  operationId: createTenant
+- name: delete_tenant
+  description: Delete a tenant.
+  operationId: delete_tenant_v2_tenants__tenant_id__delete
+- name: disconnect_tenant_connector
+  description: Disconnect a named connector from a tenant.
+  operationId: disconnect_tenant_connector_v2_tenants__tenant_id__connectors__connector_name__disconnect_patch
+- name: get_tenant_metadata
+  description: Get metadata associated with a tenant.
+  operationId: getTenantMetadata
+- name: update_tenant_metadata
+  description: Patch metadata associated with a tenant.
+  operationId: updateTenantMetadata
+- name: trigger_tenant_sync
+  description: Trigger an integration sync run for a tenant.
+  operationId: triggerTenantSync
+- name: trigger_integration_sync
+  description: Trigger a sync across an integration by integration id.
+  operationId: sync_by_integration_id_v2_integrations__integration_id__sync_post
+- name: list_tenant_runs
+  description: List runs for a tenant.
+  operationId: listTenantRuns
+- name: get_run_status_from_trigger
+  description: Get run status from a sync trigger id.
+  operationId: get_run_status_from_trigger_v2_runs_triggers__trigger_id__status_get
+- name: get_run_log
+  description: Get the log for a run.
+  operationId: get_run_log_v2_runs__run_id__log_get
+- name: proxy_connector_call
+  description: Proxy a REST call to an external API on behalf of a tenant, using Pandium-managed auth.
+  operationId: proxyConnectorCall

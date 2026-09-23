@@ -1,0 +1,1707 @@
+openapi: 3.1.0
+info:
+  title: Pandium API
+  version: 2.0.0
+  description: Pandium API — programmatic access to integrations, tenants, runs, releases, builds and connector
+    proxy calls. Assembled verbatim from the 21 provider-published OpenAPI operation fragments (FastAPI-generated,
+    openapi 3.1.0) embedded in the Pandium API reference at https://docs.pandium.com/reference/pandium-api (fetched
+    2026-09-03). Paths, operations and schemas are the provider's own; info and servers are taken from the base
+    URLs stated on the same page.
+  contact:
+    name: Pandium
+    url: https://www.pandium.com/
+  termsOfService: https://www.pandium.com/terms-and-conditions
+servers:
+- url: https://api.pandium.io
+  description: Production
+- url: https://api.sandbox.pandium.com
+  description: Sandbox
+security:
+- apiKey: []
+paths:
+  /v2/integrations:
+    get:
+      summary: Get Many Integrations
+      description: Get all your integrations on Pandium.
+      operationId: get_many_integrations_v2_integrations_get
+      parameters:
+      - name: sort_by
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: format is {field}__ASC or {field}__DESC
+          title: Sort By
+        description: format is {field}__ASC or {field}__DESC
+      - name: limit
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: default is 100, max is 500
+          default: 100
+          title: Limit
+        description: default is 100, max is 500
+      - name: skip
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: 'paging support: this is the number of records to skip. Normally you want page_number*limit.
+            default is 0'
+          default: 0
+          title: Skip
+        description: 'paging support: this is the number of records to skip. Normally you want page_number*limit.
+          default is 0'
+      - name: archived
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          description: set this to true to fetch archived integrations
+          default: false
+          title: Archived
+        description: set this to true to fetch archived integrations
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/external_api_v1__v2schemas__Integration'
+                title: Response Get Many Integrations V2 Integrations Get
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+          description: Not Found
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/integrations/{integration_id}:
+    get:
+      summary: Get One Integration
+      description: Get a single integration by its ID.
+      operationId: get_one_integration_v2_integrations__integration_id__get
+      parameters:
+      - name: integration_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          description: Unique identifier for an integration
+          title: Integration Id
+        description: Unique identifier for an integration
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/external_api_v1__v2schemas__Integration'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+          description: Not Found
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/integrations/{integration_id}/releases:
+    get:
+      summary: Get Integration Releases
+      description: Get all releases for a specific integration.
+      operationId: get_integration_releases_v2_integrations__integration_id__releases_get
+      parameters:
+      - name: integration_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          description: Unique identifier for an integration
+          title: Integration Id
+        description: Unique identifier for an integration
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/external_api_v1__v2schemas__IntegrationRelease'
+                title: Response Get Integration Releases V2 Integrations  Integration Id  Releases Get
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+          description: Not Found
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/integrations/{integration_id}/releases/default:
+    get:
+      summary: Get Default Integration Release
+      description: Get the default release for an integration
+      operationId: get_default_integration_release_v2_integrations__integration_id__releases_default_get
+      parameters:
+      - name: integration_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          description: Unique identifier for an integration
+          title: Integration Id
+        description: Unique identifier for an integration
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/external_api_v1__v2schemas__IntegrationRelease'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+          description: Not Found
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/integrations/{integration_id}/releases/latest:
+    get:
+      summary: Get Latest Release
+      description: Get the latest release for an Integration
+      operationId: get_latest_release_v2_integrations__integration_id__releases_latest_get
+      parameters:
+      - name: integration_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: Unique identifier for an id
+          title: Integration Id
+        description: Unique identifier for an id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/external_api_v1__v2schemas__IntegrationRelease'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+          description: Not Found
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/integrations/{integration_id}/releases/{release_id}:
+    get:
+      summary: Get One Integration Release
+      description: Get a single release for a specific integration.
+      operationId: get_one_integration_release_v2_integrations__integration_id__releases__release_id__get
+      parameters:
+      - name: integration_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          description: Unique identifier for an integration
+          title: Integration Id
+        description: Unique identifier for an integration
+      - name: release_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          description: Unique identifier for a release
+          title: Release Id
+        description: Unique identifier for a release
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/external_api_v1__v2schemas__IntegrationRelease'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+          description: Not Found
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/integrations/{integration_id}/sync:
+    post:
+      summary: Sync By Integration Id
+      description: 'Request a sync for an existing tenant based on an integration ID and a user name.
+
+        For this to work, the user must have installed the integration via the [Pandium
+
+        In-App Marketplace](https://docs.pandium.com/quick-start/marketplaces), which creates a tenant associated
+        with that user''s username. To sync a tenant created in the Pandium Integration Hub, use the sync by tenant
+        id endpoint.'
+      operationId: sync_by_integration_id_v2_integrations__integration_id__sync_post
+      parameters:
+      - name: integration_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          description: Unique identifier for an integration
+          title: Integration Id
+        description: Unique identifier for an integration
+      - name: mode
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/V2RunMode'
+          description: must be one of 'init' or 'normal'
+        description: must be one of 'init' or 'normal'
+      - name: user_name
+        in: query
+        required: true
+        schema:
+          type: string
+          description: must correspond to the user id sent from your system to the Pandium In-App Marketplace when
+            the user installed this integration
+          title: User Name
+        description: must correspond to the user id sent from your system to the Pandium In-App Marketplace when
+          the user installed this integration
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - type: object
+                additionalProperties: true
+              - type: 'null'
+              description: fields determined by the integration
+              title: Body
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trigger'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+          description: Not Found
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+          description: Unprocessable Content
+  /v2/runs/triggers/{trigger_id}/status:
+    get:
+      tags:
+      - Runs
+      summary: Get Run Status From Trigger
+      description: Returns status information for a run associated with the provided trigger id, _if that run exists_.
+        Triggers are are debounced, so run status information may not be immediately available. If no status information
+        is yet available, this endpoint will return a 404.
+      operationId: get_run_status_from_trigger_v2_runs_triggers__trigger_id__status_get
+      parameters:
+      - name: trigger_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: Returned from Pandium after a sync request in the response payload
+          title: Trigger Id
+        description: Returned from Pandium after a sync request in the response payload
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TriggerStatus'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+          description: Not Found
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/runs/{run_id}/log:
+    get:
+      tags:
+      - Runs
+      summary: Get Run Log
+      description: Redirects to a signed GCS URL to download the log for a run. The URL expires in 15 minutes.
+      operationId: get_run_log_v2_runs__run_id__log_get
+      parameters:
+      - name: run_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          description: The ID of the run
+          title: Run Id
+        description: The ID of the run
+      responses:
+        '302':
+          description: Redirect to signed GCS URL for log download
+          content:
+            application/json:
+              schema: {}
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+          description: Not Found
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/sourcecontrol/build:
+    post:
+      tags:
+      - builds
+      summary: Create Build V2
+      description: Create a build for an integration.
+      operationId: create_build_v2_v2_sourcecontrol_build_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBuild'
+              description: build payload
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Unprocessable Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v2/tenants:
+    get:
+      summary: Get Many Tenants
+      description: Get all your tenants on Pandium.
+      operationId: get_many_tenants_v2_tenants_get
+      parameters:
+      - name: sort_by
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: format is {field}__ASC or {field}__DESC
+          title: Sort By
+        description: format is {field}__ASC or {field}__DESC
+      - name: limit
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: default is 100, max is 500
+          default: 100
+          title: Limit
+        description: default is 100, max is 500
+      - name: skip
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: 'paging support: this is the number of records to skip. Normally you want page_number*limit.
+            default is 0'
+          default: 0
+          title: Skip
+        description: 'paging support: this is the number of records to skip. Normally you want page_number*limit.
+          default is 0'
+      - name: integration_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: filter tenants by integration
+          default: 0
+          title: Integration Id
+        description: filter tenants by integration
+      - name: user_name
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: must correspond to a user id connected to at least one of the connected systems for a tenant
+          default: ''
+          title: User Name
+        description: must correspond to a user id connected to at least one of the connected systems for a tenant
+      - name: archived
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          description: set this to true to fetch archived integrations
+          default: false
+          title: Archived
+        description: set this to true to fetch archived integrations
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/external_api_v1__v2schemas__Tenant'
+                title: Response Get Many Tenants V2 Tenants Get
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+          description: Not Found
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      summary: Create One
+      description: 'Create a new, unconnected tenant. The tenant will be paused.
+
+        If no schedule or release is provided, integration defaults will apply.'
+      operationId: create_one_v2_tenants_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTenant'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/external_api_v1__v2schemas__Tenant'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/tenants/{tenant_id}:
+    delete:
+      summary: Delete Tenant
+      description: Archive a tenant.
+      operationId: delete_tenant_v2_tenants__tenant_id__delete
+      parameters:
+      - name: tenant_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          description: Unique identifier for a tenant
+          title: Tenant Id
+        description: Unique identifier for a tenant
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Delete Tenant V2 Tenants  Tenant Id  Delete
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+          description: Not Found
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/tenants/{tenant_id}/connectors/{connector_name}/call:
+    post:
+      summary: Proxy Connector Call Rest
+      description: Proxy a synchronous connector call.
+      operationId: proxy_connector_call_rest_v2_tenants__tenant_id__connectors__connector_name__call_post
+      parameters:
+      - name: tenant_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          description: Unique identifier for a tenant
+          title: Tenant Id
+        description: Unique identifier for a tenant
+      - name: connector_name
+        in: path
+        required: true
+        schema:
+          type: string
+          description: Name of the tenant's authenticated connector
+          title: Connector Name
+        description: Name of the tenant's authenticated connector
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProxyRestRequestBody'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProxyResponse'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProxyInternalError'
+          description: Bad Request
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProxyExternalError'
+          description: Not Found
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/tenants/{tenant_id}/connectors/{connector_name}/disconnect:
+    patch:
+      summary: Disconnect Tenant Connector
+      description: Disconnect a connector for a tenant.
+      operationId: disconnect_tenant_connector_v2_tenants__tenant_id__connectors__connector_name__disconnect_patch
+      parameters:
+      - name: tenant_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          description: Unique identifier for a tenant
+          title: Tenant Id
+        description: Unique identifier for a tenant
+      - name: connector_name
+        in: path
+        required: true
+        schema:
+          type: string
+          description: The name of one non-global connector associated with this tenant's integration
+          title: Connector Name
+        description: The name of one non-global connector associated with this tenant's integration
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/tenants/{tenant_id}/connectors/{connector_name}/soap:
+    post:
+      summary: Proxy Connector Call Soap
+      description: Proxy a synchronous connector call to a SOAP endpoint.
+      operationId: proxy_connector_call_soap_v2_tenants__tenant_id__connectors__connector_name__soap_post
+      parameters:
+      - name: tenant_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          description: Unique identifier for a tenant
+          title: Tenant Id
+        description: Unique identifier for a tenant
+      - name: connector_name
+        in: path
+        required: true
+        schema:
+          type: string
+          description: Name of the tenant's authenticated connector
+          title: Connector Name
+        description: Name of the tenant's authenticated connector
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProxyXmlRequestBody'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProxyResponse'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProxyInternalError'
+          description: Bad Request
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProxyExternalError'
+          description: Not Found
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/tenants/{tenant_id}/connectors/{connector_name}/xml:
+    post:
+      summary: Proxy Connector Call Xml
+      description: Proxy a synchronous connector call to an XML endpoint.
+      operationId: proxy_connector_call_xml_v2_tenants__tenant_id__connectors__connector_name__xml_post
+      parameters:
+      - name: tenant_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          description: Unique identifier for a tenant
+          title: Tenant Id
+        description: Unique identifier for a tenant
+      - name: connector_name
+        in: path
+        required: true
+        schema:
+          type: string
+          description: Name of the tenant's authenticated connector
+          title: Connector Name
+        description: Name of the tenant's authenticated connector
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProxyXmlRequestBody'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProxyResponse'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProxyInternalError'
+          description: Bad Request
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProxyExternalError'
+          description: Not Found
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/tenants/{tenant_id}/metadata:
+    get:
+      summary: Get Metadata
+      description: Get the metadata for a tenant.
+      operationId: get_metadata_v2_tenants__tenant_id__metadata_get
+      parameters:
+      - name: tenant_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          description: Unique identifier for a tenant
+          title: Tenant Id
+        description: Unique identifier for a tenant
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantMetadata'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+          description: Not Found
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    patch:
+      summary: Patch Metadata
+      description: 'Update metadata for a tenant. Metadata is validated against the tenant''s
+
+        integration release metadata schema.'
+      operationId: patch_metadata_v2_tenants__tenant_id__metadata_patch
+      parameters:
+      - name: tenant_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          description: Unique identifier for a tenant
+          title: Tenant Id
+        description: Unique identifier for a tenant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+              title: Body
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantMetadata'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+          description: Not Found
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/tenants/{tenant_id}/runs:
+    get:
+      tags:
+      - Tenants
+      summary: Get Tenant Runs
+      description: Returns a list of runs for a tenant.
+      operationId: get_tenant_runs_v2_tenants__tenant_id__runs_get
+      parameters:
+      - name: tenant_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          description: Unique identifier for a tenant
+          title: Tenant Id
+        description: Unique identifier for a tenant
+      - name: sort_by
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: format is {field}__ASC or {field}__DESC
+          title: Sort By
+        description: format is {field}__ASC or {field}__DESC
+      - name: limit
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: default is 100, max is 500
+          default: 100
+          title: Limit
+        description: default is 100, max is 500
+      - name: skip
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: number of records to skip, default is 0
+          default: 0
+          title: Skip
+        description: number of records to skip, default is 0
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Run'
+                title: Response Get Tenant Runs V2 Tenants  Tenant Id  Runs Get
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+          description: Not Found
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/tenants/{tenant_id}/sync:
+    post:
+      tags:
+      - Tenants
+      summary: Sync By Tenant Id
+      description: Request a sync when the tenant id is known.
+      operationId: sync_by_tenant_id_v2_tenants__tenant_id__sync_post
+      parameters:
+      - name: tenant_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          description: Unique identifier for a tenant
+          title: Tenant Id
+        description: Unique identifier for a tenant
+      - name: mode
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/V2RunMode'
+          description: must be one of 'init' or 'normal'
+        description: must be one of 'init' or 'normal'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - type: object
+                additionalProperties: true
+              - type: 'null'
+              description: fields determined by the integration
+              title: Body
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trigger'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+          description: Not Found
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    Category:
+      properties:
+        name:
+          type: string
+          title: Name
+        id:
+          type: integer
+          title: Id
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        order_index:
+          type: number
+          title: Order Index
+      type: object
+      required:
+      - name
+      - id
+      - order_index
+      title: Category
+    Connector:
+      properties:
+        name:
+          type: string
+          title: Name
+        isGlobal:
+          type: boolean
+          title: Isglobal
+      type: object
+      required:
+      - name
+      - isGlobal
+      title: Connector
+    ConnectorStatus:
+      properties:
+        name:
+          type: string
+          title: Name
+        status:
+          type: string
+          title: Status
+        last_change:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Last Change
+      type: object
+      required:
+      - name
+      - status
+      title: ConnectorStatus
+    CreateBuild:
+      properties:
+        tag:
+          type: string
+          title: Tag
+          description: The tag to associate with the build
+        integration_id:
+          type: integer
+          title: Integration Id
+          description: The ID of the integration to build against
+        branch:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Branch
+          description: The branch to build from. Defaults to the integration tracking branch if not provided.
+      type: object
+      required:
+      - tag
+      - integration_id
+      title: CreateBuild
+    CreateTenant:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Lowercase alphanumeric string; '-' is allowed but not at the start or end of the string
+        integration_id:
+          type: integer
+          title: Integration Id
+        user_schedule:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: User Schedule
+          description: Must be a valid cron string
+        integration_release_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Integration Release Id
+          description: You may pass in an integration release id OR a channel
+        integration_release_channel:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Integration Release Channel
+          description: You may pass in an integration release id OR a channel
+        configs:
+          additionalProperties: true
+          type: object
+          title: Configs
+          description: Will be validated against the tenant's integration release config schema
+      type: object
+      required:
+      - name
+      - integration_id
+      title: CreateTenant
+    ErrorMessage:
+      properties:
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - message
+      title: ErrorMessage
+    Flag:
+      properties:
+        name:
+          type: string
+          title: Name
+        id:
+          type: integer
+          title: Id
+        flag_color:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Flag Color
+      type: object
+      required:
+      - name
+      - id
+      title: Flag
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    IntegrationReleaseChannel:
+      type: string
+      enum:
+      - Latest
+      - Default
+      title: IntegrationReleaseChannel
+    IntegrationType:
+      type: string
+      enum:
+      - Internal
+      - External
+      - Pandium
+      title: IntegrationType
+    ProxyExternalError:
+      properties:
+        detail:
+          type: string
+          title: Detail
+          description: String-ified object containing the error response from the external service under the "data"
+            key. Status code will reflect the status returned from the external service.
+      type: object
+      title: ProxyExternalError
+    ProxyInternalError:
+      properties:
+        detail:
+          type: string
+          title: Detail
+          description: Description of the internal (Pandium) error.
+      type: object
+      title: ProxyInternalError
+    ProxyResponse:
+      properties:
+        data:
+          additionalProperties: true
+          type: object
+          title: Data
+      type: object
+      required:
+      - data
+      title: ProxyResponse
+    ProxyRestRequestBody:
+      properties:
+        headers:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - items: {}
+            type: array
+          - type: 'null'
+          title: Headers
+          description: Headers needed for the proxied request
+        method:
+          type: string
+          title: Method
+          description: HTTP Method
+        query_params:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Query Params
+          description: Query params needed for the proxied request
+        target_url:
+          type: string
+          title: Target Url
+          description: Endpoint for the proxied request
+        body:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Body
+          description: Body of the proxied request
+      type: object
+      title: ProxyRestRequestBody
+    ProxyXmlRequestBody:
+      properties:
+        headers:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - items: {}
+            type: array
+          - type: 'null'
+          title: Headers
+          description: Headers needed for the proxied request
+        method:
+          type: string
+          title: Method
+          description: HTTP Method
+        query_params:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Query Params
+          description: Query params needed for the proxied request
+        target_url:
+          type: string
+          title: Target Url
+          description: Endpoint for the proxied request
+        data:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Data
+          description: XML data for the proxied request. Authentication will be handled by Pandium and doesn't need
+            to be included in the request.
+      type: object
+      title: ProxyXmlRequestBody
+    Run:
+      properties:
+        id:
+          type: integer
+          title: Id
+        mode:
+          type: string
+          title: Mode
+        status:
+          anyOf:
+          - $ref: '#/components/schemas/RunStatus'
+          - type: 'null'
+        triggers:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/RunTrigger'
+            type: array
+          - type: 'null'
+          title: Triggers
+          default: []
+        started_date:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Started Date
+        completed_date:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Completed Date
+        tenant_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Tenant Id
+        integration_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Integration Id
+      type: object
+      required:
+      - id
+      - mode
+      title: Run
+    RunStatus:
+      properties:
+        phase:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phase
+        startTime:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Starttime
+        completionTime:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Completiontime
+      type: object
+      title: RunStatus
+    RunTrigger:
+      properties:
+        id:
+          type: integer
+          title: Id
+        created_date:
+          type: string
+          format: date-time
+          title: Created Date
+        mode:
+          type: string
+          title: Mode
+        source:
+          type: string
+          title: Source
+        payload:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Payload
+          default: {}
+      type: object
+      required:
+      - id
+      - created_date
+      - mode
+      - source
+      title: RunTrigger
+    Tag:
+      properties:
+        name:
+          type: string
+          title: Name
+        id:
+          type: integer
+          title: Id
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+      type: object
+      required:
+      - name
+      - id
+      title: Tag
+    TenantAuthStatus:
+      properties:
+        connected:
+          type: boolean
+          title: Connected
+          default: false
+        connectors:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ConnectorStatus'
+            type: array
+          - type: 'null'
+          title: Connectors
+          default: []
+      type: object
+      title: TenantAuthStatus
+    TenantMetadata:
+      properties:
+        tenant_id:
+          type: integer
+          title: Tenant Id
+        data:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Data
+          default: {}
+        created_date:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created Date
+        modified_date:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Modified Date
+      type: object
+      required:
+      - tenant_id
+      title: TenantMetadata
+    Trigger:
+      properties:
+        trigger_id:
+          type: string
+          title: Trigger Id
+      type: object
+      required:
+      - trigger_id
+      title: Trigger
+    TriggerStatus:
+      properties:
+        status:
+          type: string
+          title: Status
+      type: object
+      required:
+      - status
+      title: TriggerStatus
+    V2RunMode:
+      type: string
+      enum:
+      - init
+      - normal
+      title: V2RunMode
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    external_api_v1__v2schemas__Integration:
+      properties:
+        id:
+          type: integer
+          title: Id
+        created_date:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created Date
+        modified_date:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Modified Date
+        name:
+          type: string
+          title: Name
+        long_name:
+          type: string
+          title: Long Name
+        connectors:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/Connector'
+            type: array
+          - type: 'null'
+          title: Connectors
+        repository_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Repository Path
+        repository_tracking_branch:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Repository Tracking Branch
+        repository_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Repository Url
+        type:
+          $ref: '#/components/schemas/IntegrationType'
+        categories:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/Category'
+            type: array
+          - type: 'null'
+          title: Categories
+          default: []
+        tags:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/Tag'
+            type: array
+          - type: 'null'
+          title: Tags
+          default: []
+        flag:
+          anyOf:
+          - $ref: '#/components/schemas/Flag'
+          - type: 'null'
+        default_release_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Default Release Id
+        default_release_channel:
+          anyOf:
+          - $ref: '#/components/schemas/IntegrationReleaseChannel'
+          - type: 'null'
+      type: object
+      required:
+      - id
+      - name
+      - long_name
+      - type
+      title: Integration
+    external_api_v1__v2schemas__IntegrationRelease:
+      properties:
+        id:
+          type: integer
+          title: Id
+        name:
+          type: string
+          title: Name
+        repository_tracking_branch:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Repository Tracking Branch
+        run_command:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Run Command
+        tag:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tag
+        config_schema:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Config Schema
+        config_version:
+          type: string
+          title: Config Version
+        metadata_schema:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Metadata Schema
+        created_date:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created Date
+        modified_date:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Modified Date
+      type: object
+      required:
+      - id
+      - name
+      - config_version
+      title: IntegrationRelease
+    external_api_v1__v2schemas__Tenant:
+      properties:
+        id:
+          type: integer
+          title: Id
+        name:
+          type: string
+          title: Name
+        archived:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Archived
+        integration_id:
+          type: integer
+          title: Integration Id
+        configs:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Configs
+          default: {}
+        created_date:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created Date
+        modified_date:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Modified Date
+        paused:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Paused
+          default: true
+        user_schedule:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: User Schedule
+        schedule:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Schedule
+        source:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source
+          default: api
+        integration_release_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Integration Release Id
+        integration_release_channel:
+          anyOf:
+          - $ref: '#/components/schemas/IntegrationReleaseChannel'
+          - type: 'null'
+        status:
+          anyOf:
+          - $ref: '#/components/schemas/external_api_v1__v2schemas__TenantStatus'
+          - type: 'null'
+      type: object
+      required:
+      - id
+      - name
+      title: Tenant
+    external_api_v1__v2schemas__TenantStatus:
+      properties:
+        last_run:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Last Run
+          default: {}
+        current_run:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Current Run
+          default: {}
+        last_successful_run:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Last Successful Run
+          default: {}
+        dynamic_configs:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Dynamic Configs
+          default: {}
+        auth:
+          anyOf:
+          - $ref: '#/components/schemas/TenantAuthStatus'
+          - type: 'null'
+          default: {}
+      type: object
+      title: TenantStatus
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: API key generated in the Pandium Integration Hub under Settings > API Access. Attach it to requests
+        in the X-API-KEY header.
+x-provenance:
+  method: searched
+  source: https://docs.pandium.com/reference/pandium-api
+  fetched: '2026-09-03'

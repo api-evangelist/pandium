@@ -1,0 +1,32 @@
+generated: '2026-09-03'
+method: searched
+source: https://docs.pandium.com/reference/pandium-api
+docs:
+- https://docs.pandium.com/reference/pandium-api
+- https://docs.pandium.com/getting-started/pandium-integration-development-kit-idk/pandium-cli
+note: >-
+  Pandium runs a distinct sandbox environment with its own API host, used with a Sandbox Pandium
+  account. There are no published test cards, fixtures, test clocks, or test-vs-live key prefixes —
+  the sandbox is a full separate environment, keyed by which account the API key was generated in.
+environments:
+- name: production
+  base_url: https://api.pandium.io
+  description: For using the Pandium API with a Production Pandium account.
+- name: sandbox
+  base_url: https://api.sandbox.pandium.com
+  description: For using the Pandium API with a Sandbox Pandium account.
+cli_environments:
+  note: >-
+    The Pandium CLI's `pandium login [environment]` targets named environments and defaults to
+    sandbox; possible values documented as sandbox, sandbox-eu, and demo.
+  values: [sandbox, sandbox-eu, demo]
+keys:
+  scheme: X-API-KEY header
+  test_vs_live: >-
+    No documented key prefix distinction; keys are generated per account (Integration Hub >
+    Settings > API Access) and are only viewable at creation.
+local_testing:
+  note: >-
+    The Pandium CLI supports building and running an integration locally against a provisioned
+    tenant (`pandium local build`, `pandium local run [OPTIONS] <tenant_id>`), including init
+    mode — the documented way to exercise an integration before releasing it.

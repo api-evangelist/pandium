@@ -1,0 +1,39 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements — pandium-connector-calls-api
+  version: 1.0.0
+  x-generated: '2026-09-03'
+  x-method: generated
+  x-source: openapi/pandium-connector-calls-api-openapi.yml
+extends: ../openapi/pandium-connector-calls-api-openapi.yml
+actions:
+- target: $.info
+  description: 'Envelope added by API Evangelist: contact, license, termsOfService and a summary description; the
+    provider-published fragments carry only the FastAPI default info block.'
+  update:
+    contact:
+      name: Pandium
+      url: https://www.pandium.com/
+    license:
+      name: Proprietary
+      url: https://www.pandium.com/terms-and-conditions
+    termsOfService: https://www.pandium.com/terms-and-conditions
+- target: $.servers
+  description: Servers taken from the base URLs stated on https://docs.pandium.com/reference/pandium-api (production
+    + sandbox); the provider fragments publish no servers block.
+  update:
+  - url: https://api.pandium.io
+    description: Production
+  - url: https://api.sandbox.pandium.com
+    description: Sandbox
+- target: $.components.securitySchemes.apiKey
+  description: 'Security scheme made explicit from the Authentication section of the API reference: API key in the
+    X-API-KEY header (corrected 2026-09-03 from an earlier wrong Authorization/Bearer profile).'
+  update:
+    type: apiKey
+    in: header
+    name: X-API-KEY
+- target: $.tags[?(@.name=="Connector Calls")]
+  description: Per-resource tag grouping applied when splitting the provider surface into one OpenAPI per resource.
+  update:
+    name: Connector Calls

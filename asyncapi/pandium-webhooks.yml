@@ -1,0 +1,60 @@
+generated: '2026-09-03'
+method: searched
+source: https://docs.pandium.com/integration-hub/notifications-and-webhooks
+type: Webhooks
+note: >-
+  Pandium publishes no AsyncAPI document; this artifact captures the documented webhook surface.
+  A single webhook URL is configured in Administrator Settings (Notifications & Webhooks tab) and
+  is shared across all notification types, with a per-event Send Webhook toggle. Deliveries are
+  POST requests with Content-Type application/json; the receiving endpoint should return a 2xx.
+delivery:
+  method: POST
+  content_type: application/json
+  endpoint_configuration: single shared webhook URL, per-event enable toggles, configured in Administrator Settings
+  acknowledgement: endpoint should return a 2xx status code
+  signing: none — no authentication headers are sent; the docs suggest validating by source IP or using the webhook URL as a shared secret (e.g. a token query parameter)
+  retries: none — webhooks are sent once with no automatic retry on failure
+common_payload_fields:
+- name: event_type
+  type: string
+  description: The event key (e.g. new_integration_created, tenant_created).
+- name: environment
+  type: string
+  description: The namespace/environment where the event occurred.
+- name: account_id
+  type: integer
+  description: The ID of the organization that owns the resource.
+- name: account_name
+  type: string
+  description: The name of the organization.
+- name: timestamp
+  type: string
+  description: ISO 8601 / RFC 3339 timestamp in UTC.
+events:
+- key: integration_created
+  payload_event_type: new_integration_created
+  description: Fired when a new integration is created on the platform.
+  fields: [integration_id, integration_name]
+- key: tenant_created
+  payload_event_type: new_tenant_created
+  description: Fired when a new tenant is created for an integration.
+  fields: [tenant_id, tenant_name, integration_id, integration_name]
+- key: tenant_archived
+  payload_event_type: tenant_archived
+  description: Fired when a tenant is archived.
+  fields: [tenant_id, tenant_name, integration_id, integration_name]
+- key: partner_integration_updated
+  payload_event_type: partner_integration_updated
+  description: Fired when a partner modifies an existing integration.
+  fields: [integration_id, integration_name, partner_id, partner_name]
+- key: run_failed
+  payload_event_type: run_failed
+  description: >-
+    Fired when an integration run fails. Includes direct links to the run in both the admin
+    dashboard and the API.
+  fields: [run_id, run_status, admin_link, api_link, api_status_link, api_triggers_link, tenant_id, tenant_name, integration_id, integration_name]
+inbound_webhook_triggers:
+  note: >-
+    Separately from these outbound platform notifications, integrations themselves can be
+    triggered by inbound webhooks (webhook run triggers with payload handling and debouncing per
+    tenant) — see https://docs.pandium.com/getting-started/anatomy-of-an-integration/run-triggers.

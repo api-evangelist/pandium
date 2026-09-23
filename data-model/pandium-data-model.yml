@@ -1,0 +1,68 @@
+generated: '2026-09-03'
+method: derived
+source: >-
+  Derived from the provider-published OpenAPI schemas
+  (openapi/_original/pandium-api-docs-openapi.yml) and the repo JSON Schemas (json-schema/).
+docs: https://docs.pandium.com/getting-started/key-terminology
+entities:
+- name: Integration
+  schema: external_api_v1__v2schemas__Integration
+  description: An integration built and hosted on the Pandium platform, with releases, connectors, categories, tags and flags.
+- name: Release
+  schema: external_api_v1__v2schemas__IntegrationRelease
+  description: A released version of an integration; integrations expose default and latest releases.
+- name: Build
+  schema: CreateBuild
+  description: A build of an integration from source control (tag, integration_id, branch); used to create a release.
+- name: Tenant
+  schema: external_api_v1__v2schemas__Tenant
+  description: A single customer's installed and configured copy of an integration, tied to that customer's credentials and settings.
+- name: TenantMetadata
+  schema: TenantMetadata
+  description: Key-value metadata associated with a tenant.
+- name: Run
+  schema: Run
+  description: One execution of an integration for a tenant, with a status, trigger and log.
+- name: Trigger
+  schema: Trigger
+  description: A sync trigger (manual, cron, webhook, or API) that starts runs; API sync calls return a trigger whose status can be polled.
+- name: Connector
+  schema: Connector
+  description: A pre-built connection to a third-party API, attached to integrations and connected/disconnected per tenant.
+relationships:
+- from: Tenant
+  to: Integration
+  type: belongs_to
+  via: integration_id
+- from: Release
+  to: Integration
+  type: belongs_to
+  via: integration_id
+- from: Build
+  to: Integration
+  type: belongs_to
+  via: integration_id
+- from: Run
+  to: Tenant
+  type: belongs_to
+  via: tenant_id
+- from: Integration
+  to: Release
+  type: has_many
+  via: /v2/integrations/{integration_id}/releases
+- from: Integration
+  to: Connector
+  type: has_many
+  via: connectors[]
+- from: Tenant
+  to: Run
+  type: has_many
+  via: /v2/tenants/{tenant_id}/runs
+- from: Tenant
+  to: TenantMetadata
+  type: has_one
+  via: /v2/tenants/{tenant_id}/metadata
+- from: Trigger
+  to: Run
+  type: has_many
+  via: /v2/runs/triggers/{trigger_id}/status

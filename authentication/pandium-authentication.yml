@@ -1,6 +1,13 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/pandium-pandium-openapi.yml
+generated: '2026-09-03'
+method: searched
+source: https://docs.pandium.com/reference/pandium-api
+docs: https://docs.pandium.com/reference/pandium-api
+note: >-
+  Upgraded 2026-09-03 from the earlier derived profile, which wrongly recorded the key as a
+  Bearer token in the Authorization header. The provider's API reference states the key is
+  attached under an `x-api-key` header. The OpenAPI securitySchemes in openapi/ were corrected to
+  match. Requests without a valid key return 403 {"detail": "Not authorized"} (observed live,
+  2026-09-03).
 summary:
   types:
   - apiKey
@@ -10,8 +17,20 @@ schemes:
 - name: apiKey
   type: apiKey
   in: header
-  parameter: Authorization
-  description: API key generated from the Settings sidebar in the Pandium Integration Hub under
-    the API Access tab. Pass as a Bearer token in the Authorization header.
+  parameter: X-API-KEY
+  description: >-
+    API key generated in the Pandium Integration Hub: Settings sidebar > API Access tab. Name the
+    key and generate it; keys are only viewable at creation, so they must be stored securely at
+    that moment. Attach the key to every request in the X-API-KEY header.
   sources:
-  - openapi/pandium-pandium-openapi.yml
+  - https://docs.pandium.com/reference/pandium-api
+  - openapi/pandium-tenants-api-openapi.yml
+key_provisioning:
+  self_serve: true
+  location: Integration Hub > Settings > API Access
+  visibility: only viewable at creation
+  prefix: none documented
+oauth: >-
+  The public platform API does not use OAuth. OAuth appears only inside Pandium's managed
+  connector authentication, where the platform holds end-customer credentials for third-party
+  APIs on behalf of tenants.

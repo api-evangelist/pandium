@@ -1,0 +1,44 @@
+generated: '2026-09-03'
+method: derived
+source: >-
+  Derived from the provider-published OpenAPI fragments (https://docs.pandium.com/reference/pandium-api),
+  the security page (https://www.pandium.com/security), and live probes of api.pandium.io (2026-09-03).
+note: >-
+  Pandium's market (embedded iPaaS for B2B SaaS) has no domain API standard to conform to, so no
+  domain_standard_conformance entry is asserted — reward-only, absence is not a gap. Cross-cutting
+  standards are graded below from the contract and docs.
+conformance:
+- id: oauth2
+  conforms: false
+  evidence: >-
+    The public Pandium API authenticates with a static API key in the X-API-KEY header
+    (https://docs.pandium.com/reference/pandium-api); no OAuth2 securityScheme is published.
+    OAuth flows appear only inside the platform's managed connector auth to third-party APIs.
+- id: oidc
+  conforms: false
+  evidence: No OpenID Connect discovery document on any Pandium host (/.well-known/openid-configuration 404 on all six hosts, probed 2026-09-03).
+- id: rfc9457
+  conforms: false
+  evidence: >-
+    Errors use a custom {"message"} envelope (ErrorMessage schema) and FastAPI HTTPValidationError
+    for 422s, not application/problem+json. See errors/pandium-problem-types.yml.
+- id: pagination
+  conforms: true
+  evidence: >-
+    Offset pagination with limit/skip/sort_by query parameters on listIntegrations, listTenants
+    and listTenantRuns in the provider-published fragments.
+- id: idempotency
+  conforms: false
+  evidence: No idempotency mechanism documented for any mutating operation. See conventions/pandium-conventions.yml.
+- id: scim
+  conforms: false
+  evidence: No SCIM surface or schema URNs anywhere in the contract or docs.
+- id: json:api
+  conforms: false
+  evidence: Plain JSON arrays/objects; no JSON:API media type or document structure.
+- id: soc2
+  conforms: true
+  evidence: >-
+    SOC 2 compliance is claimed on https://www.pandium.com/security (captured in
+    security/pandium-trust-center.yml). This is an organizational compliance program, not an API
+    wire standard.

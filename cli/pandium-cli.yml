@@ -1,0 +1,40 @@
+generated: '2026-09-03'
+method: searched
+source: https://docs.pandium.com/getting-started/pandium-integration-development-kit-idk/pandium-cli
+name: Pandium CLI
+official: true
+platforms:
+- macOS (only platform currently supported; both Apple Silicon and Intel commands offered)
+install:
+  method: vendor-download
+  registry: none
+  note: >-
+    The download command is copied from the Pandium Admin Dashboard (Settings > Developer
+    Resources) — a platform-gated binary distribution with no public registry package. The CLI
+    only interfaces with internal integrations running on the Pandium platform and requires an
+    integration and tenant provisioned in the Integration Hub.
+authentication:
+  login: pandium login [environment]
+  logout: pandium logout
+  environments:
+    default: sandbox
+    values: [sandbox, sandbox-eu, demo]
+commands:
+- command: pandium login [environment]
+  description: Log in to Pandium; takes an environment name, defaults to sandbox.
+- command: pandium logout
+  description: End your Pandium session.
+- command: pandium get integrations [integration_id]
+  description: List all your internal integrations, or fetch one by id.
+- command: pandium get tenants [OPTIONS] [tenant_id]
+  description: Get tenants for your internal integrations.
+- command: pandium get help [COMMAND]
+  description: Help for the get subcommands.
+- command: pandium local build
+  description: Build an integration locally.
+- command: pandium local run [OPTIONS] <tenant_id>
+  description: Run an integration locally against a tenant (including init mode; local init runs do not update dynamic configs on the Integration Hub).
+- command: pandium local help [COMMAND]
+  description: Help for the local subcommands.
+- command: pandium help [COMMAND]
+  description: Print help; -V/--version prints the CLI version.
