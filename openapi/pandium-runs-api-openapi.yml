@@ -199,15 +199,15 @@ paths:
       description: Sandbox
 components:
   schemas:
-    TriggerStatus:
+    ErrorMessage:
       properties:
-        status:
+        message:
           type: string
-          title: Status
+          title: Message
       type: object
       required:
-      - status
-      title: TriggerStatus
+      - message
+      title: ErrorMessage
     HTTPValidationError:
       properties:
         detail:
@@ -243,21 +243,15 @@ components:
       - msg
       - type
       title: ValidationError
-    ErrorMessage:
+    TriggerStatus:
       properties:
-        message:
+        status:
           type: string
-          title: Message
+          title: Status
       type: object
       required:
-      - message
-      title: ErrorMessage
-    TriggerResponse:
-      type: object
-      properties:
-        trigger_id:
-          type: string
-          description: The trigger ID that can be used to check the status of the triggered run.
+      - status
+      title: TriggerStatus
     Run:
       type: object
       properties:
@@ -302,14 +296,13 @@ components:
           type: string
           format: date-time
           description: Date and time the run completed.
+    TriggerResponse:
+      type: object
+      properties:
+        trigger_id:
+          type: string
+          description: The trigger ID that can be used to check the status of the triggered run.
   parameters:
-    TriggerId:
-      name: trigger_id
-      in: path
-      description: The trigger ID associated with a run.
-      required: true
-      schema:
-        type: string
     TenantId:
       name: tenant_id
       in: path
@@ -317,6 +310,13 @@ components:
       required: true
       schema:
         type: integer
+    TriggerId:
+      name: trigger_id
+      in: path
+      description: The trigger ID associated with a run.
+      required: true
+      schema:
+        type: string
   securitySchemes:
     apiKey:
       type: apiKey

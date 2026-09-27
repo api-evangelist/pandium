@@ -671,88 +671,66 @@ paths:
       description: Sandbox
 components:
   schemas:
-    ProxyRestRequestBody:
+    TenantAuthStatus:
       properties:
-        headers:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - items: {}
-            type: array
-          - type: 'null'
-          title: Headers
-          description: Headers needed for the proxied request
-        method:
-          type: string
-          title: Method
-          description: HTTP Method
-        query_params:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Query Params
-          description: Query params needed for the proxied request
-        target_url:
-          type: string
-          title: Target Url
-          description: Endpoint for the proxied request
-        body:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Body
-          description: Body of the proxied request
-      type: object
-      title: ProxyRestRequestBody
-    Run:
-      properties:
-        id:
-          type: integer
-          title: Id
-        mode:
-          type: string
-          title: Mode
-        status:
-          anyOf:
-          - $ref: '#/components/schemas/RunStatus'
-          - type: 'null'
-        triggers:
+        connected:
+          type: boolean
+          title: Connected
+          default: false
+        connectors:
           anyOf:
           - items:
-              $ref: '#/components/schemas/RunTrigger'
+              $ref: '#/components/schemas/ConnectorStatus'
             type: array
           - type: 'null'
-          title: Triggers
+          title: Connectors
           default: []
-        started_date:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Started Date
-        completed_date:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Completed Date
-        tenant_id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Tenant Id
-        integration_id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Integration Id
+      type: object
+      title: TenantAuthStatus
+    ProxyExternalError:
+      properties:
+        detail:
+          type: string
+          title: Detail
+          description: String-ified object containing the error response from the external service under the "data" key. Status code will reflect the status returned from the external service.
+      type: object
+      title: ProxyExternalError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
-      - id
-      - mode
-      title: Run
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ProxyResponse:
+      properties:
+        data:
+          additionalProperties: true
+          type: object
+          title: Data
+      type: object
+      required:
+      - data
+      title: ProxyResponse
     ProxyXmlRequestBody:
       properties:
         headers:
@@ -862,126 +840,60 @@ components:
       - id
       - name
       title: Tenant
-    TenantMetadata:
+    ProxyRestRequestBody:
       properties:
-        tenant_id:
-          type: integer
-          title: Tenant Id
-        data:
+        headers:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - items: {}
+            type: array
+          - type: 'null'
+          title: Headers
+          description: Headers needed for the proxied request
+        method:
+          type: string
+          title: Method
+          description: HTTP Method
+        query_params:
           anyOf:
           - additionalProperties: true
             type: object
           - type: 'null'
-          title: Data
-          default: {}
-        created_date:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Created Date
-        modified_date:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Modified Date
-      type: object
-      required:
-      - tenant_id
-      title: TenantMetadata
-    TenantAuthStatus:
-      properties:
-        connected:
-          type: boolean
-          title: Connected
-          default: false
-        connectors:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/ConnectorStatus'
-            type: array
-          - type: 'null'
-          title: Connectors
-          default: []
-      type: object
-      title: TenantAuthStatus
-    V2RunMode:
-      type: string
-      enum:
-      - init
-      - normal
-      title: V2RunMode
-    IntegrationReleaseChannel:
-      type: string
-      enum:
-      - Latest
-      - Default
-      title: IntegrationReleaseChannel
-    ProxyExternalError:
-      properties:
-        detail:
+          title: Query Params
+          description: Query params needed for the proxied request
+        target_url:
           type: string
-          title: Detail
-          description: String-ified object containing the error response from the external service under the "data" key. Status code will reflect the status returned from the external service.
+          title: Target Url
+          description: Endpoint for the proxied request
+        body:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Body
+          description: Body of the proxied request
       type: object
-      title: ProxyExternalError
-    ProxyResponse:
-      properties:
-        data:
-          additionalProperties: true
-          type: object
-          title: Data
-      type: object
-      required:
-      - data
-      title: ProxyResponse
-    Trigger:
-      properties:
-        trigger_id:
-          type: string
-          title: Trigger Id
-      type: object
-      required:
-      - trigger_id
-      title: Trigger
-    CreateTenant:
+      title: ProxyRestRequestBody
+    ConnectorStatus:
       properties:
         name:
           type: string
           title: Name
-          description: Lowercase alphanumeric string; '-' is allowed but not at the start or end of the string
-        integration_id:
-          type: integer
-          title: Integration Id
-        user_schedule:
+        status:
+          type: string
+          title: Status
+        last_change:
           anyOf:
           - type: string
+            format: date-time
           - type: 'null'
-          title: User Schedule
-          description: Must be a valid cron string
-        integration_release_id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Integration Release Id
-          description: You may pass in an integration release id OR a channel
-        integration_release_channel:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Integration Release Channel
-          description: You may pass in an integration release id OR a channel
-        configs:
-          additionalProperties: true
-          type: object
-          title: Configs
-          description: Will be validated against the tenant's integration release config schema
+          title: Last Change
       type: object
       required:
       - name
-      - integration_id
-      title: CreateTenant
+      - status
+      title: ConnectorStatus
     ProxyInternalError:
       properties:
         detail:
@@ -990,25 +902,6 @@ components:
           description: Description of the internal (Pandium) error.
       type: object
       title: ProxyInternalError
-    RunStatus:
-      properties:
-        phase:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Phase
-        startTime:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Starttime
-        completionTime:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Completiontime
-      type: object
-      title: RunStatus
     external_api_v1__v2schemas__TenantStatus:
       properties:
         last_run:
@@ -1046,60 +939,6 @@ components:
           default: {}
       type: object
       title: TenantStatus
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ErrorMessage:
-      properties:
-        message:
-          type: string
-          title: Message
-      type: object
-      required:
-      - message
-      title: ErrorMessage
-    ConnectorStatus:
-      properties:
-        name:
-          type: string
-          title: Name
-        status:
-          type: string
-          title: Status
-        last_change:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Last Change
-      type: object
-      required:
-      - name
-      - status
-      title: ConnectorStatus
     HTTPValidationError:
       properties:
         detail:
@@ -1109,6 +948,25 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    RunStatus:
+      properties:
+        phase:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phase
+        startTime:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Starttime
+        completionTime:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Completiontime
+      type: object
+      title: RunStatus
     RunTrigger:
       properties:
         id:
@@ -1138,25 +996,148 @@ components:
       - mode
       - source
       title: RunTrigger
-    TenantUpdate:
+    IntegrationReleaseChannel:
+      type: string
+      enum:
+      - Latest
+      - Default
+      title: IntegrationReleaseChannel
+    Run:
+      properties:
+        id:
+          type: integer
+          title: Id
+        mode:
+          type: string
+          title: Mode
+        status:
+          anyOf:
+          - $ref: '#/components/schemas/RunStatus'
+          - type: 'null'
+        triggers:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/RunTrigger'
+            type: array
+          - type: 'null'
+          title: Triggers
+          default: []
+        started_date:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Started Date
+        completed_date:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Completed Date
+        tenant_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Tenant Id
+        integration_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Integration Id
       type: object
+      required:
+      - id
+      - mode
+      title: Run
+    TenantMetadata:
+      properties:
+        tenant_id:
+          type: integer
+          title: Tenant Id
+        data:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Data
+          default: {}
+        created_date:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created Date
+        modified_date:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Modified Date
+      type: object
+      required:
+      - tenant_id
+      title: TenantMetadata
+    V2RunMode:
+      type: string
+      enum:
+      - init
+      - normal
+      title: V2RunMode
+    Trigger:
+      properties:
+        trigger_id:
+          type: string
+          title: Trigger Id
+      type: object
+      required:
+      - trigger_id
+      title: Trigger
+    ErrorMessage:
+      properties:
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - message
+      title: ErrorMessage
+    CreateTenant:
       properties:
         name:
           type: string
-          description: Updated name of the tenant.
-        configs:
-          type: object
-          description: Updated configuration settings.
-          additionalProperties: true
-        paused:
-          type: boolean
-          description: Whether the tenant should be paused.
-        archived:
-          type: boolean
-          description: Whether the tenant should be archived.
+          title: Name
+          description: Lowercase alphanumeric string; '-' is allowed but not at the start or end of the string
+        integration_id:
+          type: integer
+          title: Integration Id
         user_schedule:
-          type: string
-          description: Updated cron schedule for the tenant.
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: User Schedule
+          description: Must be a valid cron string
+        integration_release_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Integration Release Id
+          description: You may pass in an integration release id OR a channel
+        integration_release_channel:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Integration Release Channel
+          description: You may pass in an integration release id OR a channel
+        configs:
+          additionalProperties: true
+          type: object
+          title: Configs
+          description: Will be validated against the tenant's integration release config schema
+      type: object
+      required:
+      - name
+      - integration_id
+      title: CreateTenant
     Tenant:
       type: object
       properties:
@@ -1243,6 +1224,25 @@ components:
           description: Release channel to assign.
           enum:
           - Latest
+    TenantUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Updated name of the tenant.
+        configs:
+          type: object
+          description: Updated configuration settings.
+          additionalProperties: true
+        paused:
+          type: boolean
+          description: Whether the tenant should be paused.
+        archived:
+          type: boolean
+          description: Whether the tenant should be archived.
+        user_schedule:
+          type: string
+          description: Updated cron schedule for the tenant.
   parameters:
     TenantId:
       name: tenant_id

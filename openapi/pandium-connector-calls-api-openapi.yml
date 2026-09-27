@@ -56,6 +56,14 @@ paths:
         '404':
           description: Tenant or connector not found.
 components:
+  parameters:
+    TenantId:
+      name: tenant_id
+      in: path
+      description: The unique identifier of the tenant.
+      required: true
+      schema:
+        type: integer
   schemas:
     ConnectorCallRequest:
       type: object
@@ -104,14 +112,6 @@ components:
           type: object
           description: The response body from the external API.
           additionalProperties: true
-  parameters:
-    TenantId:
-      name: tenant_id
-      in: path
-      description: The unique identifier of the tenant.
-      required: true
-      schema:
-        type: integer
   securitySchemes:
     apiKey:
       type: apiKey
