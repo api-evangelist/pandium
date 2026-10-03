@@ -74,14 +74,6 @@ paths:
         '404':
           description: Tenant not found.
 components:
-  parameters:
-    TenantId:
-      name: tenant_id
-      in: path
-      description: The unique identifier of the tenant.
-      required: true
-      schema:
-        type: integer
   schemas:
     TenantMetadata:
       type: object
@@ -101,6 +93,14 @@ components:
           type: string
           format: date-time
           description: Date and time the metadata was last modified.
+  parameters:
+    TenantId:
+      name: tenant_id
+      in: path
+      description: The unique identifier of the tenant.
+      required: true
+      schema:
+        type: integer
   securitySchemes:
     apiKey:
       type: apiKey

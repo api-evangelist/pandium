@@ -377,15 +377,6 @@ paths:
       description: Sandbox
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -412,12 +403,22 @@ components:
       - msg
       - type
       title: ValidationError
-    V2RunMode:
+    IntegrationType:
       type: string
       enum:
-      - init
-      - normal
-      title: V2RunMode
+      - Internal
+      - External
+      - Pandium
+      title: IntegrationType
+    Trigger:
+      properties:
+        trigger_id:
+          type: string
+          title: Trigger Id
+      type: object
+      required:
+      - trigger_id
+      title: Trigger
     external_api_v1__v2schemas__Integration:
       properties:
         id:
@@ -501,28 +502,6 @@ components:
       - long_name
       - type
       title: Integration
-    Connector:
-      properties:
-        name:
-          type: string
-          title: Name
-        isGlobal:
-          type: boolean
-          title: Isglobal
-      type: object
-      required:
-      - name
-      - isGlobal
-      title: Connector
-    Trigger:
-      properties:
-        trigger_id:
-          type: string
-          title: Trigger Id
-      type: object
-      required:
-      - trigger_id
-      title: Trigger
     Tag:
       properties:
         name:
@@ -541,24 +520,27 @@ components:
       - name
       - id
       title: Tag
-    Flag:
+    IntegrationReleaseChannel:
+      type: string
+      enum:
+      - Latest
+      - Default
+      title: IntegrationReleaseChannel
+    V2RunMode:
+      type: string
+      enum:
+      - init
+      - normal
+      title: V2RunMode
+    HTTPValidationError:
       properties:
-        name:
-          type: string
-          title: Name
-        id:
-          type: integer
-          title: Id
-        flag_color:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Flag Color
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - name
-      - id
-      title: Flag
+      title: HTTPValidationError
     ErrorMessage:
       properties:
         message:
@@ -568,41 +550,6 @@ components:
       required:
       - message
       title: ErrorMessage
-    IntegrationReleaseChannel:
-      type: string
-      enum:
-      - Latest
-      - Default
-      title: IntegrationReleaseChannel
-    IntegrationType:
-      type: string
-      enum:
-      - Internal
-      - External
-      - Pandium
-      title: IntegrationType
-    Category:
-      properties:
-        name:
-          type: string
-          title: Name
-        id:
-          type: integer
-          title: Id
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        order_index:
-          type: number
-          title: Order Index
-      type: object
-      required:
-      - name
-      - id
-      - order_index
-      title: Category
     external_api_v1__v2schemas__IntegrationRelease:
       properties:
         id:
@@ -659,26 +606,59 @@ components:
       - name
       - config_version
       title: IntegrationRelease
-    Integration:
-      type: object
+    Flag:
       properties:
-        id:
-          type: integer
-          description: Unique identifier for the integration.
         name:
           type: string
-          description: Name of the integration.
-        archived:
+          title: Name
+        id:
+          type: integer
+          title: Id
+        flag_color:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Flag Color
+      type: object
+      required:
+      - name
+      - id
+      title: Flag
+    Connector:
+      properties:
+        name:
+          type: string
+          title: Name
+        isGlobal:
           type: boolean
-          description: Whether the integration is archived.
-        created_date:
+          title: Isglobal
+      type: object
+      required:
+      - name
+      - isGlobal
+      title: Connector
+    Category:
+      properties:
+        name:
           type: string
-          format: date-time
-          description: Date and time the integration was created.
-        modified_date:
-          type: string
-          format: date-time
-          description: Date and time the integration was last modified.
+          title: Name
+        id:
+          type: integer
+          title: Id
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        order_index:
+          type: number
+          title: Order Index
+      type: object
+      required:
+      - name
+      - id
+      - order_index
+      title: Category
     Release:
       type: object
       properties:
@@ -699,18 +679,38 @@ components:
           type: string
           format: date-time
           description: Date and time the release was last modified.
+    Integration:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the integration.
+        name:
+          type: string
+          description: Name of the integration.
+        archived:
+          type: boolean
+          description: Whether the integration is archived.
+        created_date:
+          type: string
+          format: date-time
+          description: Date and time the integration was created.
+        modified_date:
+          type: string
+          format: date-time
+          description: Date and time the integration was last modified.
   parameters:
-    IntegrationId:
-      name: integration_id
-      in: path
-      description: The unique identifier of the integration.
-      required: true
-      schema:
-        type: integer
     ReleaseId:
       name: release_id
       in: path
       description: The unique identifier of the release.
+      required: true
+      schema:
+        type: integer
+    IntegrationId:
+      name: integration_id
+      in: path
+      description: The unique identifier of the integration.
       required: true
       schema:
         type: integer

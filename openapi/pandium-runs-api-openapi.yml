@@ -217,6 +217,15 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    TriggerStatus:
+      properties:
+        status:
+          type: string
+          title: Status
+      type: object
+      required:
+      - status
+      title: TriggerStatus
     ValidationError:
       properties:
         loc:
@@ -243,15 +252,12 @@ components:
       - msg
       - type
       title: ValidationError
-    TriggerStatus:
-      properties:
-        status:
-          type: string
-          title: Status
+    TriggerResponse:
       type: object
-      required:
-      - status
-      title: TriggerStatus
+      properties:
+        trigger_id:
+          type: string
+          description: The trigger ID that can be used to check the status of the triggered run.
     Run:
       type: object
       properties:
@@ -296,20 +302,7 @@ components:
           type: string
           format: date-time
           description: Date and time the run completed.
-    TriggerResponse:
-      type: object
-      properties:
-        trigger_id:
-          type: string
-          description: The trigger ID that can be used to check the status of the triggered run.
   parameters:
-    TenantId:
-      name: tenant_id
-      in: path
-      description: The unique identifier of the tenant.
-      required: true
-      schema:
-        type: integer
     TriggerId:
       name: trigger_id
       in: path
@@ -317,6 +310,13 @@ components:
       required: true
       schema:
         type: string
+    TenantId:
+      name: tenant_id
+      in: path
+      description: The unique identifier of the tenant.
+      required: true
+      schema:
+        type: integer
   securitySchemes:
     apiKey:
       type: apiKey
