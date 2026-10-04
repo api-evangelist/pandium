@@ -377,6 +377,117 @@ paths:
       description: Sandbox
 components:
   schemas:
+    ErrorMessage:
+      properties:
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - message
+      title: ErrorMessage
+    Trigger:
+      properties:
+        trigger_id:
+          type: string
+          title: Trigger Id
+      type: object
+      required:
+      - trigger_id
+      title: Trigger
+    Category:
+      properties:
+        name:
+          type: string
+          title: Name
+        id:
+          type: integer
+          title: Id
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        order_index:
+          type: number
+          title: Order Index
+      type: object
+      required:
+      - name
+      - id
+      - order_index
+      title: Category
+    Flag:
+      properties:
+        name:
+          type: string
+          title: Name
+        id:
+          type: integer
+          title: Id
+        flag_color:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Flag Color
+      type: object
+      required:
+      - name
+      - id
+      title: Flag
+    Tag:
+      properties:
+        name:
+          type: string
+          title: Name
+        id:
+          type: integer
+          title: Id
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+      type: object
+      required:
+      - name
+      - id
+      title: Tag
+    Connector:
+      properties:
+        name:
+          type: string
+          title: Name
+        isGlobal:
+          type: boolean
+          title: Isglobal
+      type: object
+      required:
+      - name
+      - isGlobal
+      title: Connector
+    IntegrationReleaseChannel:
+      type: string
+      enum:
+      - Latest
+      - Default
+      title: IntegrationReleaseChannel
+    IntegrationType:
+      type: string
+      enum:
+      - Internal
+      - External
+      - Pandium
+      title: IntegrationType
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -403,22 +514,68 @@ components:
       - msg
       - type
       title: ValidationError
-    IntegrationType:
-      type: string
-      enum:
-      - Internal
-      - External
-      - Pandium
-      title: IntegrationType
-    Trigger:
+    external_api_v1__v2schemas__IntegrationRelease:
       properties:
-        trigger_id:
+        id:
+          type: integer
+          title: Id
+        name:
           type: string
-          title: Trigger Id
+          title: Name
+        repository_tracking_branch:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Repository Tracking Branch
+        run_command:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Run Command
+        tag:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tag
+        config_schema:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Config Schema
+        config_version:
+          type: string
+          title: Config Version
+        metadata_schema:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Metadata Schema
+        created_date:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created Date
+        modified_date:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Modified Date
       type: object
       required:
-      - trigger_id
-      title: Trigger
+      - id
+      - name
+      - config_version
+      title: IntegrationRelease
+    V2RunMode:
+      type: string
+      enum:
+      - init
+      - normal
+      title: V2RunMode
     external_api_v1__v2schemas__Integration:
       properties:
         id:
@@ -502,183 +659,6 @@ components:
       - long_name
       - type
       title: Integration
-    Tag:
-      properties:
-        name:
-          type: string
-          title: Name
-        id:
-          type: integer
-          title: Id
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-      type: object
-      required:
-      - name
-      - id
-      title: Tag
-    IntegrationReleaseChannel:
-      type: string
-      enum:
-      - Latest
-      - Default
-      title: IntegrationReleaseChannel
-    V2RunMode:
-      type: string
-      enum:
-      - init
-      - normal
-      title: V2RunMode
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ErrorMessage:
-      properties:
-        message:
-          type: string
-          title: Message
-      type: object
-      required:
-      - message
-      title: ErrorMessage
-    external_api_v1__v2schemas__IntegrationRelease:
-      properties:
-        id:
-          type: integer
-          title: Id
-        name:
-          type: string
-          title: Name
-        repository_tracking_branch:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Repository Tracking Branch
-        run_command:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Run Command
-        tag:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Tag
-        config_schema:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Config Schema
-        config_version:
-          type: string
-          title: Config Version
-        metadata_schema:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Metadata Schema
-        created_date:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Created Date
-        modified_date:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Modified Date
-      type: object
-      required:
-      - id
-      - name
-      - config_version
-      title: IntegrationRelease
-    Flag:
-      properties:
-        name:
-          type: string
-          title: Name
-        id:
-          type: integer
-          title: Id
-        flag_color:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Flag Color
-      type: object
-      required:
-      - name
-      - id
-      title: Flag
-    Connector:
-      properties:
-        name:
-          type: string
-          title: Name
-        isGlobal:
-          type: boolean
-          title: Isglobal
-      type: object
-      required:
-      - name
-      - isGlobal
-      title: Connector
-    Category:
-      properties:
-        name:
-          type: string
-          title: Name
-        id:
-          type: integer
-          title: Id
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        order_index:
-          type: number
-          title: Order Index
-      type: object
-      required:
-      - name
-      - id
-      - order_index
-      title: Category
-    Release:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: Unique identifier for the release.
-        integration_id:
-          type: integer
-          description: ID of the integration this release belongs to.
-        version:
-          type: string
-          description: Version label of the release.
-        created_date:
-          type: string
-          format: date-time
-          description: Date and time the release was created.
-        modified_date:
-          type: string
-          format: date-time
-          description: Date and time the release was last modified.
     Integration:
       type: object
       properties:
@@ -699,6 +679,26 @@ components:
           type: string
           format: date-time
           description: Date and time the integration was last modified.
+    Release:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the release.
+        integration_id:
+          type: integer
+          description: ID of the integration this release belongs to.
+        version:
+          type: string
+          description: Version label of the release.
+        created_date:
+          type: string
+          format: date-time
+          description: Date and time the release was created.
+        modified_date:
+          type: string
+          format: date-time
+          description: Date and time the release was last modified.
   parameters:
     ReleaseId:
       name: release_id
