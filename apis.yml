@@ -192,6 +192,8 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/pandium.png
 access: 3rd-Party
 common:
+- type: FinOps
+  url: finops/pandium-finops.yml
 - type: CapabilityMap
   url: capabilities/pandium-capability-edges.yml
   name: Pandium Business Capability Map
