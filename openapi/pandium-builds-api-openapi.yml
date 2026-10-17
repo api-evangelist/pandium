@@ -45,6 +45,15 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
 components:
   schemas:
+    ErrorMessage:
+      properties:
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - message
+      title: ErrorMessage
     CreateBuild:
       properties:
         tag:
@@ -66,15 +75,6 @@ components:
       - tag
       - integration_id
       title: CreateBuild
-    ErrorMessage:
-      properties:
-        message:
-          type: string
-          title: Message
-      type: object
-      required:
-      - message
-      title: ErrorMessage
   securitySchemes:
     apiKey:
       type: apiKey
