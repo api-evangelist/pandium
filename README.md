@@ -1,4 +1,4 @@
-# Pandium (pandium)
+# Pandium
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,73 +66,185 @@
 
 Transform integration development from a fragmented, ad hoc process into a streamlined, repeatable workflow with Pandiums Integration Platform. With Pandium, B2B SaaS companies can meet customer demands, reduce technical debt, and stay ahead in an increasingly connected world.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/pandium/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/pandium/refs/heads/main/apis.yml)
+**Areas:** B2B · Hub · Integration · Workflows · iPaaS
 
-## Scope
+## Pandium on APIs.io
 
-- **Type:** Index
-- **Position:** Consumer
-- **Access:** 3rd-Party
+Everything profiled for Pandium is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/pandium/](https://apis.io/providers/pandium/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (6)
 
-- B2B
-- Hubs
-- Integrations
-- Workflows
+- [Pandium Connector Calls API](https://apis.io/apis/pandium/pandium-connector-calls-api/) — Proxy calls to external APIs on behalf of a tenant.
+- [Pandium Integrations API](https://apis.io/apis/pandium/pandium-integrations-api/) — Manage integrations on the Pandium platform.
+- [Pandium Runs API](https://apis.io/apis/pandium/pandium-runs-api/) — View run status and trigger syncs.
+- [Pandium Tenant Metadata API](https://apis.io/apis/pandium/pandium-tenant-metadata-api/) — Manage metadata associated with tenants.
+- [Pandium Tenants API](https://apis.io/apis/pandium/pandium-tenants-api/) — Manage tenants (customer instances of integrations).
+- [Pandium Builds API](https://apis.io/apis/pandium/pandium-builds-api/) — Create builds for integrations from source control; a build can then be used to create a release.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2025-01-07
-- **Modified:** 2026-05-19
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### AsyncAPI (1)
 
-### Pandium
+Event-driven and webhook contracts.
 
-Transform integration development from a fragmented, ad hoc process into a streamlined, repeatable workflow with Pandiums Integration Platform. With Pandium, B2B SaaS companies can meet customer demands, reduce technical debt, and stay ahead in an increasingly connected world.
+- [Pandium Webhooks](https://apis.io/asyncapis/pandium/pandium-webhooks/)
 
-- **Human URL:** [https://www.pandium.com/](https://www.pandium.com/)
+#### MCP servers (1)
 
-#### Properties
+Model Context Protocol servers that expose the API to agents.
 
-- [Documentation](https://www.pandium.com/)
-- [Documentation](https://docs.pandium.com/reference/pandium-api)
-- [OpenAPI](openapi/pandium-pandium-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/pandium-pandium.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/pandium-pandium.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/integration.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/tenant.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/run.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/release.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON-LD](json-ld/pandium-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
+- [pandium-mcp.yml](https://apis.io/servers/pandium/pandium-mcp-yml/)
 
-## Common Properties
+#### Agentic access (1)
 
-- [GitHub Organization](https://github.com/pandium)
-- [LinkedIn](https://www.linkedin.com/company/pandium/)
-- [Customers](https://www.pandium.com/customer-stories)
-- [e Books](https://www.pandium.com/ebooks)
-- [Blog](https://www.pandium.com/blog)
-- [F A Q](https://www.pandium.com/faqs)
-- [Podcast](https://www.pandium.com/podcast)
-- [Documentation](https://docs.pandium.com/getting-started/readme)
-- [Glossary](https://docs.pandium.com/getting-started/key-terminology)
-- [C L I](https://docs.pandium.com/reference/pandium-cli)
-- [Whats New](https://www.pandium.com/product-updates)
-- [Pricing](https://www.pandium.com/pricing)
-- [Integrations](https://www.pandium.com/connectors)
-- [Status Page](https://status.pandium.com/)
-- [Partners](https://www.pandium.com/teams/partnerships)
-- [Security](https://www.pandium.com/security)
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Pandium Agentic Access](https://apis.io/agentic-access/pandium/pandium-agentic-access/)
+
+#### JSON Schema (4)
+
+The data models the API reads and writes.
+
+- [Pandium Integration](https://apis.io/schemas/pandium/integration/)
+- [Pandium Release](https://apis.io/schemas/pandium/release/)
+- [Pandium Run](https://apis.io/schemas/pandium/run/)
+- [Pandium Tenant](https://apis.io/schemas/pandium/tenant/)
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Pandium Context](https://apis.io/jsonld/pandium/pandium-context/)
+
+#### Collections (11)
+
+Postman and Open Collection request collections.
+
+- [Pandium Connector Calls API](https://apis.io/collections/pandium/open-pandium-connector-calls-api/)
+- [Pandium Connector Calls Integrations API](https://apis.io/collections/pandium/open-pandium-integrations-api/)
+- [Pandium API](https://apis.io/collections/pandium/open-pandium-pandium/)
+- [Pandium Connector Calls Runs API](https://apis.io/collections/pandium/open-pandium-runs-api/)
+- [Pandium Connector Calls Tenant Metadata API](https://apis.io/collections/pandium/open-pandium-tenant-metadata-api/)
+- [Pandium Connector Calls Tenants API](https://apis.io/collections/pandium/open-pandium-tenants-api/)
+- [Pandium Connector Calls API](https://apis.io/collections/pandium/postman-pandium-connector-calls-api/)
+- [Pandium Connector Calls Integrations API](https://apis.io/collections/pandium/postman-pandium-integrations-api/)
+- [Pandium Connector Calls Runs API](https://apis.io/collections/pandium/postman-pandium-runs-api/)
+- [Pandium Connector Calls Tenant Metadata API](https://apis.io/collections/pandium/postman-pandium-tenant-metadata-api/)
+- [Pandium Connector Calls Tenants API](https://apis.io/collections/pandium/postman-pandium-tenants-api/)
+
+#### Overlays (6)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Pandium Builds Api Overlay](https://apis.io/overlays/pandium/pandium-builds-api-overlay/)
+- [Pandium Connector Calls Api Overlay](https://apis.io/overlays/pandium/pandium-connector-calls-api-overlay/)
+- [Pandium Integrations Api Overlay](https://apis.io/overlays/pandium/pandium-integrations-api-overlay/)
+- [Pandium Runs Api Overlay](https://apis.io/overlays/pandium/pandium-runs-api-overlay/)
+- [Pandium Tenant Metadata Api Overlay](https://apis.io/overlays/pandium/pandium-tenant-metadata-api-overlay/)
+- [Pandium Tenants Api Overlay](https://apis.io/overlays/pandium/pandium-tenants-api-overlay/)
+
+#### Governance rules (1)
+
+Spectral rulesets for the provider's contracts.
+
+- [Pandium — jsonschema rules](https://apis.io/rules/pandium/pandium-jsonschema-spectral-rules/)
+
+#### Security (4)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Pandium Authentication](https://apis.io/security/pandium/pandium-authentication/)
+- [Pandium Domain Security](https://apis.io/security/pandium/pandium-domain-security/)
+- [Pandium Trust Center](https://apis.io/security/pandium/pandium-trust-center/)
+- [Pandium Vulnerability Disclosure](https://apis.io/security/pandium/pandium-vulnerability-disclosure/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Pandium Plans Pricing](https://apis.io/plans/pandium/pandium-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Pandium Rate Limits](https://apis.io/rate-limits/pandium/pandium-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Pandium Finops](https://apis.io/finops/pandium/pandium-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
 - [Website](https://www.pandium.com/)
-- [Terms of Service](https://www.pandium.com/terms-and-conditions)
-- [Privacy Policy](https://www.pandium.com/privacy-policy)
-- [Use Cases](undefined)
-- [Features](undefined)
-- [L L Ms Txt](https://docs.pandium.com/llms.txt)
+- [Documentation](https://docs.pandium.com/)
+- [Getting started](https://docs.pandium.com/getting-started/pandium-integration-tutorial)
+- [API reference](https://docs.pandium.com/reference/pandium-api)
+- [Pricing](https://www.pandium.com/pricing)
+- [Blog](https://www.pandium.com/blog)
+- [Security](https://www.pandium.com/security)
+- [Terms of service](https://www.pandium.com/terms-and-conditions)
+- [Privacy policy](https://www.pandium.com/privacy-policy)
+- [GitHub](https://github.com/pandium)
+- [Status](https://status.pandium.com/)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 63.2** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 71.9 |
+| Contract governance | 14.4 |
+| Operational transparency | 55.3 |
+| Developer ergonomics | 64.8 |
+| Access clarity | 68.4 |
+
+**Agent readiness 35.0** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | unknown |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | partial |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 35.3** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/pandium/](https://apis.io/providers/pandium/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Pandium: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/pandium/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
