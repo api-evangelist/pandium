@@ -1,0 +1,83 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-28'
+method: searched
+source: https://www.pandium.com/pricing
+sources:
+- https://www.pandium.com/pricing
+provenance:
+  tool: engine/economics/harvest_pricing.py
+  run: 20261028T141238
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: tiered-subscription
+delivery:
+  delivery: managed
+  method: page
+  read: '2026-10-28'
+  managed_tier: Pandium Lite
+published: true
+note: Pricing tied to platform access and active tenants, not API calls or tasks; add-ons unpriced.
+plan_count: 4
+currency: USD
+plans:
+- name: Pandium Lite
+  price_text: $499 per month
+  price: 499
+  currency: USD
+  period: month
+  included_quota: Build unlimited number of integrations with the integration hub and integration development
+    kit; 25 tenants* included; 50,000 daily executions; Custom configuration; Usage metrics; Managed authentication,
+    versioning and hosting
+- name: Pandium Pro
+  price_text: Starts at $2,000 per month
+  price: 2000
+  currency: USD
+  period: month
+  included_quota: Everything in Lite plus AI-powered integration code generator; Custom tenant* package;
+    Unlimited daily executions; Advanced reporting; Dedicated account manager
+  overage: additional fees for higher tenant packages and add-ons
+- name: In-App Marketplace (add-on)
+  price_text: Schedule a demo
+  period: none
+- name: Integration Services (add-on)
+  price_text: Schedule a call
+  period: none
+rate_limit_statements:
+- 50,000 daily executions
+- Unlimited daily executions
+x-canonical:
+  generated: '2026-11-01'
+  vocabulary: engine/economics/plans-canonical.yml
+  models:
+  - hybrid
+  - subscription
+  units: []
+  plans:
+  - name: Pandium Lite
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Pandium Pro
+    access: other
+    model: hybrid
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: In-App Marketplace (add-on)
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
+  - name: Integration Services (add-on)
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
